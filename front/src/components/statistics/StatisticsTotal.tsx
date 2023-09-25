@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState, PureComponent } from "react";
 import {
   BarChart,
@@ -10,10 +11,11 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { connect } from "react-redux";
+import { useAppSelector } from "@/store/store";
 
-function Total(trade_datas) {
-  const allDate = trade_datas.trade_datas.trade_datas.map((e) =>
+export default function StatisticsTotal() {
+  const list = useAppSelector((state) => state.tradedatareducer);
+  const allDate = list.map((e) =>
     e.Stats.map((item) => ({
       Date: item.Date,
       Result: Math.floor(item.AvgPrice * item.TradeCount),
@@ -111,10 +113,3 @@ function Total(trade_datas) {
     </div>
   );
 }
-
-const mapStateToProps = (state) => ({
-  // items: state.items,
-  // lists: state.lists,
-  trade_datas: state.trade_datas,
-});
-export default connect(mapStateToProps)(Total);

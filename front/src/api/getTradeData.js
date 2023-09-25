@@ -1,8 +1,7 @@
-//./components/reqServer.js
-"use client";
+//./components/loadTrading_data.js
 
-function fetchData() {
-  return fetch(process.env.REACT_APP_BACKEND_URL + "/data")
+function getTradeData() {
+  return fetch(process.env.REACT_APP_BACKEND_URL + "/trade")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -14,4 +13,4 @@ function fetchData() {
     });
 }
 
-export default fetchData;
+export default getTradeData;

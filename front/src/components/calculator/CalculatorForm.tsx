@@ -6,9 +6,9 @@ import Select from "react-select";
 import { addcontentvalues } from "@/store/slices/contentvalues";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-export default function Calculator3() {
+export default function CalculatorForm() {
   const dispatch = useDispatch<AppDispatch>();
-  const list = useAppSelector((state) => state.itemreducer);
+  const list = useAppSelector((state) => state.marketitemsreducer);
   const newlist = list ? list[0] : [];
   // const [radio, setRadio] = useState(true);
   const [localStorageKey] = useState("tableDataKey"); // 로컬 저장소 키
@@ -67,10 +67,10 @@ export default function Calculator3() {
     });
   };
 
-  const handleQuantityChange2 = (index, quantity2) => {
+  const handleQuantityChange2 = (index: number, quantity: number) => {
     setSelectedItems((prevSelectedItems) => {
       const updatedItems = [...selectedItems];
-      updatedItems[index].Quantity2 = Math.max(0, parseInt(quantity2, 10)); // 최소값 0으로 설정
+      updatedItems[index].Quantity2 = Math.max(0, parseInt(quantity, 10)); // 최소값 0으로 설정
       localStorage.setItem(localStorageKey, JSON.stringify(updatedItems));
       return updatedItems;
     });
@@ -96,6 +96,13 @@ export default function Calculator3() {
       total + (item.YDayAvgPrice * item.Quantity2) / item.BundleCount,
     0
   );
+
+  // const totalprice2: number = selectedItems.reduce(
+  //   (total, item) =>
+  //     total + (item.Name === "골드" ? -(item.YDayAvgPrice * item.Quantity2) / item.BundleCount : (item.YDayAvgPrice * item.Quantity2) / item.BundleCount),
+  //   0
+  // );
+
   const totalprice3: number = totalprice2 + totalprice;
 
   const handleClearTable = () => {
@@ -196,7 +203,14 @@ export default function Calculator3() {
     setForm(value);
   };
 
-  const handleValueListMake = (title, selectedItems) => {
+  const handleValueListMake = (
+    title,
+    selectedItems,
+    totalprice,
+    totalprice2,
+    totalprice3,
+    form
+  ) => {
     //중복 이름 방지 로직 필요
     if (title !== "" && selectedItems.length !== 0) {
       dispatch(
@@ -208,30 +222,36 @@ export default function Calculator3() {
           totalprice3,
         })
       );
-      // const requestOptions = {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify({
-      //     Item: { Title: title, List: selectedItems },
-      //     Pass: value,
-      //   }),
-      // };
+      const requestOptions = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Item: {
+            Title: title,
+            List: selectedItems,
+            totalprice,
+            totalprice2,
+            totalprice3,
+          },
+          Pass: form,
+        }),
+      };
 
-      // fetch(process.env.REACT_APP_BACKEND_URL + "/update1", requestOptions)
-      //   .then((response) => {
-      //     if (!response.ok) {
-      //       throw new Error("Network response was not ok");
-      //     }
-      //     return response.json();
-      //   })
-      //   .then((data) => {
-      //     console.log("Data updated successfully:", data);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Error updating data:", error);
-      //   });
+      fetch(process.env.REACT_APP_BACKEND_URL + "/update1", requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Data updated successfully:", data);
+        })
+        .catch((error) => {
+          console.error("Error updating data:", error);
+        });
       setSelectedItems([]);
       setTitle("");
       localStorage.removeItem(localStorageKey);
@@ -240,7 +260,7 @@ export default function Calculator3() {
     }
   };
   return (
-    <main className="flex min-h-screen flex-col items-center ">
+    <main className=" flex min-h-screen flex-col items-center ">
       <div>재화계산기</div>
       <Select
         options={Array.isArray(selectlist) ? selectlist : []}
@@ -273,32 +293,19 @@ export default function Calculator3() {
             컨텐츠는 더보기 유무를 구분합니다.
           </div>
         </fieldset> */}
+      </div>
+      {/* <div>
+        구간별 재련 재료 추가
         <button>1250</button>
         <button>1490</button>
         <button>1580</button>
-      </div>
-
+      </div> */}
       <table className="table-auto">
         <thead>
-          <tr id="draft-row">
-            <th>교환가능</th>
-            <th></th>
-            <th>캐릭터귀속</th>
-            <th></th>
-            <th></th>
-          </tr>
-          <tr id="published-row">
-            <th>일반</th>
-            <th></th>
-            <th>더보기</th>
-            <th></th>
-            <th></th>
-          </tr>
           <tr id="common-row">
             <th>그림</th>
-            <th>개수</th>
-            <th>그림</th>
-            <th>개수</th>
+            <th>개수(교환가능,기본 보상)</th>
+            <th>개수(귀속, 더보기 보상)</th>
             <th></th>
           </tr>
         </thead>
@@ -320,12 +327,6 @@ export default function Calculator3() {
                 ></input>
               </td>
               <td>
-                <img
-                  src={item.Icon} // 이미지 파일의 URL을 여기에 입력
-                  title={item.Name}
-                />
-              </td>
-              <td>
                 <input
                   type="number"
                   value={item.Quantity2}
@@ -333,61 +334,68 @@ export default function Calculator3() {
                 ></input>
               </td>
               <td>
-                <button onClick={() => handleDelete(index)}>삭제</button>
+                <button
+                  className="box-border h-1rem w-1rem p-4 border-8"
+                  onClick={() => handleDelete(index)}
+                >
+                  삭제
+                </button>
               </td>
             </tr>
           ))}
           <tr>
-            <td>합계</td>
-            <td style={{ textAlign: "right" }}>{`합계 ${totalprice.toFixed(
+            <td></td>
+            <td style={{ textAlign: "right" }}>{`부분합계 ${totalprice.toFixed(
               0
             )} G`}</td>
-            <td>합계</td>
-            <td style={{ textAlign: "right" }}>{`합계 ${totalprice2.toFixed(
+            <td style={{ textAlign: "right" }}>{`부분합계 ${totalprice2.toFixed(
               0
             )} G`}</td>
           </tr>
           <tr>
-            <td>합계</td>
-            <td>{`합계 ${totalprice3.toFixed(0)} G`}</td>
+            <td></td>
+            <td></td>
+
+            <td style={{ textAlign: "right" }}>{`전체 합 ${totalprice3.toFixed(
+              0
+            )} G`}</td>
           </tr>
         </tbody>
       </table>
-
+      <input
+        type="text"
+        placeholder="컨텐츠, 상자 이름"
+        onChange={handleTitleChange}
+        value={title}
+      />
+      <input
+        type="number"
+        placeholder={`${pass}` + " 자동입력방지 문자"}
+        onChange={(e) => fillForm(e.target.value)}
+        value={form}
+      />
       <div>
-        <input
-          type="text"
-          placeholder="컨텐츠이름 ex)#발탄#더보기, #카던#귀속포함"
-          onChange={handleTitleChange}
-          value={title}
-        />
-        <input
-          type="number"
-          placeholder={`${pass}` + "를 입력해주세요 자동입력방지"}
-          onChange={(e) => fillForm(e.target.value)}
-          value={form}
-        />
-        <div>
-          <button
-            className="w-100"
-            onClick={() =>
-              handleValueListMake(
-                title,
-                selectedItems,
-                totalprice,
-                totalprice2,
-                totalprice3
-              )
-            }
-          >
-            저장
-          </button>
-        </div>
-        <div>
-          <button className="w-100" onClick={handleClearTable}>
-            비우기
-          </button>
-        </div>
+        <button
+          className="box-border h-1rem w-1rem p-4 border-8 w-100"
+          onClick={() =>
+            handleValueListMake(
+              title,
+              selectedItems,
+              totalprice,
+              totalprice2,
+              totalprice3,
+              form
+            )
+          }
+        >
+          저장
+        </button>
+        <button
+          className="box-border h-1rem w-1rem p-4 border-8 w-100"
+          onClick={handleClearTable}
+        >
+          비우기
+        </button>
       </div>
       <div>
         설명

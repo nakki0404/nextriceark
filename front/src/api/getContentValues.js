@@ -1,7 +1,5 @@
-//./components/loadTrading_data.js
-
-function loadTradingData() {
-  return fetch(process.env.REACT_APP_BACKEND_URL + "/trade")
+function getContentValues() {
+  return fetch(process.env.REACT_APP_BACKEND_URL + "/load")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -13,4 +11,4 @@ function loadTradingData() {
     });
 }
 
-export default loadTradingData;
+export default getContentValues;

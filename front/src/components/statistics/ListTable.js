@@ -1,22 +1,22 @@
+"use client";
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import Table from "react-bootstrap/Table";
-import "./ListTable.css";
-
-function ListTable(trade_datas, items, lists) {
+import { useAppSelector } from "@/store/store";
+export default function ListTable() {
   // const currentState = store.getState();
   // console.log(currentState);
   // const list= trade_datas.trade_datas.trade_datas.map(e=>({label :e.Name,value:e.Stats }))
 
   // let AR=trade_datas.trade_datas.trade_datas.map(e=>({Name: e.Name, Price: e.Stats.[0], Chanege:(e.Stats.[0]/e.Stats.[1]-1))
-
-  let exArray = trade_datas.trade_datas.trade_datas.map((e) => ({
+  const list = useAppSelector((state) => state.tradedatareducer);
+  const lists = useAppSelector((state) => state.marketitemsreducer);
+  let exArray = list.map((e) => ({
     Name: e.Name,
     Today: e.Stats[0],
     // Today: e.Stats[0]['AvgPrice'],
     // Today: e.Stats[0].Ave 안되네.?,
     Yes: e.Stats[1],
   }));
+
   // 존나중요 gpt 읽어보길
   let newArray = exArray.map((e) => {
     const Name = e.Name;
@@ -50,7 +50,7 @@ function ListTable(trade_datas, items, lists) {
   // // 정렬 상태와 함수
   const [sortOrder, setSortOrder] = useState("desc"); // 초기 정렬 순서: 오름차순
   const sortedArray = filteredArray.map((e) => {
-    const matchingItem = trade_datas.items.items.find((i) => i.Name === e.Name);
+    const matchingItem = lists[0].find((i) => i.Name === e.Name);
     return {
       Name: e.Name,
       Price: e.Price,
@@ -77,7 +77,7 @@ function ListTable(trade_datas, items, lists) {
     <div>
       <h1>전날 비교 </h1>
       <div style={{ maxHeight: "800px", overflowY: "auto" }}>
-        <Table className="responsive-table4">
+        <table>
           <thead>
             <tr>
               <th></th>
@@ -109,16 +109,8 @@ function ListTable(trade_datas, items, lists) {
               </tr>
             ))}
           </tbody>
-        </Table>
+        </table>
       </div>
     </div>
   );
 }
-
-const mapStateToProps = (state) => ({
-  items: state.items,
-  lists: state.lists,
-  trade_datas: state.trade_datas,
-});
-
-export default connect(mapStateToProps)(ListTable);

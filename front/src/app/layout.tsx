@@ -5,7 +5,7 @@ import { Inter } from "next/font/google";
 import Header from "../components/nav/Header";
 import Footer from "../components/nav/Footer";
 
-import UpStore from "../hooks/UpStore";
+import UpStore from "../utils/UpStore";
 import ReduxProvider from "@/store/reduxprovider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -25,9 +25,15 @@ export default function RootLayout({
       <body className={inter.className}>
         <ReduxProvider>
           <UpStore />
-          <Header />
-          {children}
-          <Footer />
+          <div className="relative">
+            <div className="fixed top-0 left-0 right-0 z-10">
+              <Header />
+            </div>
+            <div className="my-8">{children}</div>
+            <div className="fixed bottom-0 left-0 right-0 z-10">
+              <Footer />
+            </div>
+          </div>
         </ReduxProvider>
       </body>
     </html>

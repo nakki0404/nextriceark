@@ -1,8 +1,8 @@
+"use client";
+
 import React, { useState, useEffect, PureComponent } from "react";
-import { connect } from "react-redux";
 // import Image from "./images/monegi.jpg";
 import Select from "react-select";
-import "bootstrap/dist/css/bootstrap.min.css";
 import {
   LineChart,
   Line,
@@ -16,9 +16,10 @@ import {
   Area,
   ResponsiveContainer,
 } from "recharts";
-
-function SelectGraph(trade_datas) {
-  const list = trade_datas.trade_datas.trade_datas.map((e) => ({
+import { useAppSelector } from "@/store/store";
+export default function SelectGraph() {
+  const lists = useAppSelector((state) => state.tradedatareducer);
+  const list = lists.map((e) => ({
     label: e.Name,
     value: e.Stats,
   }));
@@ -112,9 +113,3 @@ function SelectGraph(trade_datas) {
     </div>
   );
 }
-const mapStateToProps = (state) => ({
-  items: state.items,
-  lists: state.lists,
-  trade_datas: state.trade_datas,
-});
-export default connect(mapStateToProps)(SelectGraph);

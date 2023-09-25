@@ -1,6 +1,5 @@
+"use client";
 import React, { useEffect, useState, PureComponent } from "react";
-import { connect } from "react-redux";
-import "./PartialTotal.css";
 // import Image from "./images/monegi.jpg";
 import {
   AreaChart,
@@ -12,6 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useAppSelector } from "@/store/store";
 
 const toPercent = (decimal, fixed = 0) => `${(decimal * 100).toFixed(fixed)}%`;
 
@@ -42,20 +42,21 @@ const renderTooltipContent = (o) => {
   );
 };
 
-function PartialTotal(trade_datas) {
+export default function StatisticsPartialTotal() {
+  const list = useAppSelector((state) => state.tradedatareducer);
   // console.log(trade_datas.trade_datas.trade_datas.find(e=>e.Name=="파괴석 결정"))
   // 함수를 만들어 중복 제거
   function calculateResults(indices) {
     // indices.map((index) =>console.log(trade_datas.trade_datas.trade_datas[index]))
     return indices.map((index) =>
-      trade_datas.trade_datas.trade_datas[index].Stats.map((item) => ({
+      list[index].Stats.map((item) => ({
         Date: item.Date,
         Result: Math.floor(item.AvgPrice * item.TradeCount),
       }))
     );
   }
 
-  const items = trade_datas.trade_datas.trade_datas;
+  const items = list;
   const indices1 = [];
 
   items.forEach((item, index) => {
@@ -297,10 +298,3 @@ function PartialTotal(trade_datas) {
     </div>
   );
 }
-
-const mapStateToProps = (state) => ({
-  // items: state.items,
-  // lists: state.lists,
-  trade_datas: state.trade_datas,
-});
-export default connect(mapStateToProps)(PartialTotal);

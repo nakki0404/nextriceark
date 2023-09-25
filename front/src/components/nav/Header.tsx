@@ -8,7 +8,7 @@ import statisticimage from "../../asset/png/icons8-statistic-64.png";
 import Link from "next/link";
 
 import { useAppSelector } from "@/store/store";
-import { accountLogin } from "@/store/slices/login-slice";
+import { setLogin } from "@/store/slices/isLogin";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 
@@ -18,9 +18,21 @@ export default function Header() {
 
   const logOut = () => {
     localStorage.removeItem("token");
-    dispatch(accountLogin(false));
+    dispatch(setLogin(false));
   };
 
+  // function toggleBackgroundColor() {
+  //   const divElement = document.querySelector(".bg-yellow-51"); // Select the div element
+
+  //   // Check if the div element already has the 'bg-yellow-500' class
+  //   if (divElement.classList.contains("bg-yellow-400")) {
+  //     divElement.classList.remove("bg-yellow-400"); // Remove the class if it exists
+  //   } else {
+  //     divElement.classList.add("bg-yellow-400"); // Add the class if it doesn't exist
+  //   }
+  // }
+  // const div = document.querySelector(".bg-yellow-50");
+  // div.addEventListener("click", toggleBackgroundColor);
   return (
     <div className="bg-yellow-50 flex flex-row justify-between">
       <div>
@@ -47,7 +59,7 @@ export default function Header() {
           <div className="text-xl">계산기</div>
         </Link>
       </div>
-      <div>
+      <div className="ring-2">
         <Link href="/Statistics" className="flex flex-row">
           <Image
             src={statisticimage}

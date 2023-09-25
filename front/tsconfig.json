@@ -27,7 +27,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/redux/reduxprovider.js"
+    "src/redux/reduxprovider.js",
+    "src/components/statistics/SelectGraph.js",
+    "src/components/statistics/ListTable.js"
   ],
   "exclude": ["node_modules"]
 }

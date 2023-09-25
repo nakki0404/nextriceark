@@ -407,7 +407,7 @@ myFunction();
 const now = new Date();
 const tomorrow = new Date(now);
 tomorrow.setDate(now.getDate() + 1);
-tomorrow.setHours(0, 1, 0, 0);
+tomorrow.setHours(1, 0, 0, 0);
 
 // 다음 실행 시각까지 대기하기 위한 시간 계산
 const delay = tomorrow - now;

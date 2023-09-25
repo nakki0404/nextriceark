@@ -2,7 +2,7 @@
 "use client";
 import { useState, ChangeEvent } from "react";
 // import logIn from "@/api/logIn";
-import { accountLogin } from "@/store/slices/login-slice";
+import { setLogin } from "@/store/slices/isLogin";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import Link from "next/link";
@@ -43,7 +43,7 @@ export default function LoginForm() {
         // 토큰을 저장하고 사용하는 로직 추가
         localStorage.setItem("token", token);
         // loginState({ isLogin: true });
-        dispatch(accountLogin(true));
+        dispatch(setLogin(true));
 
         setID("");
         setPassword("");
