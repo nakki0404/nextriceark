@@ -260,60 +260,31 @@ export default function CalculatorForm() {
     }
   };
   return (
-    <main className=" flex min-h-screen flex-col items-center ">
-      <div>재화계산기</div>
-      <Select
-        options={Array.isArray(selectlist) ? selectlist : []}
-        value={selectedOption}
-        onChange={handleChange}
-        isSearchable={true} // 검색 가능한 드롭다운으로 설정
-        placeholder="재화를 선택하세요"
-      />
-      <div>
-        {/* <fieldset>
-          <input id="draft" class="peer/draft" type="radio" name="status" />
-          <label for="draft" class="peer-checked/draft:text-sky-500">
-            일반
-          </label>
-
-          <input
-            id="published"
-            class="peer/published"
-            type="radio"
-            name="status"
-          />
-          <label for="published" class="peer-checked/published:text-sky-500">
-            컨텐츠
-          </label>
-
-          <div class="hidden peer-checked/draft:block">
-            일반은 귀속 여부를 구분합니다.
-          </div>
-          <div class="hidden peer-checked/published:block">
-            컨텐츠는 더보기 유무를 구분합니다.
-          </div>
-        </fieldset> */}
+    <main>
+      <div className="text-xl m-1">재화계산기</div>
+      <div className="w-5/6 m-1">
+        <Select
+          options={Array.isArray(selectlist) ? selectlist : []}
+          value={selectedOption}
+          onChange={handleChange}
+          isSearchable={true} // 검색 가능한 드롭다운으로 설정
+          placeholder="재화를 선택하세요"
+        />
       </div>
-      {/* <div>
-        구간별 재련 재료 추가
-        <button>1250</button>
-        <button>1490</button>
-        <button>1580</button>
-      </div> */}
-      <table className="table-auto">
+      <table className="table-fixed">
         <thead>
-          <tr id="common-row">
-            <th>그림</th>
-            <th>개수(교환가능,기본 보상)</th>
-            <th>개수(귀속, 더보기 보상)</th>
-            <th></th>
+          <tr>
+            <th className=" w-32">그림</th>
+            <th className="w-48  ">개수(교환가능,기본)</th>
+            <th className="w-48  ">개수(귀속, 더보기)</th>
+            <th className=" w-32 "></th>
           </tr>
         </thead>
 
         <tbody>
           {selectedItems.map((item, index) => (
             <tr key={index}>
-              <td>
+              <td className="h-16 w-16 m-2  ">
                 <img
                   src={item.Icon} // 이미지 파일의 URL을 여기에 입력
                   title={item.Name}
@@ -321,6 +292,7 @@ export default function CalculatorForm() {
               </td>
               <td>
                 <input
+                  className="w-32 m-1 rounded-lg text-right"
                   type="number"
                   value={item.Quantity}
                   onChange={(e) => handleQuantityChange(index, e.target.value)}
@@ -328,6 +300,7 @@ export default function CalculatorForm() {
               </td>
               <td>
                 <input
+                  className="w-32 m-1 rounded-lg text-right"
                   type="number"
                   value={item.Quantity2}
                   onChange={(e) => handleQuantityChange2(index, e.target.value)}
@@ -335,7 +308,7 @@ export default function CalculatorForm() {
               </td>
               <td>
                 <button
-                  className="box-border h-1rem w-1rem p-4 border-8"
+                  className="h-8 w-16 bg-red-500 rounded-lg text-white m-2"
                   onClick={() => handleDelete(index)}
                 >
                   삭제
@@ -362,40 +335,48 @@ export default function CalculatorForm() {
           </tr>
         </tbody>
       </table>
-      <input
-        type="text"
-        placeholder="컨텐츠, 상자 이름"
-        onChange={handleTitleChange}
-        value={title}
-      />
-      <input
-        type="number"
-        placeholder={`${pass}` + " 자동입력방지 문자"}
-        onChange={(e) => fillForm(e.target.value)}
-        value={form}
-      />
-      <div>
-        <button
-          className="box-border h-1rem w-1rem p-4 border-8 w-100"
-          onClick={() =>
-            handleValueListMake(
-              title,
-              selectedItems,
-              totalprice,
-              totalprice2,
-              totalprice3,
-              form
-            )
-          }
-        >
-          저장
-        </button>
-        <button
-          className="box-border h-1rem w-1rem p-4 border-8 w-100"
-          onClick={handleClearTable}
-        >
-          비우기
-        </button>
+      <div className="flex flex-row items-center justify-center">
+        <div>
+          <input
+            className="w-5/6 m-1 rounded-lg text-right"
+            type="text"
+            placeholder="컨텐츠, 상자 이름"
+            onChange={handleTitleChange}
+            value={title}
+          />
+          <input
+            className="w-5/6 m-1 rounded-lg text-right"
+            type="text"
+            placeholder={`${pass}` + " 자동입력방지 문자"}
+            onChange={(e) => fillForm(e.target.value)}
+            value={form}
+          />
+        </div>
+        <div>
+          <button
+            className="h-8 w-16 bg-blue-500 rounded-lg text-white m-2"
+            onClick={() =>
+              handleValueListMake(
+                title,
+                selectedItems,
+                totalprice,
+                totalprice2,
+                totalprice3,
+                form
+              )
+            }
+          >
+            저장
+          </button>
+        </div>
+        <div>
+          <button
+            className="h-8 w-16 bg-red-500 rounded-lg text-white m-2"
+            onClick={handleClearTable}
+          >
+            비우기
+          </button>
+        </div>
       </div>
       <div>
         설명

@@ -92,45 +92,64 @@ export default function Poplist() {
   return (
     <div>
       <div className="flex flex-row">
-        <div>
-          <div
-            className="w-0 h-0 
+        <div className="text-xl m-1">컨텐츠, 상자를 전체보기</div>
+        <div className="flex flex-row">
+          <div>
+            <div
+              className="w-0 h-0 
   border-l-[5px] border-l-transparent
   border-b-[7px] border-b-black-500
   border-r-[5px] border-r-transparent"
-          ></div>
-          <div className="box-border h-0.1rem w-0.1rem p-1 border-1"></div>
-          <div
-            className="w-0 h-0 
+            ></div>
+            <div className="box-border h-0.1rem w-0.1rem p-1 border-1"></div>
+            <div
+              className="w-0 h-0 
   border-l-[5px] border-l-transparent
   border-t-[7px] border-t-yellow-500
   border-r-[5px] border-r-transparent"
-          ></div>
-        </div>
-        <div>
-          <div
-            className="w-0 h-0 
+            ></div>
+          </div>
+          <div>
+            <div
+              className="w-0 h-0 
   border-l-[5px] border-l-transparent
   border-b-[7px] border-b-yellow-500
   border-r-[5px] border-r-transparent"
-          ></div>
-          <div className="box-border h-0.1rem w-0.1rem p-1 border-1"></div>
-          <div
-            className="w-0 h-0 
+            ></div>
+            <div className="box-border h-0.1rem w-0.1rem p-1 border-1"></div>
+            <div
+              className="w-0 h-0 
   border-l-[5px] border-l-transparent
   border-t-[7px] border-t-black-500
   border-r-[5px] border-r-transparent"
-          ></div>
+            ></div>
+          </div>
         </div>
       </div>
-      <h1>컨텐츠, 상자 전체보기</h1>
-      <br />
       <table>
         <thead>
           <tr>
-            <th>제목</th>
+            <th>이름</th>
             <th>
-              합계
+              부분합1
+              <span
+                onClick={() => handleSortChange("Value")}
+                style={{ cursor: "pointer" }}
+              >
+                {sortType === "Value" && sortDescending ? "▼" : "▲"}
+              </span>
+            </th>
+            <th>
+              부분합2
+              <span
+                onClick={() => handleSortChange("Value")}
+                style={{ cursor: "pointer" }}
+              >
+                {sortType === "Value" && sortDescending ? "▼" : "▲"}
+              </span>
+            </th>
+            <th>
+              총합
               <span
                 onClick={() => handleSortChange("Value")}
                 style={{ cursor: "pointer" }}
@@ -145,13 +164,13 @@ export default function Poplist() {
           {sortedList.map((item, index) => (
             <tr key={index}>
               <td>{item.Title}</td>
-              <td style={{ textAlign: "right" }}>
+              <td className="text-right">
                 {item.totalprice.toLocaleString()}G
               </td>
-              <td style={{ textAlign: "right" }}>
+              <td className="text-right">
                 {item.totalprice2.toLocaleString()}G
               </td>
-              <td style={{ textAlign: "right" }}>
+              <td className="text-right">
                 {item.totalprice3.toLocaleString()}G
               </td>
               {/* <td className="d-flex justify-content-center">

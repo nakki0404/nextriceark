@@ -67,18 +67,17 @@ export default function Valuelistviewer() {
 
   return (
     <div>
-      <h1>컨텐츠, 상자 상세보기</h1>
-      <br />
-      <div className="container">
+      <div className="text-xl m-1">컨텐츠, 상자를 상세보기</div>
+
+      <div className="w-5/6 m-1">
         <Select
           options={list}
           value={selectedOption}
           onChange={handleChange}
           isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="재화를 선택하세요"
+          placeholder="컨텐츠, 상자를 선택하세요"
         />
       </div>
-      <br />
       <table>
         <thead>
           <tr>
@@ -97,26 +96,32 @@ export default function Valuelistviewer() {
                     src={listItem.Icon} // 이미지 파일의 URL을 여기에 입력
                   />
                 </td>
-                <td>{listItem.Quantity}</td>
-                <td>{listItem.Quantity2}</td>
+                <td className="text-right">{listItem.Quantity}</td>
+                <td className="text-right">{listItem.Quantity2}</td>
               </tr>
             ))}
           <tr>
             <td></td>
-            <td style={{ textAlign: "right" }}>{`부분합계 ${
-              selectedListItem && selectedListItem.totalprice.toFixed(0)
-            } G`}</td>
-            <td style={{ textAlign: "right" }}>{`부분합계 ${
-              selectedListItem && selectedListItem.totalprice2.toFixed(0)
-            } G`}</td>
+            <td className="text-right">
+              {`부분합계 ${
+                selectedListItem && selectedListItem.totalprice.toFixed(0)
+              } G`}
+            </td>
+            <td className="text-right">
+              {`부분합계 ${
+                selectedListItem && selectedListItem.totalprice2.toFixed(0)
+              } G`}
+            </td>
           </tr>
           <tr>
             <td></td>
             <td></td>
 
-            <td style={{ textAlign: "right" }}>{`전체 합 ${
-              selectedListItem && selectedListItem.totalprice3.toFixed(0)
-            } G`}</td>
+            <td className="text-right">
+              {`전체 합 ${
+                selectedListItem && selectedListItem.totalprice3.toFixed(0)
+              } G`}
+            </td>
           </tr>
         </tbody>
       </table>

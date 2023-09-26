@@ -59,7 +59,7 @@ export default function Header() {
           <div className="text-xl">계산기</div>
         </Link>
       </div>
-      <div className="ring-2">
+      <div>
         <Link href="/Statistics" className="flex flex-row">
           <Image
             src={statisticimage}
