@@ -35,4 +35,5 @@ export default function UpStore() {
         console.error("Error:", error);
       });
   }, []);
+  return <div></div>;
 }
