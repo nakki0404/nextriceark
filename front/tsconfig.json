@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "src/redux/reduxprovider.js",
     "src/components/statistics/SelectGraph.js",
-    "src/components/statistics/ListTable.js"
+    "src/components/statistics/ListTable.tsx"
   ],
   "exclude": ["node_modules"]
 }

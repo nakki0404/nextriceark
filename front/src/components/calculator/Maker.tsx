@@ -2,41 +2,20 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
-
-import { addcontentvalues } from "@/store/slices/contentvalues";
+import { addcontentvalues } from "@/store/slices/ContentLists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-export default function CalculatorForm() {
+export default function Maker() {
   const dispatch = useDispatch<AppDispatch>();
   const list = useAppSelector((state) => state.marketitemsreducer);
-  const newlist = list ? list[0] : [];
-  // const [radio, setRadio] = useState(true);
+  const newlist = list;
   const [localStorageKey] = useState("tableDataKey"); // 로컬 저장소 키
-  // const [localStorageKey2] = useState("tableDataKey2"); // 로컬 저장소 키
-
   useEffect(() => {
-    // 로컬 저장소에서 데이터 불러오기
-    const savedData = localStorage.getItem(localStorageKey);
+    const savedData: any = localStorage.getItem(localStorageKey);
     if (savedData) {
       setSelectedItems(JSON.parse(savedData));
     }
   }, [localStorageKey]);
-
-  // useEffect(() => {
-  //   // 로컬 저장소에서 데이터 불러오기
-  //   const savedData = localStorage.getItem(localStorageKey2);
-  //   if (savedData) {
-  //     setRadio(JSON.parse(savedData));
-  //   }
-  // }, [localStorageKey2]);
-
-  // function savestate(){
-  //   if(radio=false){
-  //   setRadio(true)}
-  //   else{
-  //     setRadio(false)}
-  // }
-
   type selectedItems = {
     _id: string;
     Id: number;
@@ -52,34 +31,25 @@ export default function CalculatorForm() {
     Quantity2: number;
     __v: number;
   };
-
   const [title, setTitle] = useState("");
-
-  const [selectedItems, setSelectedItems] = useState([]);
-
+  const [selectedItems, setSelectedItems] = useState<selectedItems[]>([]);
   const handleQuantityChange = (index: number, quantity: number) => {
     setSelectedItems((prevSelectedItems) => {
       const updatedItems = [...selectedItems];
-
-      updatedItems[index].Quantity = Math.max(0, parseInt(quantity, 10)); // 최소값 0으로 설정
+      updatedItems[index].Quantity = Math.max(0, quantity);
       localStorage.setItem(localStorageKey, JSON.stringify(updatedItems));
       return updatedItems;
     });
   };
-
   const handleQuantityChange2 = (index: number, quantity: number) => {
     setSelectedItems((prevSelectedItems) => {
       const updatedItems = [...selectedItems];
-      updatedItems[index].Quantity2 = Math.max(0, parseInt(quantity, 10)); // 최소값 0으로 설정
+      updatedItems[index].Quantity2 = Math.max(0, quantity); // 최소값 0으로 설정
       localStorage.setItem(localStorageKey, JSON.stringify(updatedItems));
       return updatedItems;
     });
   };
-
-  const handleDelete = (index) => {
-    // const updatedItems = selectedItems.filter((item, i) => i !== index);
-    // setSelectedItems(updatedItems);
-
+  const handleDelete = (index: number) => {
     setSelectedItems((prevSelectedItems) => {
       const updatedItems = selectedItems.filter((item, i) => i !== index);
       localStorage.setItem(localStorageKey, JSON.stringify(updatedItems));
@@ -96,54 +66,40 @@ export default function CalculatorForm() {
       total + (item.YDayAvgPrice * item.Quantity2) / item.BundleCount,
     0
   );
-
-  // const totalprice2: number = selectedItems.reduce(
-  //   (total, item) =>
-  //     total + (item.Name === "골드" ? -(item.YDayAvgPrice * item.Quantity2) / item.BundleCount : (item.YDayAvgPrice * item.Quantity2) / item.BundleCount),
-  //   0
-  // );
-
   const totalprice3: number = totalprice2 + totalprice;
-
   const handleClearTable = () => {
     setSelectedItems([]);
     setTitle("");
     localStorage.removeItem(localStorageKey);
   };
-
   const [data, setData] = useState([]);
   const [selectedOption, setSelectedOption] = useState(null);
-  const selectlist =
-    Array.isArray(newlist) &&
-    newlist.map((e) => ({ label: e.Name, value: e.Name }));
-  const handleChange = (selected) => {
-    setSelectedOption(selected);
+  type selectedOption = {
+    value: string;
   };
   useEffect(() => {
     if (selectedOption) {
-      // 선택한 항목의 value 값을 data로 설정
       const newData = selectedOption.value;
       setData(newData);
-
-      // handleDropdownSelect 호출 이후에 다음 단계를 진행
-      handleDropdownSelect(newData, () => {
-        // 다음 단계를 이곳에서 진행
-        setData(""); // 또는 필요한 다른 작업 수행
-      });
+      handleDropdownSelect(newData);
     }
   }, [selectedOption]);
 
-  const handleDropdownSelect = (data) => {
+  const selectlist =
+    Array.isArray(newlist) &&
+    newlist.map((e) => ({ label: e.Name, value: e.Name }));
+  const handleChange = (selected: any = {}) => {
+    setSelectedOption(selected);
+  };
+  const handleDropdownSelect = (data: any) => {
     if (selectedItems.some((item) => item.Name === data)) {
       console.log("중복");
-    }
-    //중복처리 완료
-    else {
-      setSelectedItems((prevSelectedItems) => {
+    } else {
+      setSelectedItems((prevSelectedItems: any) => {
         const updatedItems = [
           ...prevSelectedItems,
           {
-            ...newlist.find((e) => e.Name === data),
+            ...newlist.find((e: any) => e.Name === data),
             Quantity: 0,
             Quantity2: 0,
           },
@@ -153,31 +109,11 @@ export default function CalculatorForm() {
       });
     }
   };
-  // const draftRadio = document.getElementById("draft");
-  // const publishedRadio = document.getElementById("published");
-  // const draftRow = document.getElementById("draft-row");
-  // const publishedRow = document.getElementById("published-row");
-  // const commonRow = document.getElementById("common-row");
 
-  // draftRadio.addEventListener("change", () => {
-  //   if (draftRadio.checked) {
-  //     draftRow.classList.remove("hidden");
-  //     publishedRow.classList.add("hidden");
-  //   }
-  // });
-
-  // publishedRadio.addEventListener("change", () => {
-  //   if (publishedRadio.checked) {
-  //     draftRow.classList.add("hidden");
-  //     publishedRow.classList.remove("hidden");
-  //   }
-  // });
-
-  const handleTitleChange = (e) => {
-    setTitle(e.target.value); // 입력된 값을 title 상태에 저장
+  const handleTitleChange = (e: any) => {
+    setTitle(e.target.value);
   };
   const [pass, setPass] = useState("");
-
   const touch = () => {
     fetch(process.env.REACT_APP_BACKEND_URL + "/touch")
       .then((response) => {
@@ -196,20 +132,17 @@ export default function CalculatorForm() {
   useEffect(() => {
     touch();
   }, []);
-
   const [form, setForm] = useState("");
-
-  const fillForm = (value) => {
+  const fillForm = (value: any) => {
     setForm(value);
   };
-
   const handleValueListMake = (
-    title,
-    selectedItems,
-    totalprice,
-    totalprice2,
-    totalprice3,
-    form
+    title: any,
+    selectedItems: any,
+    totalprice: any,
+    totalprice2: any,
+    totalprice3: any,
+    form: any
   ) => {
     //중복 이름 방지 로직 필요
     if (title !== "" && selectedItems.length !== 0) {
@@ -238,7 +171,6 @@ export default function CalculatorForm() {
           Pass: form,
         }),
       };
-
       fetch(process.env.REACT_APP_BACKEND_URL + "/update1", requestOptions)
         .then((response) => {
           if (!response.ok) {
@@ -295,7 +227,9 @@ export default function CalculatorForm() {
                   className="w-32 m-1 rounded-lg text-right"
                   type="number"
                   value={item.Quantity}
-                  onChange={(e) => handleQuantityChange(index, e.target.value)}
+                  onChange={(e) =>
+                    handleQuantityChange(index, parseInt(e.target.value, 10))
+                  }
                 ></input>
               </td>
               <td>
@@ -303,7 +237,9 @@ export default function CalculatorForm() {
                   className="w-32 m-1 rounded-lg text-right"
                   type="number"
                   value={item.Quantity2}
-                  onChange={(e) => handleQuantityChange2(index, e.target.value)}
+                  onChange={(e) =>
+                    handleQuantityChange2(index, parseInt(e.target.value, 10))
+                  }
                 ></input>
               </td>
               <td>

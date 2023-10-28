@@ -5,8 +5,9 @@ import { Inter } from "next/font/google";
 import Header from "../components/nav/Header";
 import Footer from "../components/nav/Footer";
 
-import UpStore from "../utils/UpStore";
+import UpStore from "../hooks/UpStore";
 import ReduxProvider from "@/store/reduxprovider";
+import Header2 from "@/components/nav/Header2";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           <div className="relative">
             <div className="fixed top-0 left-0 right-0 z-10">
               <Header />
+              <Header2 />
             </div>
             <div className="my-8">{children}</div>
             <div className="fixed bottom-0 left-0 right-0 z-10">

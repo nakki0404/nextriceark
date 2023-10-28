@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, PureComponent } from "react";
+import React, { useState, useEffect } from "react";
 // import Image from "./images/monegi.jpg";
 import Select from "react-select";
 import {
@@ -17,14 +17,24 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useAppSelector } from "@/store/store";
+
+interface TradeData {
+  Date: string;
+  AvgPrice: number;
+  TradeCount: number;
+  // Add other properties as needed
+}
+
 export default function SelectGraph() {
   const lists = useAppSelector((state) => state.tradedatareducer);
-  const list = lists.map((e) => ({
+  const list: { label: string; value: TradeData[] } = lists.map((e) => ({
     label: e.Name,
     value: e.Stats,
   }));
-  const [selectedOption, setSelectedOption] = useState(list[0]);
-  const [data, setData] = useState([]);
+  console.log(list);
+  const [selectedOption, setSelectedOption] = useState();
+  const [data, setData] = useState<TradeData[]>([]);
+
   useEffect(() => {
     if (selectedOption) {
       // 선택한 항목의 value 값을 data로 설정
@@ -32,12 +42,13 @@ export default function SelectGraph() {
     }
   }, [selectedOption]);
 
-  const handleChange = (selected) => {
+  const handleChange = (selected: { label: string; value: TradeData[] }) => {
     setSelectedOption(selected);
   };
-  const CustomYAxisTick = (props) => {
+
+  const CustomYAxisTick = (props: any) => {
     const { x, y, payload } = props;
-    const value = payload.value;
+    const value: number = payload.value;
 
     // 1000 이상일 때 'k'를 붙이도록 조건 처리
     const formattedValue =
@@ -50,6 +61,7 @@ export default function SelectGraph() {
       </g>
     );
   };
+
   return (
     <div>
       <div className="container">

@@ -1,14 +1,14 @@
 //./components/loadTrading_data.js
-
-function getTradeData() {
+import type { TradeData } from "@/types/TradeData";
+function getTradeData(): Promise<TradeData[]> {
   return fetch(process.env.REACT_APP_BACKEND_URL + "/trade")
-    .then((response) => {
+    .then((response: Response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json();
+      return response.json() as Promise<TradeData[]>;
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       throw error;
     });
 }

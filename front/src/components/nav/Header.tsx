@@ -5,6 +5,7 @@ import calculatorimage from "../../asset/png/icons8-calculator-64.png";
 import loginimage from "../../asset/png/icons8-login-64.png";
 import logoutimage from "../../asset/png/icons8-logout-64.png";
 import statisticimage from "../../asset/png/icons8-statistic-64.png";
+import coinimage from "../../asset/png/icons8-coin-64.png";
 import Link from "next/link";
 
 import { useAppSelector } from "@/store/store";
@@ -48,7 +49,7 @@ export default function Header() {
         </Link>
       </div>
       <div>
-        <Link href="/Calculator" className="flex flex-row">
+        <Link href="/Calculator/Maker" className="flex flex-row">
           <Image
             src={calculatorimage}
             alt="calculator icon by Icons8"
@@ -60,7 +61,7 @@ export default function Header() {
         </Link>
       </div>
       <div>
-        <Link href="/Statistics" className="flex flex-row">
+        <Link href="/Statistics/Summary" className="flex flex-row">
           <Image
             src={statisticimage}
             alt="statistic icon by Icons8"
@@ -69,6 +70,18 @@ export default function Header() {
             height={32}
           />
           <div className="text-xl">통계</div>
+        </Link>
+      </div>
+      <div>
+        <Link href="/Coin" className="flex flex-row">
+          <Image
+            src={coinimage}
+            alt="coin icon by Icons8"
+            title="coin icon by Icons8"
+            width={32}
+            height={32}
+          />
+          <div className="text-xl">주화효율</div>
         </Link>
       </div>
       {!loginstate ? (
