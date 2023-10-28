@@ -73,7 +73,7 @@ export default function Header() {
         </Link>
       </div>
       <div>
-        <Link href="/Coin" className="flex flex-row">
+        <Link href="/Coin/Blood" className="flex flex-row">
           <Image
             src={coinimage}
             alt="coin icon by Icons8"

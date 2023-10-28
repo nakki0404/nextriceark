@@ -30,6 +30,18 @@ export default function Header2() {
             <div className="text-xl">요약</div>
           </Link>
         </>
+      ) : pathname.includes("Coin") ? (
+        <>
+          <Link href="/Coin/Blood" className="flex flex-row">
+            <div className="text-xl">실마엘 혈석</div>
+          </Link>
+          <Link href="/Coin/Brave" className="flex flex-row">
+            <div className="text-xl">용기의 주화</div>
+          </Link>
+          <Link href="/Coin/Pirate" className="flex flex-row">
+            <div className="text-xl">해적 주화</div>
+          </Link>
+        </>
       ) : (
         <div></div>
       )}
