@@ -20,7 +20,7 @@ interface ResultData {
   "일별 거래 대금": number;
 }
 
-export default function StatisticsTotal(): JSX.Element {
+export default function StatisticsTotal() {
   const list = useAppSelector((state) => state.tradedatareducer);
 
   const allDate: any = list.map((e) =>
