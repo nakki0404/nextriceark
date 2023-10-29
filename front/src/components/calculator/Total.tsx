@@ -39,7 +39,7 @@ export default function Total() {
           <tr>
             <th>이름</th>
             <th>
-              부분합1
+              부분합(교환가능,기본)
               <span
                 onClick={() => handleSortChange("Value")}
                 style={{ cursor: "pointer" }}
@@ -48,7 +48,7 @@ export default function Total() {
               </span>
             </th>
             <th>
-              부분합2
+              부분합(귀속, 더보기)
               <span
                 onClick={() => handleSortChange("Value")}
                 style={{ cursor: "pointer" }}

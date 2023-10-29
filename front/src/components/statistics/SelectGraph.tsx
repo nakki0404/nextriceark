@@ -17,23 +17,25 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useAppSelector } from "@/store/store";
-
-interface TradeData {
-  Date: string;
-  AvgPrice: number;
-  TradeCount: number;
-  // Add other properties as needed
-}
+import type { TradeData } from "@/types/TradeData";
+import type { Stat } from "@/types/TradeData";
 
 export default function SelectGraph() {
+  type selectedOption =
+    | {
+        label: string;
+        value: Stat[];
+      }
+    | undefined;
+
   const lists = useAppSelector((state) => state.tradedatareducer);
-  const list: { label: string; value: TradeData[] } = lists.map((e) => ({
+  const list: { label: string; value: Stat[] }[] = lists.map((e) => ({
     label: e.Name,
     value: e.Stats,
   }));
-  console.log(list);
-  const [selectedOption, setSelectedOption] = useState();
-  const [data, setData] = useState<TradeData[]>([]);
+  const [selectedOption, setSelectedOption] =
+    useState<selectedOption>(undefined);
+  const [data, setData] = useState<Stat[]>([]);
 
   useEffect(() => {
     if (selectedOption) {
@@ -42,7 +44,7 @@ export default function SelectGraph() {
     }
   }, [selectedOption]);
 
-  const handleChange = (selected: { label: string; value: TradeData[] }) => {
+  const handleChange = (selected: any) => {
     setSelectedOption(selected);
   };
 
@@ -87,7 +89,7 @@ export default function SelectGraph() {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="Date" tick={null} reversed={true} />
+        <XAxis dataKey="Date" tick={undefined} reversed={true} />
         <YAxis />
         <Tooltip />
         <Line

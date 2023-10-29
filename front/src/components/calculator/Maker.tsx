@@ -5,6 +5,7 @@ import Select from "react-select";
 import { addcontentlists } from "@/store/slices/ContentLists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
+import type { Item } from "@/types/ContentLists";
 export default function Maker() {
   const dispatch = useDispatch<AppDispatch>();
   const list = useAppSelector((state) => state.marketitemsreducer);
@@ -72,15 +73,18 @@ export default function Maker() {
     setTitle("");
     localStorage.removeItem(localStorageKey);
   };
-  const [data, setData] = useState([]);
-  const [selectedOption, setSelectedOption] = useState(null);
-  type selectedOption = {
-    value: string;
-  };
+  type selectedOption =
+    | {
+        label: string;
+        value: string;
+      }
+    | undefined;
+  const [selectedOption, setSelectedOption] =
+    useState<selectedOption>(undefined);
+
   useEffect(() => {
     if (selectedOption) {
       const newData = selectedOption.value;
-      setData(newData);
       handleDropdownSelect(newData);
     }
   }, [selectedOption]);
@@ -137,22 +141,21 @@ export default function Maker() {
     setForm(value);
   };
   const handleValueListMake = (
-    title: any,
-    selectedItems: any,
-    totalprice: any,
-    totalprice2: any,
-    totalprice3: any,
-    form: any
+    title: string,
+    selectedItems: Item[],
+    totalprice: number,
+    totalprice2: number,
+    totalprice3: number,
+    form: string
   ) => {
-    //중복 이름 방지 로직 필요
     if (title !== "" && selectedItems.length !== 0) {
       dispatch(
         addcontentlists({
           Title: title,
           List: selectedItems,
-          totalprice,
-          totalprice2,
-          totalprice3,
+          totalprice: totalprice,
+          totalprice2: totalprice2,
+          totalprice3: totalprice3,
         })
       );
       const requestOptions = {

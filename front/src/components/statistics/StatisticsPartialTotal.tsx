@@ -11,13 +11,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useAppSelector } from "@/store/store";
-
-interface TradeData {
-  Date: string;
-  AvgPrice: number;
-  TradeCount: number;
-  // Add other properties as needed
-}
+import type { TradeData } from "@/types/TradeData";
+import type { Stat } from "@/types/TradeData";
 
 interface ResultData {
   Date: string;
@@ -61,8 +56,8 @@ const renderTooltipContent = (o: any): JSX.Element => {
 export default function StatisticsPartialTotal(): JSX.Element {
   const list = useAppSelector((state) => state.tradedatareducer);
 
-  function calculateResults(indices: number[]): TradeData[][] {
-    return indices.map((index) =>
+  function calculateResults(indices: number[]): any {
+    indices.map((index) =>
       list[index].Stats.map((item) => ({
         Date: item.Date,
         AvgPrice: item.AvgPrice,
@@ -106,7 +101,7 @@ export default function StatisticsPartialTotal(): JSX.Element {
   const combinedData2 = [].concat(...calculateResults(indices2));
   const combinedData3 = [].concat(...calculateResults(indices3));
 
-  function calculateResult(combinedData: TradeData[]): {
+  function calculateResult(combinedData: Stat[]): {
     [key: string]: number;
   } {
     const result: { [key: string]: number } = {};

@@ -13,12 +13,12 @@ export interface Item {
   Quantity2: number;
 }
 export interface ContentLists {
-  _id: string;
+  _id?: string;
   Title: string;
   List: Item[];
   totalprice: number;
   totalprice2: number;
   totalprice3: number;
-  __v: number;
+  __v?: number;
 }
 [];
