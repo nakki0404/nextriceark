@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
-import { addcontentvalues } from "@/store/slices/ContentLists";
+import { addcontentlists } from "@/store/slices/ContentLists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 export default function Maker() {
@@ -147,7 +147,7 @@ export default function Maker() {
     //중복 이름 방지 로직 필요
     if (title !== "" && selectedItems.length !== 0) {
       dispatch(
-        addcontentvalues({
+        addcontentlists({
           Title: title,
           List: selectedItems,
           totalprice,

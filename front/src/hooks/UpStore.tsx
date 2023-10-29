@@ -40,13 +40,6 @@ export default function UpStore() {
       .catch((error) => {
         console.error("Error:", error);
       });
-    // getTradeData()
-    //   .then((response) => {
-    //     console.log(response);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    // });
   }, []);
   return <div></div>;
 }
