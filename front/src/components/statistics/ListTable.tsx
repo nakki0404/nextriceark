@@ -14,8 +14,8 @@ export default function ListTable() {
 
   let newArray = exArray.map((e: any) => {
     const Name: string = e.Name;
-    const TodayAvgPrice: number = e.Today ? e.Today.AvgPrice : 0;
-    const YesAvgPrice: number = e.Yes ? e.Yes.AvgPrice : 0;
+    const TodayAvgPrice: number = e.Today ? e.Today.AvgPrice : 1;
+    const YesAvgPrice: number = e.Yes ? e.Yes.AvgPrice : 1;
     const Change: number = TodayAvgPrice / YesAvgPrice - 1;
     return {
       Name: Name,
@@ -24,19 +24,19 @@ export default function ListTable() {
     };
   });
 
-  const removeDuplicates = (arr: any[]) => {
-    const seen = new Set();
-    return arr.filter((item) => {
-      const objectString = JSON.stringify(item);
-      if (!seen.has(objectString)) {
-        seen.add(objectString);
-        return true;
-      }
-      return false;
-    });
-  };
+  // const removeDuplicates = (arr: any[]) => {
+  //   const seen = new Set();
+  //   return arr.filter((item) => {
+  //     const objectString = JSON.stringify(item);
+  //     if (!seen.has(objectString)) {
+  //       seen.add(objectString);
+  //       return true;
+  //     }
+  //     return false;
+  //   });
+  // };
 
-  const uniqueArray = removeDuplicates(newArray);
+  const uniqueArray = newArray;
   const filteredArray = uniqueArray.filter((item) => !isNaN(item.Change));
   const [sortOrder, setSortOrder] = useState<string>("desc");
   const sortedArray = newArray.map((e: any) => {

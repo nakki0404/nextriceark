@@ -1,11 +1,6 @@
 // loadMarket.js
-
 const axios = require("axios");
-
 const authorizationToken = process.env.API_KEY;
-
-// 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyIsImtpZCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyJ9.eyJpc3MiOiJodHRwczovL2x1ZHkuZ2FtZS5vbnN0b3ZlLmNvbSIsImF1ZCI6Imh0dHBzOi8vbHVkeS5nYW1lLm9uc3RvdmUuY29tL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IjEwMDAwMDAwMDAxNDQ2MzkifQ.mYsj_wkn91cxGt1Y2WPyZmJR3rdbu3NwtSg500oj91Su6Quqvn3msXQcD_jPhOThRH_pLKLDT9_Z0c3cqZWZD2p1Uizs9azDWroo3nDXQzjcqLYPNUDGTdnge7QRBSk2iPJuRRyo6n99rMAsD1H7gCtpQF5OCiyUeq3WPv4klovdd0oqpWDf7-0FNUUf-s3NR5qk1guD_f7-lpbZUptq2cwHfsJfH0pX5cnfCG3017Hd30ZaLXJ2M4X3P3vfpUkmEwsIMGcPrQjHGfcIz9kU2rH65ZoowIIwN1tWUAwrXBBvvrTPE2W7V6Mqex-5yiFF5SN9HEVl9d1COQpDrDbngA'; // JWT 토큰을 여기에 입력
-
 const getPageData = async (pageNo) => {
   const config = {
     method: "post",
@@ -45,7 +40,6 @@ const getPageData = async (pageNo) => {
       SortCondition: "ASC",
     },
   };
-
   try {
     const response = await axios(config);
     return response.data.Items;
@@ -54,14 +48,11 @@ const getPageData = async (pageNo) => {
     return [];
   }
 };
-
 const loadjem = async () => {
   const promises = [];
-
   for (let pageNo = 0; pageNo <= 10; pageNo++) {
     promises.push(getPageData(pageNo));
   }
-
   try {
     const resultArrays = await Promise.all(promises);
     const list = resultArrays.flat(); // Flatten the array of arrays
@@ -73,8 +64,6 @@ const loadjem = async () => {
         return total;
       }
     }, 0);
-    // console.log(list[0]);
-
     function countNonNullElements(arr) {
       let count = 0;
       for (let i = 0; i < arr.length; i++) {
@@ -84,22 +73,19 @@ const loadjem = async () => {
       }
       return count;
     }
-
     const nonNullCount = countNonNullElements(newlist);
     const avg = sum / nonNullCount;
-
     return avg;
   } catch (error) {
     console.log(error);
     return [];
   }
 };
-
 async function jem() {
   const avg = await loadjem();
   const etc = [
     {
-      Id: 9999999,
+      Id: 1,
       Name: "골드",
       Grade: "일반",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/money/money_4.png",
@@ -111,10 +97,10 @@ async function jem() {
       __v: 0,
     },
     {
-      Id: 9999998,
-      Name: "더보기",
+      Id: 2,
+      Name: "더보기 골드",
       Grade: "일반",
-      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/money/money_4.png",
+      Icon: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FPrU44%2FbtszpBxVLgu%2Fz3mqnQKEdV41pHQIVxgXs1%2Fimg.png",
       BundleCount: 1,
       TradeRemainCount: null,
       YDayAvgPrice: -1,
@@ -123,7 +109,7 @@ async function jem() {
       __v: 0,
     },
     {
-      Id: 9999991,
+      Id: 3,
       Name: "1레벨 보석",
       Grade: "일반",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_46.png",
@@ -135,10 +121,10 @@ async function jem() {
       __v: 0,
     },
     {
-      Id: 9999992,
+      Id: 4,
       Name: "2레벨 보석",
       Grade: "일반",
-      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_46.png",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_47.png",
       BundleCount: 1,
       TradeRemainCount: null,
       YDayAvgPrice: (avg / 3 / 3 / 3).toFixed(1),
@@ -147,10 +133,10 @@ async function jem() {
       __v: 0,
     },
     {
-      Id: 9999993,
+      Id: 5,
       Name: "3레벨 보석",
       Grade: "일반",
-      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_46.png",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_48.png",
       BundleCount: 1,
       TradeRemainCount: null,
       YDayAvgPrice: (avg / 3 / 3).toFixed(1),
@@ -159,10 +145,10 @@ async function jem() {
       __v: 0,
     },
     {
-      Id: 9999994,
+      Id: 6,
       Name: "4레벨 보석",
       Grade: "일반",
-      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_46.png",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_49.png",
       BundleCount: 1,
       TradeRemainCount: null,
       YDayAvgPrice: (avg / 3).toFixed(1),
@@ -171,10 +157,10 @@ async function jem() {
       __v: 0,
     },
     {
-      Id: 9999995,
+      Id: 7,
       Name: "5레벨 보석",
       Grade: "일반",
-      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_46.png",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_50.png",
       BundleCount: 1,
       TradeRemainCount: null,
       YDayAvgPrice: avg.toFixed(1),
@@ -182,13 +168,175 @@ async function jem() {
       CurrentMinPrice: 1,
       __v: 0,
     },
+    {
+      Id: 8,
+      Name: "혼돈의 돌",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_6_89.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 9,
+      Name: "마수의 뼈",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_101.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 10,
+      Name: "욕망의 날개",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_124.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 11,
+      Name: "광기의 나팔",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_10_19.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 12,
+      Name: "몽환의 사념",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_10_80.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 13,
+      Name: "쇠락의 눈동자",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_19.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 14,
+      Name: "시련의 빛",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_10_164.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 15,
+      Name: "관조의 빛무리",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_10_163.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 16,
+      Name: "선명한 지혜의 엘릭서",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_147.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 17,
+      Name: "빛나는 지혜의 엘릭서",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_146.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 18,
+      Name: "선명한 지혜의 기운",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_111.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 19,
+      Name: "빛나는 지혜의 기운",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_67.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 20,
+      Name: "어둠의 불",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_239.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 21,
+      Name: "마력의 샘물",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_237.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
   ];
   return etc;
 }
-// (async () => {
-//   const etc = await jem();
-//   console.log(etc);
-// })();
 module.exports = jem;
-
-//   eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyIsImtpZCI6IktYMk40TkRDSTJ5NTA5NWpjTWk5TllqY2lyZyJ9.eyJpc3MiOiJodHRwczovL2x1ZHkuZ2FtZS5vbnN0b3ZlLmNvbSIsImF1ZCI6Imh0dHBzOi8vbHVkeS5nYW1lLm9uc3RvdmUuY29tL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IjEwMDAwMDAwMDAxNDQ2MzkifQ.mYsj_wkn91cxGt1Y2WPyZmJR3rdbu3NwtSg500oj91Su6Quqvn3msXQcD_jPhOThRH_pLKLDT9_Z0c3cqZWZD2p1Uizs9azDWroo3nDXQzjcqLYPNUDGTdnge7QRBSk2iPJuRRyo6n99rMAsD1H7gCtpQF5OCiyUeq3WPv4klovdd0oqpWDf7-0FNUUf-s3NR5qk1guD_f7-lpbZUptq2cwHfsJfH0pX5cnfCG3017Hd30ZaLXJ2M4X3P3vfpUkmEwsIMGcPrQjHGfcIz9kU2rH65ZoowIIwN1tWUAwrXBBvvrTPE2W7V6Mqex-5yiFF5SN9HEVl9d1COQpDrDbngA

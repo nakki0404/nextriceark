@@ -21,19 +21,6 @@ export default function Header() {
     localStorage.removeItem("token");
     dispatch(setLogin(false));
   };
-
-  // function toggleBackgroundColor() {
-  //   const divElement = document.querySelector(".bg-yellow-51"); // Select the div element
-
-  //   // Check if the div element already has the 'bg-yellow-500' class
-  //   if (divElement.classList.contains("bg-yellow-400")) {
-  //     divElement.classList.remove("bg-yellow-400"); // Remove the class if it exists
-  //   } else {
-  //     divElement.classList.add("bg-yellow-400"); // Add the class if it doesn't exist
-  //   }
-  // }
-  // const div = document.querySelector(".bg-yellow-50");
-  // div.addEventListener("click", toggleBackgroundColor);
   return (
     <div className="bg-yellow-50 flex flex-row justify-between">
       <div>
@@ -57,7 +44,7 @@ export default function Header() {
             width={32}
             height={32}
           />
-          <div className="text-xl">계산기</div>
+          <div className="text-xl">재화계산기</div>
         </Link>
       </div>
       <div>
@@ -69,7 +56,7 @@ export default function Header() {
             width={32}
             height={32}
           />
-          <div className="text-xl">통계</div>
+          <div className="text-xl">거래소통계</div>
         </Link>
       </div>
       <div>

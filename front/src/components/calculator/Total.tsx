@@ -38,24 +38,8 @@ export default function Total() {
         <thead>
           <tr>
             <th>이름</th>
-            <th>
-              부분합(교환가능,기본)
-              <span
-                onClick={() => handleSortChange("Value")}
-                style={{ cursor: "pointer" }}
-              >
-                {sortType === "Value" && sortDescending ? "▼" : "▲"}
-              </span>
-            </th>
-            <th>
-              부분합(귀속, 더보기)
-              <span
-                onClick={() => handleSortChange("Value")}
-                style={{ cursor: "pointer" }}
-              >
-                {sortType === "Value" && sortDescending ? "▼" : "▲"}
-              </span>
-            </th>
+            <th>부분합(교환가능,기본)</th>
+            <th>부분합(귀속, 더보기)</th>
             <th>
               총합
               <span
@@ -73,13 +57,13 @@ export default function Total() {
             <tr key={index}>
               <td>{item.Title}</td>
               <td className="text-right">
-                {item.totalprice.toLocaleString()}G
+                {item.totalprice.toFixed(0).toLocaleString()} G
               </td>
               <td className="text-right">
-                {item.totalprice2.toLocaleString()}G
+                {item.totalprice2.toFixed(0).toLocaleString()} G
               </td>
               <td className="text-right">
-                {item.totalprice3.toLocaleString()}G
+                {item.totalprice3.toFixed(0).toLocaleString()} G
               </td>
             </tr>
           ))}

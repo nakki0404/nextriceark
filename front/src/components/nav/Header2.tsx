@@ -12,7 +12,7 @@ export default function Header2() {
             <div className="text-xl">재화계산기</div>
           </Link>
           <Link href="/Calculator/Total" className="flex flex-row">
-            <div className="text-xl">전체보기</div>
+            <div className="text-xl">전체목록</div>
           </Link>
           <Link href="/Calculator/Info" className="flex flex-row">
             <div className="text-xl">상세보기</div>
@@ -20,14 +20,14 @@ export default function Header2() {
         </>
       ) : pathname.includes("Statistics") ? (
         <>
-          <Link href="/Statistics/Comparison" className="flex flex-row">
-            <div className="text-xl">비교</div>
-          </Link>
-          <Link href="/Statistics/Search" className="flex flex-row">
-            <div className="text-xl">개별검색</div>
-          </Link>
           <Link href="/Statistics/Summary" className="flex flex-row">
             <div className="text-xl">요약</div>
+          </Link>
+          <Link href="/Statistics/Search" className="flex flex-row">
+            <div className="text-xl">단일검색</div>
+          </Link>
+          <Link href="/Statistics/Comparison" className="flex flex-row">
+            <div className="text-xl">비교</div>
           </Link>
         </>
       ) : pathname.includes("Coin") ? (

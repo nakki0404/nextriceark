@@ -83,21 +83,21 @@ export default function StatisticsPartialTotal() {
     if (
       item.Name === "수호석 결정" ||
       item.Name === "파괴석 결정" ||
-      // Add other conditions as needed
-      item.Name === "최상급 오레하 융화 재료"
+      item.Name === "위대한 명예의 돌파석" ||
+      item.Name === "오레하 융화 재료"
     ) {
       indices1.push(index);
     } else if (
       item.Name === "수호강석" ||
       item.Name === "파괴강석" ||
-      // Add other conditions as needed
+      item.Name === "경이로운 명예의 돌파석" ||
       item.Name === "상급 오레하 융화 재료"
     ) {
       indices2.push(index);
     } else if (
       item.Name === "정제된 수호강석" ||
       item.Name === "정제된 파괴강석" ||
-      // Add other conditions as needed
+      item.Name === "찬란한 명예의 돌파석" ||
       item.Name === "최상급 오레하 융화 재료"
     ) {
       indices3.push(index);
