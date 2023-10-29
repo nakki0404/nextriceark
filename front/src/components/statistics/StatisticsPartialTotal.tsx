@@ -57,13 +57,20 @@ export default function StatisticsPartialTotal() {
   const list = useAppSelector((state) => state.tradedatareducer);
 
   function calculateResults(indices: number[]): any {
-    indices.map((index) =>
-      list[index].Stats.map((item) => ({
-        Date: item.Date,
-        AvgPrice: item.AvgPrice,
-        TradeCount: item.TradeCount,
-      }))
-    );
+    const resultArray: any[] = [];
+
+    indices.forEach((index) => {
+      // 각 index에 대한 결과를 새로운 배열에 추가
+      resultArray.push(
+        list[index].Stats.map((item) => ({
+          Date: item.Date,
+          AvgPrice: item.AvgPrice,
+          TradeCount: item.TradeCount,
+        }))
+      );
+    });
+
+    return resultArray; // 새로운 배열 반환
   }
 
   const items = list;
