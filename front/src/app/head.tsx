@@ -1,8 +1,8 @@
 export default function Head() {
   return (
     <>
-      <title></title>
-      <meta content="width=device-width, initial-scale=1" name="viewport" />
+      <title>쌀로아</title>
+      <meta content="쌀로아입니다" name="description" />
       <link rel="icon" href="/favicon.ico" />
     </>
   );

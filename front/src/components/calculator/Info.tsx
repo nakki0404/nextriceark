@@ -103,17 +103,17 @@ export default function Info() {
           <tr>
             <td></td>
             <td className="text-right">{`부분합계 ${
-              selectedListItem && selectedListItem.totalprice.toFixed(0)
+              (selectedListItem && selectedListItem.totalprice.toFixed(0)) || 0
             } G`}</td>
             <td className="text-right">{`부분합계 ${
-              selectedListItem && selectedListItem.totalprice2.toFixed(0)
+              (selectedListItem && selectedListItem.totalprice2.toFixed(0)) || 0
             } G`}</td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td className="text-right">{`전체 합 ${
-              selectedListItem && selectedListItem.totalprice3.toFixed(0)
+              (selectedListItem && selectedListItem.totalprice3.toFixed(0)) || 0
             } G`}</td>
           </tr>
         </tbody>
