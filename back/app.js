@@ -7,7 +7,9 @@ const marketList = require("./src/model/market");
 const MarketItem = require("./src/model/item");
 const User = require("./src/model/user");
 const Report = require("./src/model/report");
+
 const trading_data = require("./src/model/trading_data");
+
 const Prevent = require("./src/model/prevent");
 const Visitor = require("./src/model/visitor");
 const Visited = require("./src/model/visited");

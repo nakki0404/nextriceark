@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
@@ -21,8 +21,12 @@ const trading_dataSchema = new Schema({
   },
 });
 
+const trading_AlldataSchema = new Schema({
+  ItemClass: "string",
+  Itemtrading_data: [trading_dataSchema],
+});
+
 // '파괴석 조각' 컬렉션을 생성
-const trading_data = mongoose.model('trading_data', trading_dataSchema);
+const trading_data = mongoose.model("trading_data", trading_AlldataSchema);
 
 module.exports = trading_data;
-
