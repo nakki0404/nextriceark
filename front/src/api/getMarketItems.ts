@@ -1,12 +1,12 @@
 //./components/reqServer.js
-import { MarketItems } from "@/types/MarketItems";
-function getMarketItems(): Promise<MarketItems[]> {
+import { marketAllItems } from "@/types/marketAllItems";
+function getMarketItems(): Promise<marketAllItems[]> {
   return fetch(process.env.REACT_APP_BACKEND_URL + "/data")
     .then((response: Response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json() as Promise<MarketItems[]>;
+      return response.json() as Promise<marketAllItems[]>;
     })
     .catch((error: Error) => {
       throw error;

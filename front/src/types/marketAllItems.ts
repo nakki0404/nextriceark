@@ -12,3 +12,9 @@ export interface MarketItems {
   __v: number;
 }
 [];
+
+export interface marketAllItems {
+  ItemList: MarketItems[];
+  ItemClass: String;
+}
+[];

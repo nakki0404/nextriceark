@@ -8,7 +8,7 @@ import { AppDispatch } from "@/store/store";
 import type { Item } from "@/types/ContentLists";
 export default function Maker() {
   const dispatch = useDispatch<AppDispatch>();
-  const list = useAppSelector((state) => state.marketitemsreducer);
+  const list = useAppSelector((state) => state.marketallitemsreducer);
   const newlist = list;
   const [localStorageKey] = useState("tableDataKey"); // 로컬 저장소 키
   useEffect(() => {

@@ -13,3 +13,9 @@ export interface TradeData {
   __v: number;
 }
 [];
+
+export interface TradeAllData {
+  ItemClass: string;
+  Itemtrading_data: TradeData[];
+}
+[];

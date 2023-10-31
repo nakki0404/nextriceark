@@ -17,8 +17,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useAppSelector } from "@/store/store";
-import type { TradeData } from "@/types/TradeData";
-import type { Stat } from "@/types/TradeData";
+import type { Stat } from "@/types/TradeAllData";
 
 export default function SelectGraph() {
   type selectedOption =
@@ -28,7 +27,7 @@ export default function SelectGraph() {
       }
     | undefined;
 
-  const lists = useAppSelector((state) => state.tradedatareducer);
+  const lists = useAppSelector((state) => state.tradealldatareducer);
   const list: { label: string; value: Stat[] }[] = lists.map((e) => ({
     label: e.Name,
     value: e.Stats,

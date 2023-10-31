@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useAppSelector } from "@/store/store";
 
 export default function ListTable() {
-  const list = useAppSelector((state) => state.tradedatareducer);
+  const list = useAppSelector((state) => state.tradealldatareducer);
   const lists = useAppSelector((state) => state.marketitemsreducer);
   console.log(lists);
   let exArray = list.map((e: any) => ({

@@ -12,8 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useAppSelector } from "@/store/store";
-import type { TradeData } from "@/types/TradeData";
-import type { Stat } from "@/types/TradeData";
+import type { Stat } from "@/types/TradeAllData";
 
 interface ResultData {
   Date: string;
@@ -21,7 +20,7 @@ interface ResultData {
 }
 
 export default function StatisticsTotal() {
-  const list = useAppSelector((state) => state.tradedatareducer);
+  const list = useAppSelector((state) => state.tradealldatareducer);
 
   const allDate: any = list.map((e) =>
     e.Stats.map((item) => ({

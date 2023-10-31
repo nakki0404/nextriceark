@@ -50,9 +50,10 @@ const getMakeList = async () => {
           PageNo: pageNo,
         },
       };
+      const response = await axios(config);
+
       if (e.CategoryCode === 50000) {
         try {
-          const response = await axios(config);
           const itemsToExclude = [
             "수호석",
             "수호석 조각",
@@ -92,7 +93,6 @@ const getMakeList = async () => {
         }
       } else if (e.CategoryCode === 40000) {
         try {
-          const response = await axios(config);
           const filteredItems = response.data.Items.filter((item) =>
             item.Grade.includes("전설")
           );
@@ -103,7 +103,6 @@ const getMakeList = async () => {
         }
       } else if (e.CategoryCode === 70000) {
         try {
-          const response = await axios(config);
           const filteredItems = response.data.Items.filter(
             (item) => item.BundleCount == 10
           );
@@ -114,7 +113,6 @@ const getMakeList = async () => {
         }
       } else {
         try {
-          const response = await axios(config);
           return response.data.Items;
         } catch (error) {
           console.log(error);
@@ -131,6 +129,32 @@ const getMakeList = async () => {
       try {
         const resultArrays = await Promise.all(promises);
         const list = resultArrays.flat(); // Flatten the array of arrays
+
+        if (e.CategoryCode === 50000) {
+          const condition = [
+            "명예의 파편 주머니(소)",
+            "명예의 파편 주머니(중)",
+            "명예의 파편 주머니(대)",
+          ];
+          const resultList = list.filter((e) => condition.includes(e.Name));
+          let result = 0;
+          resultList.map((e) => {
+            result += e.YDayAvgPrice;
+          });
+          const avg = result / 3000;
+          const avghonor = {
+            Id: 22,
+            Name: "명예의 파편(낱개)",
+            Grade: "일반",
+            Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_7_147.png",
+            BundleCount: 1,
+            TradeRemainCount: null,
+            YDayAvgPrice: avg,
+            RecentPrice: 1,
+            CurrentMinPrice: 1,
+          };
+          list.push(avghonor);
+        }
         const newobj = {
           ItemClass: e.ItemClass,
           ItemList: list,

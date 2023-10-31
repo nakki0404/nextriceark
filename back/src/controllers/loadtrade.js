@@ -50,15 +50,18 @@ const loadtrade = async () => {
           let data;
           if (count % 90 === 0 && count !== 0) {
             await delay(65 * 1000); // 65초 대기
+            console.log("pause");
           }
-          data = await getPageData(i.Id);
-          B.push(...data);
-          count++;
+          if (i.Id > 100) {
+            data = await getPageData(i.Id);
+            B.push(...data);
+            count++;
+          }
         }
         A.push({ ItemClass: e.ItemClass, Itemtrading_data: B });
       }
       const resultArrays = A;
-
+      console.log("tradedata loaded");
       resultArrays.forEach(async (item) => {
         //최신 정보 foreach 돌려 원소마다 반복
         const existingItem = await trading_data.findOne({
@@ -98,6 +101,9 @@ const loadtrade = async () => {
                     newStat
                   );
                 }
+                existingStats.sort(
+                  (a, b) => new Date(b.Date) - new Date(a.Date)
+                );
                 //날짜 안겹치면 새정보 삽입
               });
             } else {
@@ -111,11 +117,11 @@ const loadtrade = async () => {
             { ItemClass: item.ItemClass },
             existingItem
           );
-          //변경된 db를 클래스 같은 db에 덮어씀
+          console.log("db done");
         } else {
           //없으면
           await trading_data.insertOne(item);
-          //새로운 클래스는 삽입.
+          console.log("db done");
         }
       });
     };
