@@ -4,7 +4,8 @@ import { useAppSelector } from "@/store/store";
 import piratecoin from "@/asset/data/piratecoin.json";
 export default function Piratecoin() {
   const data = piratecoin;
-  const list = useAppSelector((state) => state.marketallitemsreducer);
+  const alllist = useAppSelector((state) => state.marketallitemsreducer);
+  const list = alllist[0].ItemList;
   let newarray = data.map((e) => {
     const Name = e.이름;
     const Quntaty = e.개수;

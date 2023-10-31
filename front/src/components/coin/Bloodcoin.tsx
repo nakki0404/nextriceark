@@ -4,7 +4,8 @@ import { useAppSelector } from "@/store/store";
 import bloodcoin from "@/asset/data/bloodcoin.json";
 import cube from "@/asset/data/cube.json";
 export default function Bloodcoin() {
-  const list = useAppSelector((state) => state.marketallitemsreducer);
+  const alllist = useAppSelector((state) => state.marketallitemsreducer);
+  const list = alllist[0].ItemList;
   let subboxprice = 0;
   const matchingItem3 = list.find((item) => item.Name === "태양의 축복");
   const matchingItem4 = list.find((item) => item.Name === "태양의 가호");

@@ -48,7 +48,7 @@ export default function Header() {
         </Link>
       </div>
       <div>
-        <Link href="/Statistics/Summary" className="flex flex-row">
+        {/* <Link href="/Statistics/Summary" className="flex flex-row">
           <Image
             src={statisticimage}
             alt="statistic icon by Icons8"
@@ -57,7 +57,7 @@ export default function Header() {
             height={32}
           />
           <div className="text-xl">거래소통계</div>
-        </Link>
+        </Link> */}
       </div>
       <div>
         <Link href="/Coin/Blood" className="flex flex-row">

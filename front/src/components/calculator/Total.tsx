@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useAppSelector } from "@/store/store";
 
 export default function Total() {
-  const contentvalues = useAppSelector(
+  let contentvalues = useAppSelector(
     (state: any) => state.contentvaluesreducer
   ); // 이 부분은 해당 상태의 유형을 명시적으로 지정해야합니다.
 
@@ -18,8 +18,32 @@ export default function Total() {
       setSortDescending(true);
     }
   };
-
-  let sortedList = [...contentvalues];
+  let newarray = [];
+  for (let i = 0; i < contentvalues.length; i++) {
+    let e = contentvalues[i];
+    let totalprice = e
+      ? e.List.reduce(
+          (a: any, i: any) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+          0
+        )
+      : 0;
+    let totalprice2 = e
+      ? e.List.reduce(
+          (a: any, i: any) =>
+            a + (i.Quantity2 * i.YDayAvgPrice) / i.BundleCount,
+          0
+        )
+      : 0;
+    let obj = {
+      Title: e.Title,
+      totalprice: totalprice,
+      totalprice2: totalprice2,
+      totalprice3: totalprice + totalprice2,
+    };
+    newarray.push(obj);
+  }
+  console.log(newarray);
+  let sortedList = [...newarray];
 
   if (sortType === "Value") {
     sortedList = sortedList.sort((a, b) => {

@@ -13,12 +13,12 @@ export default function Home() {
             </button>
           </Link>
         </div>
-        <div className="box-border h-60 w-60 p-4 border-8 grid grid-cols-1 gap-2 justify-items-center m-5">
+        {/* <div className="box-border h-60 w-60 p-4 border-8 grid grid-cols-1 gap-2 justify-items-center m-5">
           <div className="">통계통계통계통계통계</div>
           <Link href="/Statistics/Summary" className="flex flex-row">
             <button className="box-border h-20 w-20 p-1 border-4 ">통계</button>
           </Link>
-        </div>
+        </div> */}
         <div className="box-border h-60 w-60 p-4 border-8 grid grid-cols-1 gap-2 justify-items-center m-5">
           <div className="">주화 효율주화 효율</div>
           <Link href="/Coin/Blood" className="flex flex-row">

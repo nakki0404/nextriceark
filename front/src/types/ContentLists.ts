@@ -16,9 +16,6 @@ export interface ContentLists {
   _id?: string;
   Title: string;
   List: Item[];
-  totalprice: number;
-  totalprice2: number;
-  totalprice3: number;
   __v?: number;
 }
 [];

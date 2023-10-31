@@ -10,6 +10,7 @@ export default function Maker() {
   const dispatch = useDispatch<AppDispatch>();
   const list = useAppSelector((state) => state.marketallitemsreducer);
   const newlist = list;
+  // console.log(newlist);
   const [localStorageKey] = useState("tableDataKey"); // 로컬 저장소 키
   useEffect(() => {
     const savedData: any = localStorage.getItem(localStorageKey);
@@ -50,6 +51,7 @@ export default function Maker() {
       return updatedItems;
     });
   };
+
   const handleDelete = (index: number) => {
     setSelectedItems((prevSelectedItems) => {
       const updatedItems = selectedItems.filter((item, i) => i !== index);
@@ -57,6 +59,7 @@ export default function Maker() {
       return updatedItems;
     });
   };
+
   const totalprice: number = selectedItems.reduce(
     (total, item) =>
       total + (item.YDayAvgPrice * item.Quantity) / item.BundleCount,
@@ -67,18 +70,21 @@ export default function Maker() {
       total + (item.YDayAvgPrice * item.Quantity2) / item.BundleCount,
     0
   );
+
   const totalprice3: number = totalprice2 + totalprice;
   const handleClearTable = () => {
     setSelectedItems([]);
     setTitle("");
     localStorage.removeItem(localStorageKey);
   };
+
   type selectedOption =
     | {
         label: string;
         value: string;
       }
     | undefined;
+
   const [selectedOption, setSelectedOption] =
     useState<selectedOption>(undefined);
 
@@ -89,12 +95,21 @@ export default function Maker() {
     }
   }, [selectedOption]);
 
-  const selectlist =
-    Array.isArray(newlist) &&
-    newlist.map((e) => ({ label: e.Name, value: e.Name }));
+  const selectlist: { label: string; value: string }[] = [];
+
+  newlist.map((i) =>
+    i.ItemList.map((e) => selectlist.push({ label: e.Name, value: e.Name }))
+  );
+  // console.log(selectlist);
+
   const handleChange = (selected: any = {}) => {
     setSelectedOption(selected);
   };
+  //   Array.isArray(newlist) &&
+  //   newlist.map((e) => ({ label: e.Name, value: e.Name }));
+  // const handleChange = (selected: any = {}) => {
+  //   setSelectedOption(selected);
+  // };
   const handleDropdownSelect = (data: any) => {
     if (selectedItems.some((item) => item.Name === data)) {
       console.log("중복");
@@ -103,11 +118,16 @@ export default function Maker() {
         const updatedItems = [
           ...prevSelectedItems,
           {
-            ...newlist.find((e: any) => e.Name === data),
+            //기존 itemslist에서 셀렉트한것 이름 일치한거 찾아서 그 객체만 추가.
+            // ...newlist.find((e: any) => e.Name === data),
+            ...newlist
+              .find((e) => e.ItemList.find((i) => i.Name === data))
+              ?.ItemList.find((i) => i.Name === data),
             Quantity: 0,
             Quantity2: 0,
           },
         ];
+        // console.log(updatedItems);
         localStorage.setItem(localStorageKey, JSON.stringify(updatedItems));
         return updatedItems;
       });
@@ -143,9 +163,6 @@ export default function Maker() {
   const handleValueListMake = (
     title: string,
     selectedItems: Item[],
-    totalprice: number,
-    totalprice2: number,
-    totalprice3: number,
     form: string
   ) => {
     if (title !== "" && selectedItems.length !== 0) {
@@ -153,9 +170,6 @@ export default function Maker() {
         addcontentlists({
           Title: title,
           List: selectedItems,
-          totalprice: totalprice,
-          totalprice2: totalprice2,
-          totalprice3: totalprice3,
         })
       );
       const requestOptions = {
@@ -167,9 +181,6 @@ export default function Maker() {
           Item: {
             Title: title,
             List: selectedItems,
-            totalprice,
-            totalprice2,
-            totalprice3,
           },
           Pass: form,
         }),
@@ -194,9 +205,171 @@ export default function Maker() {
       touch();
     }
   };
+  function additems() {
+    setSelectedItems((prevSelectedItems: any) => {
+      const updatedItems = [
+        ...prevSelectedItems,
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
+            ?.ItemList.find((i) => i.Name === "수호석 결정"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "파괴석 결정"))
+            ?.ItemList.find((i) => i.Name === "파괴석 결정"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) =>
+              e.ItemList.find((i) => i.Name === "위대한 명예의 돌파석")
+            )
+            ?.ItemList.find((i) => i.Name === "위대한 명예의 돌파석"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "오레하 융화 재료"))
+            ?.ItemList.find((i) => i.Name === "오레하 융화 재료"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
+            ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+      ];
+      return updatedItems;
+    });
+  }
+
+  function additems2() {
+    setSelectedItems((prevSelectedItems: any) => {
+      const updatedItems = [
+        ...prevSelectedItems,
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "수호강석"))
+            ?.ItemList.find((i) => i.Name === "수호강석"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "파괴강석"))
+            ?.ItemList.find((i) => i.Name === "파괴강석"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) =>
+              e.ItemList.find((i) => i.Name === "경이로운 명예의 돌파석")
+            )
+            ?.ItemList.find((i) => i.Name === "경이로운 명예의 돌파석"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) =>
+              e.ItemList.find((i) => i.Name === "상급 오레하 융화 재료")
+            )
+            ?.ItemList.find((i) => i.Name === "상급 오레하 융화 재료"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
+            ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+      ];
+      return updatedItems;
+    });
+  }
+
+  function additems3() {
+    setSelectedItems((prevSelectedItems: any) => {
+      const updatedItems = [
+        ...prevSelectedItems,
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "정제된 수호강석"))
+            ?.ItemList.find((i) => i.Name === "정제된 수호강석"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "정제된 파괴강석"))
+            ?.ItemList.find((i) => i.Name === "정제된 파괴강석"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) =>
+              e.ItemList.find((i) => i.Name === "찬란한 명예의 돌파석")
+            )
+            ?.ItemList.find((i) => i.Name === "찬란한 명예의 돌파석"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) =>
+              e.ItemList.find((i) => i.Name === "최상급 오레하 융화 재료")
+            )
+            ?.ItemList.find((i) => i.Name === "최상급 오레하 융화 재료"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+        {
+          ...newlist
+            .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
+            ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+      ];
+      return updatedItems;
+    });
+  }
   return (
     <main>
       <div className="text-xl m-1">재화계산기</div>
+      <div className="flex flex-row">
+        <div className="text-xl m-1">묶음추가</div>
+        <button
+          className="h-8 w-16 bg-green-500 rounded-lg text-white m-2"
+          onClick={() => additems()}
+        >
+          1250~
+        </button>
+        <button
+          className="h-8 w-16 bg-green-500 rounded-lg text-white m-2"
+          onClick={() => additems2()}
+        >
+          1490~
+        </button>
+        <button
+          className="h-8 w-16 bg-green-500 rounded-lg text-white m-2"
+          onClick={() => additems3()}
+        >
+          1580~
+        </button>
+      </div>
       <div className="w-5/6 m-1">
         <Select
           options={Array.isArray(selectlist) ? selectlist : []}
@@ -294,16 +467,7 @@ export default function Maker() {
         <div>
           <button
             className="h-8 w-16 bg-blue-500 rounded-lg text-white m-2"
-            onClick={() =>
-              handleValueListMake(
-                title,
-                selectedItems,
-                totalprice,
-                totalprice2,
-                totalprice3,
-                form
-              )
-            }
+            onClick={() => handleValueListMake(title, selectedItems, form)}
           >
             저장
           </button>
@@ -319,12 +483,9 @@ export default function Maker() {
       </div>
       <div>
         설명
-        <br /> 1.재화들을 고르세요.
-        <br /> 2.개수를 정하고
-        <br /> 3.컨텐츠 이름을 적어서
-        <br /> 4.저장버튼을 누르세요
-        <br /> 이제 다른 이용자도 볼 수 있습니다!
-        <br /> 공백, 완전히 같은 이름은 등록안됩니다!
+        <br /> 1.재화를 검색하고 선택하면 추가됩니다.
+        <br /> 2.개수를 정하면 전일 평균가로 계산합니다.
+        <br /> 3.이름을 적고 저장하면 타인도 볼수있습니다.
       </div>
     </main>
   );

@@ -3,26 +3,13 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import Select from "react-select";
 import { useAppSelector } from "@/store/store";
-
-type ContentValue = {
-  Title: string;
-  List: ListItem[];
-  totalprice: number;
-  totalprice2: number;
-  totalprice3: number;
-};
-
-type ListItem = {
-  Name: string;
-  Icon: string;
-  Quantity: number;
-  Quantity2: number;
-};
-
+import type { Item } from "@/types/ContentLists";
+import type { ContentLists } from "@/types/ContentLists";
 export default function Info() {
+  const marketallitems = useAppSelector((state) => state.marketallitemsreducer);
   const contentvalues = useAppSelector((state) => state.contentvaluesreducer);
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
-  const [selectedListItem, setSelectedListItem] = useState<ContentValue | null>(
+  const [selectedListItem, setSelectedListItem] = useState<ContentLists | null>(
     null
   );
   const [localStorageKey2] = useState<string>("tableDataKey2"); // 로컬 저장소 키
@@ -42,6 +29,15 @@ export default function Info() {
       if (selectedItem) {
         localStorage.setItem(localStorageKey2, JSON.stringify(selectedItem));
         setSelectedListItem(selectedItem);
+        let totalprice = selectedItem.List.reduce(
+          (a, i) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+          0
+        );
+        let totalprice2 = selectedItem.List.reduce(
+          (a, i) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+          0
+        );
+        let totalprice3 = totalprice + totalprice2;
       }
     }
   }, [selectedTitle, contentvalues, localStorageKey2]);
@@ -68,6 +64,22 @@ export default function Info() {
     }
   };
 
+  // ...newlist
+  // .find((e) => e.ItemList.find((i) => i.Name === data))
+  // ?.ItemList.find((i) => i.Name === data)
+  const totalprice = selectedListItem
+    ? selectedListItem.List.reduce(
+        (a, i) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+        0
+      )
+    : 0;
+  const totalprice2 = selectedListItem
+    ? selectedListItem.List.reduce(
+        (a, i) => a + (i.Quantity2 * i.YDayAvgPrice) / i.BundleCount,
+        0
+      )
+    : 0;
+  const totalprice3 = totalprice + totalprice2;
   return (
     <div>
       <div className="text-xl m-1">컨텐츠, 상자를 상세보기</div>
@@ -103,17 +115,17 @@ export default function Info() {
           <tr>
             <td></td>
             <td className="text-right">{`부분합계 ${
-              (selectedListItem && selectedListItem.totalprice.toFixed(0)) || 0
+              totalprice.toFixed(0) || 0
             } G`}</td>
             <td className="text-right">{`부분합계 ${
-              (selectedListItem && selectedListItem.totalprice2.toFixed(0)) || 0
+              totalprice2.toFixed(0) || 0
             } G`}</td>
           </tr>
           <tr>
             <td></td>
             <td></td>
             <td className="text-right">{`전체 합 ${
-              (selectedListItem && selectedListItem.totalprice3.toFixed(0)) || 0
+              totalprice3.toFixed(0) || 0
             } G`}</td>
           </tr>
         </tbody>

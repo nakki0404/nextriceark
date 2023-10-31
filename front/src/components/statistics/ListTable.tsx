@@ -4,8 +4,9 @@ import { useAppSelector } from "@/store/store";
 
 export default function ListTable() {
   const list = useAppSelector((state) => state.tradealldatareducer);
-  const lists = useAppSelector((state) => state.marketitemsreducer);
+  const lists = useAppSelector((state) => state.marketallitemsreducer);
   console.log(lists);
+
   let exArray = list.map((e: any) => ({
     Name: e.Name,
     Today: e.Stats[0],

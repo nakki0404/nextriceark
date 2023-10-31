@@ -20,9 +20,6 @@ const ItemSchema = new mongoose.Schema(
 const MarketSchema = new mongoose.Schema({
   Title: String,
   List: [ItemSchema], // List는 ItemSchema의 배열
-  totalprice: Number,
-  totalprice2: Number,
-  totalprice3: Number,
 });
 
 const MarketItem = mongoose.model("MarketItem", MarketSchema);
