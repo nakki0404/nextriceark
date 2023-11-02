@@ -31,7 +31,6 @@ async function fetchDataAndUpdate() {
       setTimeout(fn, delay);
     }
     executeWithDelay(() => loadtrade(), 90 * 1000);
-    loadtrade();
   } catch (error) {
     console.log(error);
   }
