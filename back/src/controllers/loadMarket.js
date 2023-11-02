@@ -3,37 +3,37 @@ const axios = require("axios");
 const authorizationToken = process.env.API_KEY;
 const searchdata = [
   {
-    ItemClass: "재련",
+    Category: "재련",
     CategoryCode: 50000,
     PageNum: 7,
   },
   {
-    ItemClass: "모험",
+    Category: "모험",
     CategoryCode: 100000,
     PageNum: 13,
   },
   {
-    ItemClass: "배템",
+    Category: "배템",
     CategoryCode: 60000,
     PageNum: 6,
   },
   {
-    ItemClass: "각인",
+    Category: "각인",
     CategoryCode: 40000,
     PageNum: 29,
   },
   {
-    ItemClass: "음식",
+    Category: "음식",
     CategoryCode: 70000,
     PageNum: 9,
   },
   {
-    ItemClass: "생활",
+    Category: "생활",
     CategoryCode: 90000,
     PageNum: 4,
   },
 ];
-const newarray = [];
+let newarray = [];
 const getMakeList = async () => {
   for (const e of searchdata) {
     const getPageData = async (pageNo) => {
@@ -129,7 +129,8 @@ const getMakeList = async () => {
       try {
         const resultArrays = await Promise.all(promises);
         const list = resultArrays.flat(); // Flatten the array of arrays
-
+        let newlist = list;
+        newlist.map((i) => (i.Category = e.Category));
         if (e.CategoryCode === 50000) {
           const condition = [
             "명예의 파편 주머니(소)",
@@ -144,6 +145,7 @@ const getMakeList = async () => {
           const avg = result / 3000;
           const avghonor = {
             Id: 22,
+            Category: "재련",
             Name: "명예의 파편(낱개)",
             Grade: "일반",
             Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_7_147.png",
@@ -153,13 +155,9 @@ const getMakeList = async () => {
             RecentPrice: 1,
             CurrentMinPrice: 1,
           };
-          list.push(avghonor);
+          newlist.push(avghonor);
         }
-        const newobj = {
-          ItemClass: e.ItemClass,
-          ItemList: list,
-        };
-        newarray.push(newobj);
+        newarray = [...newarray, ...newlist];
       } catch (error) {
         console.log(error);
       }

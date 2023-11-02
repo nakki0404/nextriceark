@@ -27,7 +27,10 @@ const getPageData = async (Id) => {
     },
   };
   try {
-    const response = await axios(config);
+    let response = await axios(config);
+    // const IdList = await marketList.find({ Id: { $gt: 1000 } }, { Id: 1 });
+    // response.data.Category = IdList.find((e) => e.Name === response.Name);
+    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -36,96 +39,62 @@ const getPageData = async (Id) => {
 };
 const loadtrade = async () => {
   try {
-    const IdList = await marketList.find({});
-    let A = [];
-    let count = 0;
+    const IdList = await marketList.find(
+      { Id: { $gt: 1000 } },
+      { Id: 1, Category: 1, Name: 1 }
+    );
 
-    const delay = (ms) => {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    };
-    const processIdList = async () => {
-      for (let e of IdList) {
-        let B = [];
-        for (let i of e.ItemList) {
-          let data;
-          if (count % 90 === 0 && count !== 0) {
-            await delay(65 * 1000); // 65초 대기
-            console.log("pause");
-          }
-          if (i.Id > 100) {
-            data = await getPageData(i.Id);
-            B.push(...data);
-            count++;
-          }
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    async function processDataWithDelay(IdList) {
+      let promises = [];
+      for (let i = 0; i < IdList.length; i++) {
+        promises.push(getPageData(IdList[i].Id));
+        if ((i + 1) % 90 === 0) {
+          await delay(70000); // 65초 대기
+          console.log("pause");
         }
-        A.push({ ItemClass: e.ItemClass, Itemtrading_data: B });
       }
-      const resultArrays = A;
-      console.log("tradedata loaded");
-      resultArrays.forEach(async (item) => {
-        //최신 정보 foreach 돌려 원소마다 반복
-        const existingItem = await trading_data.findOne({
-          ItemClass: item.ItemClass,
-        });
-        //원소의 클래스이름을 가진 원소를 db에서 찾음
+      const resultArrays = await Promise.all(promises);
+      const lists = resultArrays.flat();
 
-        if (existingItem) {
-          //있으면
-          item.Itemtrading_data.forEach((newDataItem) => {
-            //최신정보 원소의 키값 배열 원소 반복
-            const existingItemIndex = existingItem.Itemtrading_data.findIndex(
-              (existingDataItem) => existingDataItem.Name === newDataItem.Name
+      lists.map(
+        (a) => (a.Category = IdList.find((b) => b.Name == a.Name).Category)
+      );
+      for (const list of lists) {
+        const filter = { Name: list.Name };
+        const existingDoc = await trading_data.findOne(filter);
+        if (existingDoc) {
+          const existingDocStats = existingDoc.Stats ? existingDoc.Stats : [];
+          const listStats = list.Stats ? list.Stats : [];
+          listStats.forEach((listStat) => {
+            const existingStatIndex = existingDocStats.findIndex(
+              (stat) => stat.Date === listStat.Date
             );
-            //최신정보 vs 기존 정보 겹치는 내부 객체 인덱스구함.
-
-            if (existingItemIndex !== -1) {
-              //이름이 겹치는게 있으면
-              const existingStats =
-                existingItem.Itemtrading_data[existingItemIndex].Stats;
-              //구형 정보 stats을 변수에 저장
-              const newStats = newDataItem.Stats;
-              // 신형정보 변수에 저장
-              newStats.forEach((newStat) => {
-                //신형정보 stat을 돌림
-                const existingStatIndex = existingStats.findIndex(
-                  (existingStat) => existingStat.Date === newStat.Date
-                );
-                //날짜 겹치는 인덱스 있나 찾아봄
-                if (existingStatIndex !== -1) {
-                  //있으면
-                  existingStats[existingStatIndex].TradeCount =
-                    newStat.TradeCount;
-                  //새정보로 교체
-                } else {
-                  existingItem.Itemtrading_data[existingItemIndex].Stats.push(
-                    newStat
-                  );
-                }
-                existingStats.sort(
-                  (a, b) => new Date(b.Date) - new Date(a.Date)
-                );
-                //날짜 안겹치면 새정보 삽입
-              });
+            if (existingStatIndex !== -1) {
+              existingDocStats[existingStatIndex] = listStat;
             } else {
-              //이름 겹치는게 없으면
-              existingItem.Itemtrading_data.push(newDataItem);
+              existingDocStats.push(listStat);
             }
-            //그대로 넣음
           });
-
-          await trading_data.replaceOne(
-            { ItemClass: item.ItemClass },
-            existingItem
+          const updatedDocument = await trading_data.findOneAndUpdate(
+            filter,
+            {
+              $set: {
+                Stats: existingDocStats.sort(
+                  (a, b) => new Date(b.Date) - new Date(a.Date)
+                ),
+              },
+            },
+            { new: true }
           );
-          console.log("db done");
         } else {
-          //없으면
-          await trading_data.insertOne(item);
-          console.log("db done");
+          const newDocument = await trading_data.create(list);
         }
-      });
-    };
-    processIdList();
+      }
+      console.log("done");
+    }
+    processDataWithDelay(IdList);
   } catch (error) {
     console.log(error);
     return [];

@@ -6,24 +6,22 @@ import getMarketItems from "@/api/getMarketItems";
 import getContentLists from "@/api/getContentLists";
 import getTradeData from "@/api/getTradeData";
 
-import { addmarketallitems } from "@/store/slices/marketallitems";
-import { addtradealldata } from "@/store/slices/tradealldata";
+import { addmarketItems } from "@/store/slices/marketItems";
+import { addtradedata } from "@/store/slices/tradeData";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-import { addcontentlists } from "@/store/slices/ContentLists";
+import { addcontentlists } from "@/store/slices/contentLists";
 
 import type { ContentLists } from "@/types/ContentLists";
-import type { marketAllItems } from "@/types/marketAllItems";
-import type { TradeAllData } from "@/types/TradeAllData";
+import type { MarketItems } from "@/types/MarketItems";
+import type { TradeData } from "@/types/TradeData";
 
 export default function UpStore() {
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     getMarketItems()
-      .then((response: marketAllItems[]) => {
-        response.map((item: marketAllItems) =>
-          dispatch(addmarketallitems(item))
-        );
+      .then((response: MarketItems[]) => {
+        response.map((item: MarketItems) => dispatch(addmarketItems(item)));
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -36,8 +34,8 @@ export default function UpStore() {
         console.error("Error:", error);
       });
     getTradeData()
-      .then((response: TradeAllData[]) => {
-        response.map((item: TradeAllData) => dispatch(addtradealldata(item)));
+      .then((response: TradeData[]) => {
+        response.map((item: TradeData) => dispatch(addtradedata(item)));
       })
       .catch((error) => {
         console.error("Error:", error);

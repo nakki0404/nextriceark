@@ -6,16 +6,11 @@ export interface Stat {
 [];
 export interface TradeData {
   _id: string;
+  Category: String;
   Name: string;
   TradeRemainCount: null;
   BundleCount: number;
   Stats: Stat[];
   __v: number;
-}
-[];
-
-export interface TradeAllData {
-  ItemClass: string;
-  Itemtrading_data: TradeData[];
 }
 [];

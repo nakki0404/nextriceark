@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useAppSelector } from "@/store/store";
-import type { Stat } from "@/types/TradeAllData";
+import type { Stat } from "@/types/TradeData";
 
 interface ResultData {
   Date: string;
@@ -20,7 +20,7 @@ interface ResultData {
 }
 
 export default function StatisticsTotal() {
-  const list = useAppSelector((state) => state.tradealldatareducer);
+  const list = useAppSelector((state) => state.tradedatareducer);
 
   const allDate: any = list.map((e) =>
     e.Stats.map((item) => ({
@@ -29,7 +29,42 @@ export default function StatisticsTotal() {
       TradeCount: item.TradeCount,
     }))
   );
-
+  const list2 = list;
+  console.log(list2);
+  let newar = [];
+  let result = 0;
+  let result10 = 0;
+  let result11 = 0;
+  let result12 = 0;
+  let result13 = 0;
+  let result14 = 0;
+  let result15 = 0;
+  list2.map((e) => e.Stats.map((i) => i.AvgPrice * i.TradeCount));
+  for (let e of list2) {
+    for (let i of e.Stats) {
+      result += i.AvgPrice * i.TradeCount;
+      if (e.Category === "재련") {
+        result10 += i.AvgPrice * i.TradeCount;
+      } else if (e.Category === "각인") {
+        result11 += i.AvgPrice * i.TradeCount;
+      } else if (e.Category === "음식") {
+        result12 += i.AvgPrice * i.TradeCount;
+      } else if (e.Category === "배템") {
+        result13 += i.AvgPrice * i.TradeCount;
+      } else if (e.Category === "생활") {
+        result14 += i.AvgPrice * i.TradeCount;
+      } else if (e.Category === "모험") {
+        result15 += i.AvgPrice * i.TradeCount;
+      }
+    }
+  }
+  console.log(result10 / result);
+  console.log(result11 / result);
+  console.log(result12 / result);
+  console.log(result13 / result);
+  console.log(result14 / result);
+  console.log(result15 / result);
+  // 재련 각인 요리 배템 모험 생활 각 총합 따로
   const combinedData1: Stat[] = [].concat(...allDate);
 
   function calculateResult(combinedData: Stat[]): {

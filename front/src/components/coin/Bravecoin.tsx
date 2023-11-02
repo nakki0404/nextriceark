@@ -4,8 +4,7 @@ import { useAppSelector } from "@/store/store";
 import bravecoin from "@/asset/data/bravecoin.json";
 export default function Bravecoin() {
   const data = bravecoin;
-  const alllist = useAppSelector((state) => state.marketallitemsreducer);
-  const list = alllist[0].ItemList;
+  const list = useAppSelector((state) => state.marketItemsreducer);
   let newarray = data.map((e) => {
     const Name = e.이름;
     const Quntaty = e.개수;
@@ -71,9 +70,13 @@ export default function Bravecoin() {
       </div>
       *주의
       <br />
-      골드/주화는 주화 1개당 골드 가치를 말한다.
+      골드/주화는 주화 1개당 골드 가치
       <br />
-      제작자는 PVP 초극이라 더 윗단계의 구매목록은 고려하지 않았다.
+      PVP 초극까지만 계산함
+      <br />
+      상위 구매 단계는 효율은 좋아질거같고
+      <br />
+      품목간 등수는 크게 변동없을것같음.
     </div>
   );
 }

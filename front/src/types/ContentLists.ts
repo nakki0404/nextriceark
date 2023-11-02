@@ -1,6 +1,7 @@
 //@\types\ContentLists.ts
 export interface Item {
   Id: number;
+  Category: String;
   Name: string;
   Grade: string;
   Icon: string;

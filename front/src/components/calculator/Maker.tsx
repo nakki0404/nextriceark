@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
-import { addcontentlists } from "@/store/slices/ContentLists";
+import { addcontentlists } from "@/store/slices/contentLists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import type { Item } from "@/types/ContentLists";
 export default function Maker() {
   const dispatch = useDispatch<AppDispatch>();
-  const list = useAppSelector((state) => state.marketallitemsreducer);
-  const newlist = list;
+  const newlist = useAppSelector((state) => state.marketItemsreducer);
+
   // console.log(newlist);
   const [localStorageKey] = useState("tableDataKey"); // 로컬 저장소 키
   useEffect(() => {
@@ -21,6 +21,7 @@ export default function Maker() {
   type selectedItems = {
     _id: string;
     Id: number;
+    Category: String;
     Name: string;
     Grade: string;
     Icon: string;
@@ -95,21 +96,22 @@ export default function Maker() {
     }
   }, [selectedOption]);
 
-  const selectlist: { label: string; value: string }[] = [];
+  // let selectlist: { label: string; value: string }[] = [];
 
-  newlist.map((i) =>
-    i.ItemList.map((e) => selectlist.push({ label: e.Name, value: e.Name }))
-  );
+  // newlist.map((i) =>
+  //   i.ItemList.map((e) => selectlist.push({ label: e.Name, value: e.Name }))
+  // );
   // console.log(selectlist);
 
-  const handleChange = (selected: any = {}) => {
-    setSelectedOption(selected);
-  };
-  //   Array.isArray(newlist) &&
-  //   newlist.map((e) => ({ label: e.Name, value: e.Name }));
   // const handleChange = (selected: any = {}) => {
   //   setSelectedOption(selected);
   // };
+  let selectlist =
+    Array.isArray(newlist) &&
+    newlist.map((e) => ({ label: e.Name, value: e.Name }));
+  const handleChange = (selected: any = {}) => {
+    setSelectedOption(selected);
+  };
   const handleDropdownSelect = (data: any) => {
     if (selectedItems.some((item) => item.Name === data)) {
       console.log("중복");
@@ -119,10 +121,10 @@ export default function Maker() {
           ...prevSelectedItems,
           {
             //기존 itemslist에서 셀렉트한것 이름 일치한거 찾아서 그 객체만 추가.
-            // ...newlist.find((e: any) => e.Name === data),
-            ...newlist
-              .find((e) => e.ItemList.find((i) => i.Name === data))
-              ?.ItemList.find((i) => i.Name === data),
+            ...newlist.find((e: any) => e.Name === data),
+            // ...newlist
+            //   .find((e) => e.ItemList.find((i) => i.Name === data))
+            //   ?.ItemList.find((i) => i.Name === data),
             Quantity: 0,
             Quantity2: 0,
           },
@@ -210,39 +212,44 @@ export default function Maker() {
       const updatedItems = [
         ...prevSelectedItems,
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
-            ?.ItemList.find((i) => i.Name === "수호석 결정"),
+          ...newlist.find((e: any) => e.Name === "수호석 결정"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
+          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "파괴석 결정"))
-            ?.ItemList.find((i) => i.Name === "파괴석 결정"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "파괴석 결정"))
+          //   ?.ItemList.find((i) => i.Name === "파괴석 결정"),
+          ...newlist.find((e: any) => e.Name === "파괴석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) =>
-              e.ItemList.find((i) => i.Name === "위대한 명예의 돌파석")
-            )
-            ?.ItemList.find((i) => i.Name === "위대한 명예의 돌파석"),
+          // ...newlist
+          //   .find((e) =>
+          //     e.ItemList.find((i) => i.Name === "위대한 명예의 돌파석")
+          //   )
+          //   ?.ItemList.find((i) => i.Name === "위대한 명예의 돌파석"),
+          ...newlist.find((e: any) => e.Name === "위대한 명예의 돌파석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "오레하 융화 재료"))
-            ?.ItemList.find((i) => i.Name === "오레하 융화 재료"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "오레하 융화 재료"))
+          //   ?.ItemList.find((i) => i.Name === "오레하 융화 재료"),
+          ...newlist.find((e: any) => e.Name === "오레하 융화 재료"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
-            ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
+          //   ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          ...newlist.find((e: any) => e.Name === "명예의 파편(낱개)"),
           Quantity: 0,
           Quantity2: 0,
         },
@@ -256,41 +263,44 @@ export default function Maker() {
       const updatedItems = [
         ...prevSelectedItems,
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "수호강석"))
-            ?.ItemList.find((i) => i.Name === "수호강석"),
+          ...newlist.find((e: any) => e.Name === "수호강석"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
+          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "파괴강석"))
-            ?.ItemList.find((i) => i.Name === "파괴강석"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "파괴석 결정"))
+          //   ?.ItemList.find((i) => i.Name === "파괴석 결정"),
+          ...newlist.find((e: any) => e.Name === "파괴강석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) =>
-              e.ItemList.find((i) => i.Name === "경이로운 명예의 돌파석")
-            )
-            ?.ItemList.find((i) => i.Name === "경이로운 명예의 돌파석"),
+          // ...newlist
+          //   .find((e) =>
+          //     e.ItemList.find((i) => i.Name === "위대한 명예의 돌파석")
+          //   )
+          //   ?.ItemList.find((i) => i.Name === "위대한 명예의 돌파석"),
+          ...newlist.find((e: any) => e.Name === "경이로운 명예의 돌파석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) =>
-              e.ItemList.find((i) => i.Name === "상급 오레하 융화 재료")
-            )
-            ?.ItemList.find((i) => i.Name === "상급 오레하 융화 재료"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "오레하 융화 재료"))
+          //   ?.ItemList.find((i) => i.Name === "오레하 융화 재료"),
+          ...newlist.find((e: any) => e.Name === "상급 오레하 융화 재료"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
-            ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
+          //   ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          ...newlist.find((e: any) => e.Name === "명예의 파편(낱개)"),
           Quantity: 0,
           Quantity2: 0,
         },
@@ -304,41 +314,44 @@ export default function Maker() {
       const updatedItems = [
         ...prevSelectedItems,
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "정제된 수호강석"))
-            ?.ItemList.find((i) => i.Name === "정제된 수호강석"),
+          ...newlist.find((e: any) => e.Name === "정제된 수호강석"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
+          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "정제된 파괴강석"))
-            ?.ItemList.find((i) => i.Name === "정제된 파괴강석"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "파괴석 결정"))
+          //   ?.ItemList.find((i) => i.Name === "파괴석 결정"),
+          ...newlist.find((e: any) => e.Name === "정제된 파괴강석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) =>
-              e.ItemList.find((i) => i.Name === "찬란한 명예의 돌파석")
-            )
-            ?.ItemList.find((i) => i.Name === "찬란한 명예의 돌파석"),
+          // ...newlist
+          //   .find((e) =>
+          //     e.ItemList.find((i) => i.Name === "위대한 명예의 돌파석")
+          //   )
+          //   ?.ItemList.find((i) => i.Name === "위대한 명예의 돌파석"),
+          ...newlist.find((e: any) => e.Name === "찬란한 명예의 돌파석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) =>
-              e.ItemList.find((i) => i.Name === "최상급 오레하 융화 재료")
-            )
-            ?.ItemList.find((i) => i.Name === "최상급 오레하 융화 재료"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "오레하 융화 재료"))
+          //   ?.ItemList.find((i) => i.Name === "오레하 융화 재료"),
+          ...newlist.find((e: any) => e.Name === "최상급 오레하 융화 재료"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          ...newlist
-            .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
-            ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
+          //   ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
+          ...newlist.find((e: any) => e.Name === "명예의 파편(낱개)"),
           Quantity: 0,
           Quantity2: 0,
         },

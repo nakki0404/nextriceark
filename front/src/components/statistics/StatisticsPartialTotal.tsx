@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { useAppSelector } from "@/store/store";
-import type { Stat } from "@/types/TradeAllData";
+import type { Stat } from "@/types/TradeData";
 
 interface ResultData {
   Date: string;
@@ -53,7 +53,7 @@ const renderTooltipContent = (o: any): JSX.Element => {
 };
 
 export default function StatisticsPartialTotal() {
-  const list = useAppSelector((state) => state.tradealldatareducer);
+  const list = useAppSelector((state) => state.tradedatareducer);
 
   function calculateResults(indices: number[]): any {
     const resultArray: any[] = [];

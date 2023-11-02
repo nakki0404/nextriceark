@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 const marketListSchema = new mongoose.Schema({
   Id: Number,
+  Category: String,
   Name: String,
   Grade: String,
   Icon: String,
@@ -14,11 +15,6 @@ const marketListSchema = new mongoose.Schema({
   CurrentMinPrice: Number,
 });
 
-const marketAllListSchema = new mongoose.Schema({
-  ItemList: [marketListSchema],
-  ItemClass: String,
-});
-
-const marketList = mongoose.model("Item", marketAllListSchema);
+const marketList = mongoose.model("Item", marketListSchema);
 
 module.exports = marketList;

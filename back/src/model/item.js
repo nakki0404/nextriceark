@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const ItemSchema = new mongoose.Schema(
   {
     Id: Number,
+    Category: String,
     Name: String,
     Grade: String,
     Icon: String,
@@ -17,11 +18,6 @@ const ItemSchema = new mongoose.Schema(
   { _id: false }
 ); // _id 필드 사용 안 함
 
-const MarketSchema = new mongoose.Schema({
-  Title: String,
-  List: [ItemSchema], // List는 ItemSchema의 배열
-});
-
-const MarketItem = mongoose.model("MarketItem", MarketSchema);
+const MarketItem = mongoose.model("MarketItem", ItemSchema);
 
 module.exports = MarketItem;

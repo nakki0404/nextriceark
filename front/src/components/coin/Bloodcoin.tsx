@@ -4,8 +4,8 @@ import { useAppSelector } from "@/store/store";
 import bloodcoin from "@/asset/data/bloodcoin.json";
 import cube from "@/asset/data/cube.json";
 export default function Bloodcoin() {
-  const alllist = useAppSelector((state) => state.marketallitemsreducer);
-  const list = alllist[0].ItemList;
+  const list = useAppSelector((state) => state.marketItemsreducer);
+
   let subboxprice = 0;
   const matchingItem3 = list.find((item) => item.Name === "태양의 축복");
   const matchingItem4 = list.find((item) => item.Name === "태양의 가호");
@@ -130,10 +130,14 @@ export default function Bloodcoin() {
       </div>
       *주의
       <br />
-      골드/주화는 주화 1개당 골드 가치를 말한다.
+      골드/주화는 주화 1개당 골드 가치
       <br />
-      적정레벨을 초과한 입장권은 표기된 효율보다 안좋을 수 있다.
-      <br /> 입장권 상자의 등장 확률 실링 80% 입장권 20% <br />
+      적정 구매레벨 미만 입장권은 효율이 표기보다 안좋을 수있음.
+      <br />
+      -교환불가 재료까지 포함한 가치
+      <br />
+      -입장권 상자의 등장 확률 실링 80% 입장권 20%
+      <br />
       보조재 상자의 등장 확률 가호 3% 축복 24.7% 은총 72.3%
       <br />
     </div>

@@ -1,5 +1,6 @@
 export interface MarketItems {
   _id: string;
+  Category: String;
   Id: number;
   Name: string;
   Grade: string;
@@ -10,11 +11,5 @@ export interface MarketItems {
   RecentPrice: number;
   CurrentMinPrice: number;
   __v: number;
-}
-[];
-
-export interface marketAllItems {
-  ItemList: MarketItems[];
-  ItemClass: String;
 }
 [];

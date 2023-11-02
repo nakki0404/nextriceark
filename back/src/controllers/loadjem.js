@@ -86,6 +86,7 @@ async function jem() {
   const etc = [
     {
       Id: 1,
+      Category: "기타",
       Name: "골드",
       Grade: "일반",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/money/money_4.png",
@@ -98,6 +99,7 @@ async function jem() {
     },
     {
       Id: 2,
+      Category: "기타",
       Name: "더보기 골드",
       Grade: "일반",
       Icon: "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FPrU44%2FbtszpBxVLgu%2Fz3mqnQKEdV41pHQIVxgXs1%2Fimg.png",
@@ -110,6 +112,7 @@ async function jem() {
     },
     {
       Id: 3,
+      Category: "기타",
       Name: "1레벨 보석",
       Grade: "일반",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_46.png",
@@ -122,6 +125,7 @@ async function jem() {
     },
     {
       Id: 4,
+      Category: "기타",
       Name: "2레벨 보석",
       Grade: "일반",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_47.png",
@@ -134,6 +138,7 @@ async function jem() {
     },
     {
       Id: 5,
+      Category: "기타",
       Name: "3레벨 보석",
       Grade: "일반",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_48.png",
@@ -146,6 +151,7 @@ async function jem() {
     },
     {
       Id: 6,
+      Category: "기타",
       Name: "4레벨 보석",
       Grade: "일반",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_49.png",
@@ -158,6 +164,7 @@ async function jem() {
     },
     {
       Id: 7,
+      Category: "기타",
       Name: "5레벨 보석",
       Grade: "일반",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_9_50.png",
@@ -170,6 +177,7 @@ async function jem() {
     },
     {
       Id: 8,
+      Category: "기타",
       Name: "혼돈의 돌",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_6_89.png",
       BundleCount: 1,
@@ -182,6 +190,7 @@ async function jem() {
     },
     {
       Id: 9,
+      Category: "기타",
       Name: "마수의 뼈",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_101.png",
       BundleCount: 1,
@@ -194,6 +203,7 @@ async function jem() {
     },
     {
       Id: 10,
+      Category: "기타",
       Name: "욕망의 날개",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_124.png",
       BundleCount: 1,
@@ -206,6 +216,7 @@ async function jem() {
     },
     {
       Id: 11,
+      Category: "기타",
       Name: "광기의 나팔",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_10_19.png",
       BundleCount: 1,
@@ -218,6 +229,7 @@ async function jem() {
     },
     {
       Id: 12,
+      Category: "기타",
       Name: "몽환의 사념",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_10_80.png",
       BundleCount: 1,
@@ -230,6 +242,7 @@ async function jem() {
     },
     {
       Id: 13,
+      Category: "기타",
       Name: "쇠락의 눈동자",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_19.png",
       BundleCount: 1,
@@ -242,6 +255,7 @@ async function jem() {
     },
     {
       Id: 14,
+      Category: "기타",
       Name: "시련의 빛",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_10_164.png",
       BundleCount: 1,
@@ -254,6 +268,7 @@ async function jem() {
     },
     {
       Id: 15,
+      Category: "기타",
       Name: "관조의 빛무리",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_10_163.png",
       BundleCount: 1,
@@ -266,6 +281,7 @@ async function jem() {
     },
     {
       Id: 16,
+      Category: "기타",
       Name: "선명한 지혜의 엘릭서",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_147.png",
       BundleCount: 1,
@@ -278,6 +294,7 @@ async function jem() {
     },
     {
       Id: 17,
+      Category: "기타",
       Name: "빛나는 지혜의 엘릭서",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_146.png",
       BundleCount: 1,
@@ -290,6 +307,7 @@ async function jem() {
     },
     {
       Id: 18,
+      Category: "기타",
       Name: "선명한 지혜의 기운",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_111.png",
       BundleCount: 1,
@@ -302,6 +320,7 @@ async function jem() {
     },
     {
       Id: 19,
+      Category: "기타",
       Name: "빛나는 지혜의 기운",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_3_67.png",
       BundleCount: 1,
@@ -314,6 +333,7 @@ async function jem() {
     },
     {
       Id: 20,
+      Category: "기타",
       Name: "어둠의 불",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_239.png",
       BundleCount: 1,
@@ -326,6 +346,7 @@ async function jem() {
     },
     {
       Id: 21,
+      Category: "기타",
       Name: "마력의 샘물",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_11_237.png",
       BundleCount: 1,

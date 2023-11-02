@@ -6,7 +6,7 @@ import { useAppSelector } from "@/store/store";
 import type { Item } from "@/types/ContentLists";
 import type { ContentLists } from "@/types/ContentLists";
 export default function Info() {
-  const marketallitems = useAppSelector((state) => state.marketallitemsreducer);
+  const marketallitems = useAppSelector((state) => state.marketItemsreducer);
   const contentvalues = useAppSelector((state) => state.contentvaluesreducer);
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
   const [selectedListItem, setSelectedListItem] = useState<ContentLists | null>(

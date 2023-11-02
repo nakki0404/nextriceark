@@ -22,15 +22,16 @@ async function fetchDataAndUpdate() {
   try {
     // const importedList = await getMakeList();
     // const jemData = await jem(); // jem 함수 호출
-    // jemData.map((e) => importedList[0].ItemList.push(e));
+    // const conbined = [...importedList, ...jemData];
     // await marketList.deleteMany({}); // 기존 데이터 모두 삭제
-    // const insertedData2 = await marketList.insertMany(importedList);
+    // const insertedData2 = await marketList.insertMany(conbined);
     // console.log(`Inserted ${insertedData2.length} lists into MongoDB `);
     // console.log("tradedata loading waiting");
     // function executeWithDelay(fn, delay) {
     //   setTimeout(fn, delay);
     // }
-    // executeWithDelay(() => loadtrade(), 70 * 1000);
+    // executeWithDelay(() => loadtrade(), 65 * 1000);
+    // loadtrade();
   } catch (error) {
     console.log(error);
   }
