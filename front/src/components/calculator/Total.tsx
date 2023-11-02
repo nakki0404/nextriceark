@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
-
+import Select from "react-select";
+import Link from "next/link";
 export default function Total() {
   let contentvalues = useAppSelector(
     (state: any) => state.contentvaluesreducer
@@ -9,7 +10,6 @@ export default function Total() {
 
   const [sortType, setSortType] = useState<string | null>(null);
   const [sortDescending, setSortDescending] = useState<boolean>(true);
-
   const handleSortChange = (newSortType: string) => {
     if (newSortType === sortType) {
       setSortDescending(!sortDescending);
@@ -18,6 +18,7 @@ export default function Total() {
       setSortDescending(true);
     }
   };
+
   let newarray = [];
   for (let i = 0; i < contentvalues.length; i++) {
     let e = contentvalues[i];
@@ -39,10 +40,10 @@ export default function Total() {
       totalprice: totalprice,
       totalprice2: totalprice2,
       totalprice3: totalprice + totalprice2,
+      Category: e.Category,
     };
     newarray.push(obj);
   }
-  console.log(newarray);
   let sortedList = [...newarray];
 
   if (sortType === "Value") {
@@ -52,18 +53,58 @@ export default function Total() {
       return sortDescending ? bValue - aValue : aValue - bValue;
     });
   }
+  const handleChange2 = (selected: any = {}) => {
+    setSelectedOption2(selected);
+  };
+  const [category, setCategory] = useState("");
+  const categorylist = [
+    {
+      label: "레이드 보상",
+      value: "레이드 보상",
+    },
+    {
+      label: "상자",
+      value: "상자",
+    },
+    {
+      label: "전체",
+      value: "",
+    },
+  ];
+  type selectedOption =
+    | {
+        label: string;
+        value: string;
+      }
+    | undefined;
+  const [selectedOption2, setSelectedOption2] =
+    useState<selectedOption>(undefined);
+
+  useEffect(() => {
+    if (selectedOption2) {
+      const newData2 = selectedOption2.value;
+      setCategory(newData2);
+    }
+  }, [selectedOption2]);
 
   return (
     <div>
-      <div className="flex flex-row">
-        <div className="text-xl m-1"> 전체보기</div>
-      </div>
+      <div className="flex flex-row"></div>
       <table>
         <thead>
           <tr>
-            <th>이름</th>
-            <th>부분합(교환가능,기본)</th>
-            <th>부분합(귀속, 더보기)</th>
+            <th>
+              <Select
+                options={Array.isArray(categorylist) ? categorylist : []}
+                value={selectedOption2}
+                onChange={handleChange2}
+                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                placeholder="분류"
+              />
+            </th>
+
+            <th>{category === "레이드" ? "기본보상" : "교환가능"}</th>
+            <th>{category === "레이드" ? "기본보상" : "교환가능"}</th>
             <th>
               총합
               <span
@@ -77,20 +118,22 @@ export default function Total() {
           </tr>
         </thead>
         <tbody>
-          {sortedList.map((item: any, index: number) => (
-            <tr key={index}>
-              <td>{item.Title}</td>
-              <td className="text-right">
-                {item.totalprice.toFixed(0).toLocaleString()} G
-              </td>
-              <td className="text-right">
-                {item.totalprice2.toFixed(0).toLocaleString()} G
-              </td>
-              <td className="text-right">
-                {item.totalprice3.toFixed(0).toLocaleString()} G
-              </td>
-            </tr>
-          ))}
+          {sortedList
+            .filter((i) => i.Category.includes(category))
+            .map((item: any, index: number) => (
+              <tr key={index}>
+                <td>{item.Title} </td>
+                <td className="text-right">
+                  {item.totalprice.toFixed(0).toLocaleString()} G
+                </td>
+                <td className="text-right">
+                  {item.totalprice2.toFixed(0).toLocaleString()} G
+                </td>
+                <td className="text-right">
+                  {item.totalprice3.toFixed(0).toLocaleString()} G
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

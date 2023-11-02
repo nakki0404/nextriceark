@@ -82,15 +82,13 @@ export default function Info() {
   const totalprice3 = totalprice + totalprice2;
   return (
     <div>
-      <div className="text-xl m-1">컨텐츠, 상자를 상세보기</div>
-
       <div className="w-5/6 m-1">
         <Select
           options={list}
           value={selectedOption}
           onChange={handleChange}
           isSearchable={true}
-          placeholder="컨텐츠, 상자를 선택하세요"
+          placeholder="컨텐츠 이름을 선택하세요"
         />
       </div>
       <table>

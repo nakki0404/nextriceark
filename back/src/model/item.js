@@ -17,7 +17,13 @@ const ItemSchema = new mongoose.Schema(
   },
   { _id: false }
 ); // _id 필드 사용 안 함
+const ContentListsSchema = new mongoose.Schema({
+  Title: String,
 
-const MarketItem = mongoose.model("MarketItem", ItemSchema);
+  List: [ItemSchema],
+  Category: String,
+});
+
+const MarketItem = mongoose.model("MarketItem", ContentListsSchema);
 
 module.exports = MarketItem;

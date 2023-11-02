@@ -112,6 +112,9 @@ export default function Maker() {
   const handleChange = (selected: any = {}) => {
     setSelectedOption(selected);
   };
+  const handleChange2 = (selected: any = {}) => {
+    setSelectedOption2(selected);
+  };
   const handleDropdownSelect = (data: any) => {
     if (selectedItems.some((item) => item.Name === data)) {
       console.log("중복");
@@ -165,6 +168,7 @@ export default function Maker() {
   const handleValueListMake = (
     title: string,
     selectedItems: Item[],
+    category: string,
     form: string
   ) => {
     if (title !== "" && selectedItems.length !== 0) {
@@ -172,6 +176,7 @@ export default function Maker() {
         addcontentlists({
           Title: title,
           List: selectedItems,
+          Category: category,
         })
       );
       const requestOptions = {
@@ -183,6 +188,7 @@ export default function Maker() {
           Item: {
             Title: title,
             List: selectedItems,
+            Category: category,
           },
           Pass: form,
         }),
@@ -359,31 +365,77 @@ export default function Maker() {
       return updatedItems;
     });
   }
+  function additems4() {
+    setSelectedItems((prevSelectedItems: any) => {
+      const updatedItems = [
+        ...prevSelectedItems,
+        {
+          ...newlist.find((e: any) => e.Name === "골드"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
+          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+      ];
+      return updatedItems;
+    });
+  }
+  function additems5() {
+    setSelectedItems((prevSelectedItems: any) => {
+      const updatedItems = [
+        ...prevSelectedItems,
+        {
+          ...newlist.find((e: any) => e.Name === "더보기 골드"),
+          // ...newlist
+          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
+          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
+          Quantity: 0,
+          Quantity2: 0,
+        },
+      ];
+      return updatedItems;
+    });
+  }
+
+  const [category, setCategory] = useState("");
+  const categorylist = [
+    {
+      label: "레이드",
+      value: "레이드",
+    },
+    {
+      label: "상자",
+      value: "상자",
+    },
+    {
+      label: "가토",
+      value: "가토",
+    },
+    {
+      label: "카던",
+      value: "카던",
+    },
+  ];
+  const [selectedOption2, setSelectedOption2] =
+    useState<selectedOption>(undefined);
+
+  useEffect(() => {
+    if (selectedOption2) {
+      const newData2 = selectedOption2.value;
+      setCategory(newData2);
+    }
+  }, [selectedOption2]);
   return (
-    <main>
-      <div className="text-xl m-1">재화계산기</div>
-      <div className="flex flex-row">
-        <div className="text-xl m-1">묶음추가</div>
-        <button
-          className="h-8 w-16 bg-green-500 rounded-lg text-white m-2"
-          onClick={() => additems()}
-        >
-          1250~
-        </button>
-        <button
-          className="h-8 w-16 bg-green-500 rounded-lg text-white m-2"
-          onClick={() => additems2()}
-        >
-          1490~
-        </button>
-        <button
-          className="h-8 w-16 bg-green-500 rounded-lg text-white m-2"
-          onClick={() => additems3()}
-        >
-          1580~
-        </button>
-      </div>
-      <div className="w-5/6 m-1">
+    <div>
+      <div className="flex flex row  m-1">
+        <Select
+          options={Array.isArray(categorylist) ? categorylist : []}
+          value={selectedOption2}
+          onChange={handleChange2}
+          isSearchable={true} // 검색 가능한 드롭다운으로 설정
+          placeholder="분류"
+        />
         <Select
           options={Array.isArray(selectlist) ? selectlist : []}
           value={selectedOption}
@@ -392,12 +444,48 @@ export default function Maker() {
           placeholder="재화를 선택하세요"
         />
       </div>
+      <div className="flex flex-row">
+        <button
+          className="h-6 w-12 bg-green-500 rounded-lg text-white m-1"
+          onClick={() => additems()}
+        >
+          1250
+        </button>
+        <button
+          className="h-6 w-12 bg-green-500 rounded-lg text-white m-1"
+          onClick={() => additems2()}
+        >
+          1490
+        </button>
+        <button
+          className="h-6 w-12 bg-green-500 rounded-lg text-white m-1"
+          onClick={() => additems3()}
+        >
+          1580
+        </button>
+        <button
+          className="h-6 w-12 bg-yellow-500 rounded-lg text-white m-1"
+          onClick={() => additems4()}
+        >
+          골드
+        </button>
+        <button
+          className="h-6 w-16 bg-red-500 rounded-lg text-white m-1"
+          onClick={() => additems5()}
+        >
+          더보기
+        </button>
+      </div>
       <table className="table-fixed">
         <thead>
           <tr>
             <th className=" w-32">그림</th>
-            <th className="w-48  ">개수(교환가능,기본)</th>
-            <th className="w-48  ">개수(귀속, 더보기)</th>
+            <th className="w-48 ">
+              {category === "레이드" ? "기본보상" : "교환가능"}
+            </th>
+            <th className="w-48  ">
+              {category === "레이드" ? "더보기" : "교환불가"}
+            </th>
             <th className=" w-32 "></th>
           </tr>
         </thead>
@@ -405,15 +493,15 @@ export default function Maker() {
         <tbody>
           {selectedItems.map((item, index) => (
             <tr key={index}>
-              <td className="h-16 w-16 m-2  ">
+              <td className="grid place-content-center">
                 <img
                   src={item.Icon} // 이미지 파일의 URL을 여기에 입력
                   title={item.Name}
                 />
               </td>
-              <td>
+              <td className="">
                 <input
-                  className="w-32 m-1 rounded-lg text-right"
+                  className="w-5/6 m-1 rounded-lg text-right bg-yellow-50  "
                   type="number"
                   value={item.Quantity}
                   onChange={(e) =>
@@ -421,9 +509,9 @@ export default function Maker() {
                   }
                 ></input>
               </td>
-              <td>
+              <td className="">
                 <input
-                  className="w-32 m-1 rounded-lg text-right"
+                  className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
                   type="number"
                   value={item.Quantity2}
                   onChange={(e) =>
@@ -443,10 +531,10 @@ export default function Maker() {
           ))}
           <tr>
             <td></td>
-            <td style={{ textAlign: "right" }}>{`부분합계 ${totalprice.toFixed(
+            <td style={{ textAlign: "right" }}>{`부분합 ${totalprice.toFixed(
               0
             )} G`}</td>
-            <td style={{ textAlign: "right" }}>{`부분합계 ${totalprice2.toFixed(
+            <td style={{ textAlign: "right" }}>{`부분합 ${totalprice2.toFixed(
               0
             )} G`}</td>
           </tr>
@@ -454,23 +542,23 @@ export default function Maker() {
             <td></td>
             <td></td>
 
-            <td style={{ textAlign: "right" }}>{`전체 합 ${totalprice3.toFixed(
+            <td style={{ textAlign: "right" }}>{`총합 ${totalprice3.toFixed(
               0
             )} G`}</td>
           </tr>
         </tbody>
       </table>
       <div className="flex flex-row items-center justify-center">
-        <div>
+        <div className="flex flex-col">
           <input
-            className="w-5/6 m-1 rounded-lg text-right"
+            className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
             type="text"
-            placeholder="컨텐츠, 상자 이름"
+            placeholder="컨텐츠 이름"
             onChange={handleTitleChange}
             value={title}
           />
           <input
-            className="w-5/6 m-1 rounded-lg text-right"
+            className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
             type="text"
             placeholder={`${pass}` + " 자동입력방지 문자"}
             onChange={(e) => fillForm(e.target.value)}
@@ -479,15 +567,17 @@ export default function Maker() {
         </div>
         <div>
           <button
-            className="h-8 w-16 bg-blue-500 rounded-lg text-white m-2"
-            onClick={() => handleValueListMake(title, selectedItems, form)}
+            className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+            onClick={() =>
+              handleValueListMake(title, selectedItems, category, form)
+            }
           >
             저장
           </button>
         </div>
         <div>
           <button
-            className="h-8 w-16 bg-red-500 rounded-lg text-white m-2"
+            className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
             onClick={handleClearTable}
           >
             비우기
@@ -500,6 +590,6 @@ export default function Maker() {
         <br /> 2.개수를 정하면 전일 평균가로 계산합니다.
         <br /> 3.이름을 적고 저장하면 타인도 볼수있습니다.
       </div>
-    </main>
+    </div>
   );
 }

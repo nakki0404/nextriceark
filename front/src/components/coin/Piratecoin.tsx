@@ -34,15 +34,14 @@ export default function Piratecoin() {
   };
   return (
     <div>
-      <h1>해적주화</h1>
       <div style={{ maxHeight: "800px", overflowY: "auto" }}>
         <table>
           <thead>
             <tr>
               <th>이름</th>
-              <th>개수</th>
-              <th>골드가치</th>
-              <th>주화개수</th>
+              <th className="hidden md:table-cell">개수</th>
+              <th className="hidden md:table-cell">골드가치</th>
+              <th className="hidden md:table-cell">주화개수</th>
               <th>
                 골드/주화
                 <span
@@ -58,9 +57,11 @@ export default function Piratecoin() {
             {newarray.map((item, index) => (
               <tr key={index}>
                 <td>{item.Name}</td>
-                <td>{item.Quntaty}</td>
-                <td>{item.Price.toFixed(0)}</td>
-                <td>{item.Coin}</td>
+                <td className="hidden md:table-cell">{item.Quntaty}</td>
+                <td className="hidden md:table-cell">
+                  {item.Price.toFixed(0)}
+                </td>
+                <td className="hidden md:table-cell">{item.Coin}</td>
                 <td>{item.Rate.toFixed(4)}</td>
               </tr>
             ))}
@@ -69,7 +70,7 @@ export default function Piratecoin() {
       </div>
       *주의
       <br />
-      골드/주화는 주화 1개당 골드 가치를 말한다.
+      골드/주화는 주화 1개당 골드 가치
     </div>
   );
 }

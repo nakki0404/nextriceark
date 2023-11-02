@@ -93,17 +93,17 @@ export default function Bloodcoin() {
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
+
   return (
     <div>
-      <h1>실마엘 혈석</h1>
       <div style={{ maxHeight: "800px", overflowY: "auto" }}>
         <table>
           <thead>
             <tr>
               <th>이름</th>
-              <th>개수</th>
-              <th>골드가치</th>
-              <th>주화개수</th>
+              <th className="hidden md:table-cell">개수</th>
+              <th className="hidden md:table-cell">골드가치</th>
+              <th className="hidden md:table-cell">주화개수</th>
               <th>
                 골드/주화
                 <span
@@ -119,9 +119,11 @@ export default function Bloodcoin() {
             {newarray.map((item, index) => (
               <tr key={index}>
                 <td>{item.Name}</td>
-                <td>{item.Quntaty}</td>
-                <td>{item.Price.toFixed(0)}</td>
-                <td>{item.Coin}</td>
+                <td className="hidden md:table-cell">{item.Quntaty}</td>
+                <td className="hidden md:table-cell">
+                  {item.Price.toFixed(0)}
+                </td>
+                <td className="hidden md:table-cell">{item.Coin}</td>
                 <td>{item.Rate.toFixed(4)}</td>
               </tr>
             ))}
@@ -132,14 +134,15 @@ export default function Bloodcoin() {
       <br />
       골드/주화는 주화 1개당 골드 가치
       <br />
-      적정 구매레벨 미만 입장권은 효율이 표기보다 안좋을 수있음.
+      큐브 보상은 교환불가 재료까지 포함한 가치
       <br />
-      -교환불가 재료까지 포함한 가치
+      입장권 상자의 등장 확률 실링 80% 입장권 20%
       <br />
-      -입장권 상자의 등장 확률 실링 80% 입장권 20%
+      상위 재료, 입장권 구매시 하위 재료는 사지 않는게 낫다.
       <br />
       보조재 상자의 등장 확률 가호 3% 축복 24.7% 은총 72.3%
       <br />
+      아이스펭 최적 재련에 보조재료가 안뜨면 사지 않는게 낫다.
     </div>
   );
 }

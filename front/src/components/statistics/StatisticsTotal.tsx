@@ -30,41 +30,13 @@ export default function StatisticsTotal() {
     }))
   );
   const list2 = list;
-  console.log(list2);
-  let newar = [];
   let result = 0;
-  let result10 = 0;
-  let result11 = 0;
-  let result12 = 0;
-  let result13 = 0;
-  let result14 = 0;
-  let result15 = 0;
   list2.map((e) => e.Stats.map((i) => i.AvgPrice * i.TradeCount));
   for (let e of list2) {
     for (let i of e.Stats) {
       result += i.AvgPrice * i.TradeCount;
-      if (e.Category === "재련") {
-        result10 += i.AvgPrice * i.TradeCount;
-      } else if (e.Category === "각인") {
-        result11 += i.AvgPrice * i.TradeCount;
-      } else if (e.Category === "음식") {
-        result12 += i.AvgPrice * i.TradeCount;
-      } else if (e.Category === "배템") {
-        result13 += i.AvgPrice * i.TradeCount;
-      } else if (e.Category === "생활") {
-        result14 += i.AvgPrice * i.TradeCount;
-      } else if (e.Category === "모험") {
-        result15 += i.AvgPrice * i.TradeCount;
-      }
     }
   }
-  console.log(result10 / result);
-  console.log(result11 / result);
-  console.log(result12 / result);
-  console.log(result13 / result);
-  console.log(result14 / result);
-  console.log(result15 / result);
-  // 재련 각인 요리 배템 모험 생활 각 총합 따로
   const combinedData1: Stat[] = [].concat(...allDate);
 
   function calculateResult(combinedData: Stat[]): {
@@ -122,7 +94,7 @@ export default function StatisticsTotal() {
 
   return (
     <div>
-      <h1>일별 성장 재료 거래 대금</h1>
+      <h1>재련 각인 요리 배템 모험 생활</h1>
       <h6>거래대금=평균가*거래량</h6>
       <BarChart
         width={375}

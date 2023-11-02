@@ -81,6 +81,7 @@ export default function LoginForm() {
           <button className="px-4 py-2">회원가입</button>
         </Link>
       </div>
+      아무기능도없으니 가입하지마시오
     </div>
   );
 }

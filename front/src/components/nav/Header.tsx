@@ -7,6 +7,7 @@ import logoutimage from "../../asset/png/icons8-logout-64.png";
 import statisticimage from "../../asset/png/icons8-statistic-64.png";
 import coinimage from "../../asset/png/icons8-coin-64.png";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { useAppSelector } from "@/store/store";
 import { setLogin } from "@/store/slices/isLogin";
@@ -21,6 +22,8 @@ export default function Header() {
     localStorage.removeItem("token");
     dispatch(setLogin(false));
   };
+  const pathname = usePathname();
+  const isCurrentPage = (targetPath: string) => pathname.includes(targetPath);
   return (
     <div className="bg-yellow-50 flex flex-row justify-between">
       <div>
@@ -32,44 +35,62 @@ export default function Header() {
             width={32}
             height={32}
           />
-          <div className="text-xl">쌀로아</div>
+          <div className="text-xl hidden md:table-cell">쌀로아</div>
         </Link>
       </div>
       <div>
-        <Link href="/Calculator/Maker" className="flex flex-row">
-          <Image
-            src={calculatorimage}
-            alt="calculator icon by Icons8"
-            title="calculator icon by Icons8"
-            width={32}
-            height={32}
-          />
-          <div className="text-xl">재화계산기</div>
-        </Link>
+        <button
+          className={`flex flex-row ${
+            isCurrentPage("/Calculator") ? "shadow-xl bg-yellow-500" : ""
+          }`}
+        >
+          <Link href="/Calculator/Maker" className="flex flex-row">
+            <Image
+              src={calculatorimage}
+              alt="calculator icon by Icons8"
+              title="calculator icon by Icons8"
+              width={32}
+              height={32}
+            />
+            <div className="text-xl hidden md:table-cell">재화계산기</div>
+          </Link>
+        </button>
       </div>
       {/* <div>
-        <Link href="/Statistics/Summary" className="flex flex-row">
-          <Image
-            src={statisticimage}
-            alt="statistic icon by Icons8"
-            title="statistic icon by Icons8"
-            width={32}
-            height={32}
-          />
-          <div className="text-xl">거래소통계</div>
-        </Link>
+        <button
+          className={`flex flex-row ${
+            isCurrentPage("/Statistics") ? "shadow-xl bg-yellow-500" : ""
+          }`}
+        >
+          <Link href="/Statistics/Summary" className="flex flex-row ">
+            <Image
+              src={statisticimage}
+              alt="statistic icon by Icons8"
+              title="statistic icon by Icons8"
+              width={32}
+              height={32}
+            />
+            <div className="text-xl hidden md:table-cell">거래소통계</div>
+          </Link>
+        </button>
       </div> */}
       <div>
-        <Link href="/Coin/Blood" className="flex flex-row">
-          <Image
-            src={coinimage}
-            alt="coin icon by Icons8"
-            title="coin icon by Icons8"
-            width={32}
-            height={32}
-          />
-          <div className="text-xl">주화효율</div>
-        </Link>
+        <button
+          className={`flex flex-row ${
+            isCurrentPage("/Coin") ? "shadow-xl bg-yellow-500" : ""
+          }`}
+        >
+          <Link href="/Coin/Blood" className="flex flex-row">
+            <Image
+              src={coinimage}
+              alt="coin icon by Icons8"
+              title="coin icon by Icons8"
+              width={32}
+              height={32}
+            />
+            <div className="text-xl hidden md:table-cell">주화효율</div>
+          </Link>
+        </button>
       </div>
       {!loginstate ? (
         <Link href="/Login" className="flex flex-row">
@@ -80,7 +101,7 @@ export default function Header() {
             width={32}
             height={32}
           />
-          <div className="text-xl">로그인</div>
+          <div className="text-xl hidden md:table-cell">로그인</div>
         </Link>
       ) : (
         <div className="flex flex-row" onClick={logOut}>

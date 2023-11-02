@@ -15,6 +15,7 @@ export interface Item {
 }
 export interface ContentLists {
   _id?: string;
+  Category: string;
   Title: string;
   List: Item[];
   __v?: number;
