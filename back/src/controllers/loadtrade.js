@@ -51,7 +51,7 @@ const loadtrade = async () => {
       for (let i = 0; i < IdList.length; i++) {
         promises.push(getPageData(IdList[i].Id));
         if ((i + 1) % 90 === 0) {
-          await delay(90000); // 65초 대기
+          await delay(65000); // 65초 대기
           console.log("pause");
         }
       }
