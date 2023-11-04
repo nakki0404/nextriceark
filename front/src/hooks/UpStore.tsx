@@ -10,7 +10,7 @@ import { addmarketItems } from "@/store/slices/marketItems";
 import { addtradedata } from "@/store/slices/tradeData";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-import { addcontentlists } from "@/store/slices/contentLists";
+import { addcontentLists } from "@/store/slices/contentLists";
 
 import type { ContentLists } from "@/types/ContentLists";
 import type { MarketItems } from "@/types/MarketItems";
@@ -28,7 +28,7 @@ export default function UpStore() {
       });
     getContentLists()
       .then((response: ContentLists[]) => {
-        response.map((item: ContentLists) => dispatch(addcontentlists(item)));
+        response.map((item: ContentLists) => dispatch(addcontentLists(item)));
       })
       .catch((error) => {
         console.error("Error:", error);
