@@ -11,7 +11,7 @@ import { AppDispatch } from "@/store/store";
 
 import { addmarketItems } from "@/store/slices/marketItems";
 import { addtradeData } from "@/store/slices/tradeData";
-import { addcontentLists } from "@/store/slices/contentLists";
+import { addcontentlists } from "@/store/slices/contentlists";
 
 import type { ContentLists } from "@/types/ContentLists";
 import type { MarketItems } from "@/types/MarketItems";
@@ -29,7 +29,7 @@ export default function UpStore() {
       });
     getContentLists()
       .then((response: ContentLists[]) => {
-        response.map((item: ContentLists) => dispatch(addcontentLists(item)));
+        response.map((item: ContentLists) => dispatch(addcontentlists(item)));
       })
       .catch((error) => {
         console.error("Error:", error);

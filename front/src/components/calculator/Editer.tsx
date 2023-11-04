@@ -4,8 +4,8 @@ import { useAppSelector } from "@/store/store";
 import Select from "react-select";
 import {
   updateContentByKey,
-  delcontentLists,
-} from "@/store/slices/contentLists";
+  delcontentlists,
+} from "@/store/slices/contentlists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import type { ContentLists, Item } from "@/types/ContentLists";
@@ -209,7 +209,7 @@ export default function Editer() {
   };
   const handleValueListdel = (_id: string) => {
     dispatch(
-      delcontentLists({
+      delcontentlists({
         _id: uuid,
       })
     );

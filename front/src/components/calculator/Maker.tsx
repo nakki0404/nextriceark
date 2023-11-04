@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
-import { addcontentLists } from "@/store/slices/contentLists";
+import { addcontentlists } from "@/store/slices/contentlists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import type { Item } from "@/types/ContentLists";
@@ -177,7 +177,7 @@ export default function Maker() {
     let uuid = uuidv4();
     if (title !== "" && selectedItems.length !== 0 && form !== "") {
       dispatch(
-        addcontentLists({
+        addcontentlists({
           _id: uuid,
           Title: title,
           List: selectedItems,
