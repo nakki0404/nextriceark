@@ -1,4 +1,5 @@
 "use client";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import riceimage from "../../asset/png/icons8-rice-64.png";
 import calculatorimage from "../../asset/png/icons8-calculator-64.png";
@@ -10,17 +11,24 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { useAppSelector } from "@/store/store";
-import { setLogin } from "@/store/slices/isLogin";
+import { setloginstate } from "@/store/slices/loginstate";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 
 export default function Header() {
-  const loginstate = useAppSelector((state) => state.loginreducer);
+  const loginstate = useAppSelector((state: any) => state.loginstatereducer);
   const dispatch = useDispatch<AppDispatch>();
-
+  useEffect(() => {
+    const savedData: any = localStorage.getItem("localStorageKey5");
+    if (savedData) {
+      console.log(JSON.parse(savedData));
+      dispatch(setloginstate(JSON.parse(savedData)));
+    }
+  }, []);
   const logOut = () => {
+    localStorage.removeItem("localStorageKey5");
     localStorage.removeItem("token");
-    dispatch(setLogin(false));
+    dispatch(setloginstate({ isLogin: false, ID: "" }));
   };
   const pathname = usePathname();
   const isCurrentPage = (targetPath: string) => pathname.includes(targetPath);
@@ -92,7 +100,7 @@ export default function Header() {
           </Link>
         </button>
       </div>
-      {!loginstate ? (
+      {!loginstate.isLogin ? (
         <Link href="/Login" className="flex flex-row">
           <Image
             src={loginimage}
@@ -112,7 +120,7 @@ export default function Header() {
             width={32}
             height={32}
           />
-          <div className="text-xl">로그아웃</div>
+          <div className="text-xl hidden md:table-cell">로그아웃</div>
         </div>
       )}
     </div>

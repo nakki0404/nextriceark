@@ -2,25 +2,27 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
-import { addcontentlists } from "@/store/slices/contentLists";
+import {
+  addcontentlists,
+  updateContentByKey,
+  delcontentlists,
+} from "@/store/slices/contentLists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
-import type { Item } from "@/types/ContentLists";
-import { v4 as uuidv4 } from "uuid";
-export default function Maker() {
+import type { ContentLists, Item } from "@/types/ContentLists";
+import { tokenToString } from "typescript";
+export default function Editer() {
   const dispatch = useDispatch<AppDispatch>();
   const newlist = useAppSelector((state) => state.marketItemsreducer);
-  let loginstate = useAppSelector((state: any) => state.loginstatereducer); // 이 부분은 해당 상태의 유형을 명시적으로 지정해야합니다.
-
-  const [localStorageKey] = useState("tableDataKey"); // 로컬 저장소 키
+  let loginstate = useAppSelector((state: any) => state.loginstatereducer);
+  const [localStorageKey] = useState("tableDataKey4"); // 로컬 저장소 키
   useEffect(() => {
     const savedData: any = localStorage.getItem(localStorageKey);
     if (savedData) {
       setSelectedItems(JSON.parse(savedData));
     }
   }, [localStorageKey]);
-  type selectedItems = {
-    _id: string;
+  interface selectedItems {
     Id: number;
     Category: String;
     Name: string;
@@ -33,8 +35,7 @@ export default function Maker() {
     CurrentMinPrice: number;
     Quantity: number;
     Quantity2: number;
-    __v: number;
-  };
+  }
   const [title, setTitle] = useState("");
   const [selectedItems, setSelectedItems] = useState<selectedItems[]>([]);
   const handleQuantityChange = (index: number, quantity: number) => {
@@ -47,8 +48,8 @@ export default function Maker() {
   };
   const handleQuantityChange2 = (index: number, quantity: number) => {
     setSelectedItems((prevSelectedItems) => {
-      const updatedItems = [...selectedItems];
-      updatedItems[index].Quantity2 = Math.max(0, quantity); // 최소값 0으로 설정
+      let updatedItems = [...selectedItems];
+      updatedItems[index].Quantity2 = Math.max(0, quantity);
       localStorage.setItem(localStorageKey, JSON.stringify(updatedItems));
       return updatedItems;
     });
@@ -80,15 +81,12 @@ export default function Maker() {
     localStorage.removeItem(localStorageKey);
   };
 
-  type selectedOption =
-    | {
-        label: string;
-        value: string;
-      }
-    | undefined;
+  interface selectedOption {
+    label: string;
+    value: string;
+  }
 
-  const [selectedOption, setSelectedOption] =
-    useState<selectedOption>(undefined);
+  const [selectedOption, setSelectedOption] = useState<any>("");
 
   useEffect(() => {
     if (selectedOption) {
@@ -96,17 +94,6 @@ export default function Maker() {
       handleDropdownSelect(newData);
     }
   }, [selectedOption]);
-
-  // let selectlist: { label: string; value: string }[] = [];
-
-  // newlist.map((i) =>
-  //   i.ItemList.map((e) => selectlist.push({ label: e.Name, value: e.Name }))
-  // );
-  // console.log(selectlist);
-
-  // const handleChange = (selected: any = {}) => {
-  //   setSelectedOption(selected);
-  // };
   let selectlist =
     Array.isArray(newlist) &&
     newlist.map((e) => ({ label: e.Name, value: e.Name }));
@@ -167,17 +154,16 @@ export default function Maker() {
     setForm(value);
   };
   const handleValueListMake = (
+    _id: string,
     title: string,
     selectedItems: Item[],
     category: string,
     form: string,
-    _id?: string,
-    ID?: any
+    id?: string
   ) => {
-    let uuid = uuidv4();
-    if (title !== "" && selectedItems.length !== 0 && form !== "") {
+    if (title !== "" && selectedItems.length !== 0) {
       dispatch(
-        addcontentlists({
+        updateContentByKey({
           _id: uuid,
           Title: title,
           List: selectedItems,
@@ -189,6 +175,7 @@ export default function Maker() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           Item: {
@@ -201,7 +188,7 @@ export default function Maker() {
           Pass: form,
         }),
       };
-      fetch(process.env.REACT_APP_BACKEND_URL + "/update1", requestOptions)
+      fetch(process.env.REACT_APP_BACKEND_URL + "/update2", requestOptions)
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -214,12 +201,51 @@ export default function Maker() {
         .catch((error) => {
           console.error("Error updating data:", error);
         });
-      setSelectedItems([]);
-      setTitle("");
-      localStorage.removeItem(localStorageKey);
-      setForm("");
-      touch();
+      // setSelectedItems([]);
+      // setTitle("");
+      // localStorage.removeItem(localStorageKey);
+      // setForm("");
+      // touch();
     }
+  };
+  const handleValueListdel = (_id: string) => {
+    dispatch(
+      delcontentlists({
+        _id: uuid,
+      })
+    );
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify({
+        Item: {
+          _id: uuid,
+          ID: loginstate.ID,
+        },
+        Pass: form,
+      }),
+    };
+    fetch(process.env.REACT_APP_BACKEND_URL + "/delete1", requestOptions)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data updated successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error updating data:", error);
+      });
+    setSelectedItems([]);
+    setTitle("");
+    localStorage.removeItem(localStorageKey);
+    setForm("");
+    touch();
   };
   function additems() {
     setSelectedItems((prevSelectedItems: any) => {
@@ -227,42 +253,25 @@ export default function Maker() {
         ...prevSelectedItems,
         {
           ...newlist.find((e: any) => e.Name === "수호석 결정"),
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
-          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "파괴석 결정"))
-          //   ?.ItemList.find((i) => i.Name === "파괴석 결정"),
           ...newlist.find((e: any) => e.Name === "파괴석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) =>
-          //     e.ItemList.find((i) => i.Name === "위대한 명예의 돌파석")
-          //   )
-          //   ?.ItemList.find((i) => i.Name === "위대한 명예의 돌파석"),
           ...newlist.find((e: any) => e.Name === "위대한 명예의 돌파석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "오레하 융화 재료"))
-          //   ?.ItemList.find((i) => i.Name === "오레하 융화 재료"),
           ...newlist.find((e: any) => e.Name === "오레하 융화 재료"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
-          //   ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
           ...newlist.find((e: any) => e.Name === "명예의 파편(낱개)"),
           Quantity: 0,
           Quantity2: 0,
@@ -278,42 +287,25 @@ export default function Maker() {
         ...prevSelectedItems,
         {
           ...newlist.find((e: any) => e.Name === "수호강석"),
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
-          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "파괴석 결정"))
-          //   ?.ItemList.find((i) => i.Name === "파괴석 결정"),
           ...newlist.find((e: any) => e.Name === "파괴강석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) =>
-          //     e.ItemList.find((i) => i.Name === "위대한 명예의 돌파석")
-          //   )
-          //   ?.ItemList.find((i) => i.Name === "위대한 명예의 돌파석"),
           ...newlist.find((e: any) => e.Name === "경이로운 명예의 돌파석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "오레하 융화 재료"))
-          //   ?.ItemList.find((i) => i.Name === "오레하 융화 재료"),
           ...newlist.find((e: any) => e.Name === "상급 오레하 융화 재료"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
-          //   ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
           ...newlist.find((e: any) => e.Name === "명예의 파편(낱개)"),
           Quantity: 0,
           Quantity2: 0,
@@ -329,42 +321,25 @@ export default function Maker() {
         ...prevSelectedItems,
         {
           ...newlist.find((e: any) => e.Name === "정제된 수호강석"),
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
-          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "파괴석 결정"))
-          //   ?.ItemList.find((i) => i.Name === "파괴석 결정"),
           ...newlist.find((e: any) => e.Name === "정제된 파괴강석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) =>
-          //     e.ItemList.find((i) => i.Name === "위대한 명예의 돌파석")
-          //   )
-          //   ?.ItemList.find((i) => i.Name === "위대한 명예의 돌파석"),
           ...newlist.find((e: any) => e.Name === "찬란한 명예의 돌파석"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "오레하 융화 재료"))
-          //   ?.ItemList.find((i) => i.Name === "오레하 융화 재료"),
           ...newlist.find((e: any) => e.Name === "최상급 오레하 융화 재료"),
           Quantity: 0,
           Quantity2: 0,
         },
         {
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "명예의 파편(낱개)"))
-          //   ?.ItemList.find((i) => i.Name === "명예의 파편(낱개)"),
           ...newlist.find((e: any) => e.Name === "명예의 파편(낱개)"),
           Quantity: 0,
           Quantity2: 0,
@@ -379,9 +354,6 @@ export default function Maker() {
         ...prevSelectedItems,
         {
           ...newlist.find((e: any) => e.Name === "골드"),
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
-          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
@@ -395,9 +367,6 @@ export default function Maker() {
         ...prevSelectedItems,
         {
           ...newlist.find((e: any) => e.Name === "더보기 골드"),
-          // ...newlist
-          //   .find((e) => e.ItemList.find((i) => i.Name === "수호석 결정"))
-          //   ?.ItemList.find((i) => i.Name === "수호석 결정"),
           Quantity: 0,
           Quantity2: 0,
         },
@@ -405,8 +374,25 @@ export default function Maker() {
       return updatedItems;
     });
   }
-
+  function additems6(newdata: any) {
+    newdata.List.forEach((i: any) => {
+      setSelectedItems((prevSelectedItems: any) => {
+        const updatedItems = [
+          ...prevSelectedItems,
+          {
+            ...newlist.find((e: any) => e.Name === i.Name),
+            Quantity: i.Quantity,
+            Quantity2: i.Quantity2,
+          },
+        ];
+        localStorage.setItem(localStorageKey, JSON.stringify(updatedItems));
+        return updatedItems;
+      });
+    });
+  }
+  //handleDropdownSelect3 방식이랑 차이 생각좀 해보자.
   const [category, setCategory] = useState("");
+  const [uuid, setUuid] = useState("");
   const categorylist = [
     {
       label: "레이드",
@@ -425,8 +411,7 @@ export default function Maker() {
       value: "카던",
     },
   ];
-  const [selectedOption2, setSelectedOption2] =
-    useState<selectedOption>(undefined);
+  const [selectedOption2, setSelectedOption2] = useState<any>("");
 
   useEffect(() => {
     if (selectedOption2) {
@@ -434,8 +419,65 @@ export default function Maker() {
       setCategory(newData2);
     }
   }, [selectedOption2]);
+
+  const contentvalues = useAppSelector((state) => state.contentvaluesreducer);
+  const toFixList: any = [];
+  contentvalues.forEach((i) => {
+    if (i.ID === loginstate.ID) {
+      let obj = {
+        label: i.Title,
+        value: i.Title,
+      };
+      toFixList.push(obj);
+    }
+  });
+
+  const [selectedOption3, setSelectedOption3] = useState<any>("");
+  let arr = [...contentvalues];
+  useEffect(() => {
+    if (selectedOption3) {
+      const newData: any = arr.find((i) => i.Title === selectedOption3.value);
+      // handleDropdownSelect3(newData);
+      console.log(newData);
+      additems6(newData);
+      setCategory(newData?.Category);
+      setTitle(newData?.Title);
+      setUuid(newData?._id);
+    }
+  }, [selectedOption3]);
+  const handleChange3 = (selected: any = {}) => {
+    setSelectedOption3(selected);
+  };
+  // const handleDropdownSelect3 = (data: any) => {
+  //   // if (selectedItems.some((item) => item.Name === data)) {
+  //   //   console.log("중복");
+  //   // } else {
+  //   setSelectedItems((prevSelectedItems) => {
+  //     const updatedItems = [
+  //       ...prevSelectedItems,
+  //       // {
+  //       //   ...newlist.find((e: any) => e.Name === data),
+  //       //   Quantity: 0,
+  //       //   Quantity2: 0,
+  //       // }, 기존 목록추가 방식
+  //       ...data.List,
+  //     ];
+  //     // console.log(updatedItems);
+  //     localStorage.setItem(localStorageKey, JSON.stringify(updatedItems));
+  //     return updatedItems;
+  //   });
+  //   // } 조건 무시
+  // };
+
   return (
     <div>
+      <Select
+        options={Array.isArray(toFixList) ? toFixList : []}
+        value={selectedOption3}
+        onChange={handleChange3}
+        isSearchable={true} // 검색 가능한 드롭다운으로 설정
+        placeholder="수정 가능한 목록"
+      />
       <div className="flex flex row  m-1">
         <Select
           options={Array.isArray(categorylist) ? categorylist : []}
@@ -565,38 +607,36 @@ export default function Maker() {
             onChange={handleTitleChange}
             value={title}
           />
-          <input
-            className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
-            type="text"
-            placeholder={`${pass}` + " 자동입력방지 문자"}
-            onChange={(e) => fillForm(e.target.value)}
-            value={form}
-          />
         </div>
         <div>
           <button
-            className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+            className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
             onClick={() =>
-              handleValueListMake(title, selectedItems, category, form)
+              handleValueListMake(
+                uuid,
+                title,
+                selectedItems,
+                category,
+                loginstate.ID,
+                form
+              )
             }
           >
-            저장
+            수정
           </button>
         </div>
         <div>
           <button
             className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
-            onClick={handleClearTable}
+            onClick={() => handleValueListdel(uuid)}
           >
-            비우기
+            삭제
           </button>
         </div>
       </div>
       <div>
         설명
-        <br /> 1.재화를 검색하고 선택하면 추가됩니다.
-        <br /> 2.개수를 정하면 전일 평균가로 계산합니다.
-        <br /> 3.이름을 적고 저장하면 타인도 볼수있습니다.
+        <br /> 로그인해서 만든 본인 것만 수정 가능합니다
       </div>
     </div>
   );

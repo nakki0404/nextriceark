@@ -18,6 +18,7 @@ export interface ContentLists {
   Category: string;
   Title: string;
   List: Item[];
+  ID?: any;
   __v?: number;
 }
 [];

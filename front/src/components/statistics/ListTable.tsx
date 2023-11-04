@@ -1,11 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
-
+import Select from "react-select";
 export default function ListTable() {
   const list = useAppSelector((state) => state.tradedatareducer);
   const lists = useAppSelector((state) => state.marketItemsreducer);
-  console.log(lists);
 
   let exArray = list.map((e: any) => ({
     Name: e.Name,
@@ -59,10 +58,52 @@ export default function ListTable() {
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
+  const categorylist = [
+    {
+      label: "재련",
+      value: "재련",
+    },
+    {
+      label: "생활",
+      value: "생활",
+    },
+    {
+      label: "모험",
+      value: "모험",
+    },
+    {
+      label: "음식",
+      value: "음식",
+    },
+    {
+      label: "각인",
+      value: "각인",
+    },
+    {
+      label: "베템",
+      value: "베템",
+    },
+  ];
+  const [selectedOption2, setSelectedOption2] = useState<any>(undefined);
 
+  useEffect(() => {
+    if (selectedOption2) {
+      const newData2 = selectedOption2.value;
+      setCategory(newData2);
+    }
+  }, [selectedOption2]);
+  const handleChange2 = (selected: any = {}) => {
+    setSelectedOption2(selected);
+  };
   return (
     <div>
-      <h1>전날 비교 </h1>
+      <Select
+        options={Array.isArray(categorylist) ? categorylist : []}
+        value={selectedOption2}
+        onChange={handleChange2}
+        isSearchable={true} // 검색 가능한 드롭다운으로 설정
+        placeholder="분류"
+      />
       <div style={{ maxHeight: "800px", overflowY: "auto" }}>
         <table>
           <thead>

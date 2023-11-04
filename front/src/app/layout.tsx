@@ -12,8 +12,9 @@ import Header2 from "@/components/nav/Header2";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "RiceArk",
+  title: "쌀로아",
   description: "쌀로아입니다",
+  icons: "favicon.ico",
 };
 
 export default function RootLayout({
@@ -23,7 +24,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head />
       <body className={inter.className}>
         <ReduxProvider>
           <UpStore />

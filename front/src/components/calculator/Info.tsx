@@ -5,6 +5,7 @@ import Select from "react-select";
 import { useAppSelector } from "@/store/store";
 import type { Item } from "@/types/ContentLists";
 import type { ContentLists } from "@/types/ContentLists";
+import { useSearchParams } from "next/navigation";
 export default function Info() {
   const marketallitems = useAppSelector((state) => state.marketItemsreducer);
   const contentvalues = useAppSelector((state) => state.contentvaluesreducer);
@@ -45,10 +46,17 @@ export default function Info() {
   const [data, setData] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<any>(null);
   const list = contentvalues.map((e) => ({ label: e.Title, value: e.Title }));
+  const searchParams = useSearchParams();
 
+  const search = searchParams.get("search");
   const handleChange = (selected: any) => {
     setSelectedOption(selected);
   };
+  useEffect(() => {
+    if (search) {
+      setSelectedTitle(search);
+    }
+  }, [search]);
 
   useEffect(() => {
     if (selectedOption) {
@@ -56,7 +64,7 @@ export default function Info() {
       setData(newData);
       handleDropdownSelect(newData);
     }
-  }, [selectedOption]);
+  }, [selectedOption, search]);
 
   const handleDropdownSelect = (title: string) => {
     if (title !== selectedTitle) {

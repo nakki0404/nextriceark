@@ -229,7 +229,6 @@ app.post("/api/Login", async (req, res) => {
   if (user) {
     const payload = {
       ID: user.ID,
-      Password: user.Password,
       Role: user.Role,
       iat: Math.floor(Date.now() / 1000), // 토큰 발행 시간 (Unix 타임스탬프)
       exp: Math.floor(Date.now() / 1000) + 60 * 60, // 1시간 후 만료
@@ -246,7 +245,7 @@ app.post("/api/signup", async (req, res) => {
   const user = req.body; // 클라이언트에서 보낸 사용자 데이터
   // if (Prevent.findOne({Num:user.Pass})) {
   const existingpass = Prevent.find({ Num: user.Pass });
-  if (existingpass) {
+  if (existingpass.length > 0) {
     await Prevent.deleteMany({ Num: user.Pass });
     // if (passNum.includes(String(user.Pass))) {
     try {
@@ -273,31 +272,71 @@ app.post("/api/signup", async (req, res) => {
     }
   }
 });
-// passport.authenticate('jwt', { session: false })
-app.post("/api/delete1", checkAdminRole, async (req, res) => {
-  const { Title } = req.body; // 클라이언트에서 보낸 Title 데이터
-  console.log(Title);
+app.post("/api/forget", async (req, res) => {
+  const user = req.body; // 클라이언트에서 보낸 사용자 데이터
   try {
-    // MarketItem 컬렉션에서 해당하는 Title 값을 가진 문서 삭제
-    const result = await MarketItem.deleteOne({ Title });
-
-    if (result.deletedCount === 1) {
-      console.log("Document deleted successfully");
-      res.status(200).json("True");
+    const existingUser = await User.findOne({ ID: user.Item.ID });
+    if (existingUser) {
+      // 동일한 아이디를 가진 사용자가 없는 경우
+      res.json(existingUser.Question);
     } else {
-      console.log("Document not found");
-      res.status(404).json({ message: "Document not found" });
+      // 이미 동일한 아이디를 가진 사용자가 있는 경우
+      res.status(409).json({ error: "User with this ID already exists" });
     }
   } catch (error) {
-    console.error("Error deleting document:", error);
+    console.error("Error updating data:", error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+app.post("/api/forget2", async (req, res) => {
+  const user = req.body; // 클라이언트에서 보낸 사용자 데이터
+  try {
+    const existingUser = await User.findOne({
+      ID: user.Item.ID,
+      Question: user.Item.Question,
+      Answer: user.Item.Answer,
+    });
+    if (existingUser) {
+      // 동일한 아이디를 가진 사용자가 없는 경우
+      res.json(existingUser.Password);
+    } else {
+      // 이미 동일한 아이디를 가진 사용자가 있는 경우
+      res.status(409).json({ error: "User with this ID already exists" });
+    }
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+// passport.authenticate('jwt', { session: false })
+app.post("/api/delete1", async (req, res) => {
+  const list = req.body; // 클라이언트에서 보낸 Title 데이터
+  const token = req.headers.authorization;
+  const realtoken = token.split(" ")[1];
+  const decoded = jwt.verify(realtoken, process.env.JWT_KEY);
+  if (decoded.ID === list.Item.ID) {
+    try {
+      // MarketItem 컬렉션에서 해당하는 Title 값을 가진 문서 삭제
+      const result = await MarketItem.deleteOne({ _id: list.Item._id });
+
+      if (result.deletedCount === 1) {
+        console.log("Document deleted successfully");
+        res.status(200).json("True");
+      } else {
+        console.log("Document not found");
+        res.status(404).json({ message: "Document not found" });
+      }
+    } catch (error) {
+      console.error("Error deleting document:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 });
 
 app.post("/api/report", async (req, res) => {
   const lists = req.body; // 클라이언트에서 보낸 lists 데이터
   const existingpass = await Prevent.find({ Num: lists.Pass });
-  if (existingpass) {
+  if (existingpass.length > 0) {
     await Prevent.deleteMany({ Num: lists.Pass });
     // if (Prevent.findOne({ Num: lists.Pass })) {
     // if (passNum.includes(String(lists.Pass))) {
@@ -358,17 +397,49 @@ app.post("/api/update", async (req, res) => {
 
 app.post("/api/update1", async (req, res) => {
   const list = req.body; // 클라이언트에서 보낸 lists 데이터
-  const existingpass = await Prevent.find({ Num: list.Pass });
-  if (existingpass) {
-    await Prevent.deleteMany({ Num: list.Pass });
-    // if (passNum.includes(String(list.Pass))) {
-    try {
+  console.log(list);
+  try {
+    const existingpass = await Prevent.find({ Num: list.Pass });
+    if (existingpass.length > 0) {
+      await Prevent.deleteMany({ Num: list.Pass });
+      // if (passNum.includes(String(list.Pass))) {
       // 데이터베이스 업데이트 처리
       // 예시: 데이터 삭제 후 새로운 데이터 추가
       await MarketItem.insertMany(list.Item); // 새로운 데이터 추가
       //state db구조 손을 봐야할듯...일단은 그냥 고고
       res.status(200).json({ message: "Data updated successfully" });
       console.log(list);
+    }
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+// const token = req.headers.authorization;
+// const realtoken = token.split(" ")[1];
+// const decoded = jwt.verify(realtoken, process.env.JWT_KEY);
+// const token2 = jwt.sign(decoded, process.env.JWT_KEY);
+// 아이디 검증 과정
+app.post("/api/update2", async (req, res) => {
+  const list = req.body; // 클라이언트에서 보낸 lists 데이터
+  const token = req.headers.authorization;
+  const realtoken = token.split(" ")[1];
+  const decoded = jwt.verify(realtoken, process.env.JWT_KEY);
+  // if (passNum.includes(String(list.Pass))) {
+  if (decoded.ID === list.Item.ID) {
+    try {
+      await MarketItem.updateOne(
+        { _id: list.Item._id },
+        {
+          $set: {
+            Title: list.Item.Title,
+            List: list.Item.List,
+            Category: list.Item.Category,
+          },
+        }
+      );
+      //state db구조 손을 봐야할듯...일단은 그냥 고고
+      res.status(200).json({ message: "Data updated successfully" });
     } catch (error) {
       console.error("Error updating data:", error);
       res.status(500).json({ error: "Internal server error" });

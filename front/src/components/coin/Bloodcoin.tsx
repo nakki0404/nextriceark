@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import bloodcoin from "@/asset/data/bloodcoin.json";
 import cube from "@/asset/data/cube.json";
+import Select from "react-select";
 export default function Bloodcoin() {
   const list = useAppSelector((state) => state.marketItemsreducer);
 
@@ -93,9 +94,148 @@ export default function Bloodcoin() {
   const toggleSortOrder = () => {
     setSortOrder(sortOrder === "asc" ? "desc" : "asc");
   };
+  const levellist = [
+    {
+      label: "1250+",
+      value: "1250",
+    },
+    {
+      label: "1490+",
+      value: "1490",
+    },
+    {
+      label: "1540+",
+      value: "1540",
+    },
+    {
+      label: "1580+",
+      value: "1580",
+    },
+
+    {
+      label: "1620+",
+      value: "1620",
+    },
+  ];
+  const [selectedOption2, setSelectedOption2] = useState<any>(undefined);
+  const [level, setlevel] = useState<string>("1620");
+  useEffect(() => {
+    if (selectedOption2) {
+      const newData2 = selectedOption2.value;
+      setlevel(newData2);
+    }
+  }, [selectedOption2]);
+  const handleChange2 = (selected: any = {}) => {
+    setSelectedOption2(selected);
+  };
+  const levelfilter: any = {
+    1250: [
+      "자경단의 입장권 상자3",
+      "자경단의 입장권 상자2",
+      "자경단의 입장권 상자1",
+
+      "위대한 명예의 돌파석",
+      "파괴석 결정3",
+      "파괴석 결정2",
+      "파괴석 결정1",
+
+      "태양의 보조재 상자3",
+      "태양의 보조재 상자2",
+      "태양의 보조재 상자1",
+      "명예의 파편 주머니(소)",
+      "명예의 파편 주머니(소)",
+      "현자의 가루3",
+      "명예의 파편 주머니(소)",
+      "현자의 가루2",
+      "현자의 가루1",
+    ],
+    1490: [
+      "기사단의 입장권 상자2",
+      "기사단의 입장권 상자3",
+      "기사단의 입장권 상자1",
+
+      "파괴강석1",
+      "파괴강석2",
+      "경이로운 명예의 돌파석",
+      "태양의 보조재 상자3",
+      "태양의 보조재 상자2",
+      "태양의 보조재 상자1",
+      "명예의 파편 주머니(소)",
+      "명예의 파편 주머니(소)",
+      "현자의 가루3",
+      "명예의 파편 주머니(소)",
+      "현자의 가루2",
+      "현자의 가루1",
+    ],
+    1540: [
+      "기사단의 입장권 상자2",
+      "기사단의 입장권 상자3",
+      "기사단의 입장권 상자1",
+
+      "타이예르의 입장권 상자1",
+      "타이예르의 입장권 상자2",
+
+      "파괴강석1",
+      "파괴강석2",
+      "경이로운 명예의 돌파석",
+      "태양의 보조재 상자3",
+      "태양의 보조재 상자2",
+      "태양의 보조재 상자1",
+      "명예의 파편 주머니(소)",
+      "명예의 파편 주머니(소)",
+      "현자의 가루3",
+      "명예의 파편 주머니(소)",
+      "현자의 가루2",
+      "현자의 가루1",
+    ],
+    1580: [
+      "라제니스의 입장권 상자2",
+      "라제니스의 입장권 상자1",
+
+      "찬란한 명예의 돌파석",
+      "정제된 파괴강석",
+
+      "태양의 보조재 상자3",
+      "태양의 보조재 상자2",
+      "태양의 보조재 상자1",
+      "명예의 파편 주머니(소)",
+      "명예의 파편 주머니(소)",
+      "현자의 가루3",
+      "명예의 파편 주머니(소)",
+      "현자의 가루2",
+      "현자의 가루1",
+    ],
+    1620: [
+      "현자의 입장권 상자2",
+      "현자의 입장권 상자1",
+
+      "라제니스의 입장권 상자2",
+      "라제니스의 입장권 상자1",
+
+      "찬란한 명예의 돌파석",
+      "정제된 파괴강석",
+
+      "태양의 보조재 상자3",
+      "태양의 보조재 상자2",
+      "태양의 보조재 상자1",
+      "명예의 파편 주머니(소)",
+      "명예의 파편 주머니(소)",
+      "현자의 가루3",
+      "명예의 파편 주머니(소)",
+      "현자의 가루2",
+      "현자의 가루1",
+    ],
+  };
 
   return (
     <div>
+      <Select
+        options={Array.isArray(levellist) ? levellist : []}
+        value={selectedOption2}
+        onChange={handleChange2}
+        isSearchable={true} // 검색 가능한 드롭다운으로 설정
+        placeholder="구매 캐릭터 레벨 : 1620 설정"
+      />
       <div style={{ maxHeight: "800px", overflowY: "auto" }}>
         <table>
           <thead>
@@ -116,17 +256,23 @@ export default function Bloodcoin() {
             </tr>
           </thead>
           <tbody>
-            {newarray.map((item, index) => (
-              <tr key={index}>
-                <td>{item.Name}</td>
-                <td className="hidden md:table-cell">{item.Quntaty}</td>
-                <td className="hidden md:table-cell">
-                  {item.Price.toFixed(0)}
-                </td>
-                <td className="hidden md:table-cell">{item.Coin}</td>
-                <td>{item.Rate.toFixed(4)}</td>
-              </tr>
-            ))}
+            {newarray.map((item, index) => {
+              if (levelfilter[level].includes(item.Name)) {
+                return (
+                  <tr key={index}>
+                    <td>{item.Name}</td>
+                    <td className="hidden md:table-cell">{item.Quntaty}</td>
+                    <td className="hidden md:table-cell">
+                      {item.Price.toFixed(0)}
+                    </td>
+                    <td className="hidden md:table-cell">{item.Coin}</td>
+                    <td>{item.Rate.toFixed(4)}</td>
+                  </tr>
+                );
+              } else {
+                return null;
+              }
+            })}
           </tbody>
         </table>
       </div>
@@ -138,11 +284,11 @@ export default function Bloodcoin() {
       <br />
       입장권 상자의 등장 확률 실링 80% 입장권 20%
       <br />
-      상위 재료, 입장권 구매시 하위 재료는 사지 않는게 낫다.
-      <br />
       보조재 상자의 등장 확률 가호 3% 축복 24.7% 은총 72.3%
       <br />
-      아이스펭 최적 재련에 보조재료가 안뜨면 사지 않는게 낫다.
+      경우에따라 다른 레벨대 입장권 효율이 더 좋을 수 있다.
+      <br />
+      보조재 쓸일없으면 안사는게 낫다
     </div>
   );
 }

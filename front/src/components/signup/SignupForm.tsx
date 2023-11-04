@@ -9,41 +9,60 @@ export default function SignupForm() {
   const router = useRouter();
   const [ID, setID] = useState<string>("");
   const [Password, setPassword] = useState<string>("");
+  const [Password2, setPassword2] = useState<string>("");
+  const [Question, setQuestion] = useState<string>("");
+  const [Anwser, setAnwser] = useState<string>("");
   const handleIDChange = (e: ChangeEvent<HTMLInputElement>) => {
     setID(e.target.value); // 입력된 값을 title 상태에 저장
   };
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value); // 입력된 값을 title 상태에 저장
   };
+  const handlePassword2Change = (e: ChangeEvent<HTMLInputElement>) => {
+    setPassword2(e.target.value); // 입력된 값을 title 상태에 저장
+  };
+  const handleQuestionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuestion(e.target.value); // 입력된 값을 title 상태에 저장
+  };
+  const handleAnwserChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setAnwser(e.target.value); // 입력된 값을 title 상태에 저장
+  };
   // 로그인 정보
   const handleSignup = (form: string) => {
     const requestBody = {
-      Item: { ID: ID, Password: Password, Role: "" },
+      Item: {
+        ID: ID,
+        Password: Password,
+        Role: "",
+        Question: Question,
+        Anwser: Anwser,
+      },
       Pass: form,
     };
-
-    fetch(process.env.REACT_APP_BACKEND_URL + "/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Error updating data: ${response.status}`);
-        }
-        return response.json();
+    if (ID !== "" && Password !== "" && form !== "") {
+      fetch(process.env.REACT_APP_BACKEND_URL + "/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
       })
-      .then((data) => {
-        console.log("Data updated successfully:", data);
-        setID("");
-        setPassword("");
-        router.push("/Login");
-      })
-      .catch((error) => {
-        console.error("Error updating data:", error.message);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Error updating data: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Data updated successfully:", data);
+          setID("");
+          setPassword("");
+          router.push("/Login");
+        })
+        .catch((error) => {
+          console.error("Error updating data:", error.message);
+        });
+    }
   };
   const [pass, setPass] = useState<string>("");
 
@@ -91,9 +110,33 @@ export default function SignupForm() {
         onChange={handlePasswordChange}
         value={Password}
       ></input>
+      <div>비밀번호 재확인</div>
       <input
-        type="number"
-        placeholder={`${pass}` + "를 입력해주세요 자동입력방지"}
+        className="w-11/12 h-12 px-4 py-2"
+        type="password"
+        placeholder="password"
+        onChange={handlePassword2Change}
+        value={Password2}
+      ></input>
+      <div>비밀번호 찾기 질문</div>
+      <input
+        className="w-11/12 h-12 px-4 py-2"
+        type="text"
+        placeholder="Question"
+        onChange={handleQuestionChange}
+        value={Question}
+      ></input>
+      <div>답변</div>
+      <input
+        className="w-11/12 h-12 px-4 py-2"
+        type="text"
+        placeholder="Anwser"
+        onChange={handleAnwserChange}
+        value={Anwser}
+      ></input>
+      <input
+        type="string"
+        placeholder={`${pass}` + "자동입력방지"}
         onChange={(e) => fillForm(e.target.value)}
         value={form}
       />

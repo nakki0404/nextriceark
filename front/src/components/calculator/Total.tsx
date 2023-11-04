@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
 import Link from "next/link";
+
+import { useRouter } from "next/navigation";
 export default function Total() {
   let contentvalues = useAppSelector(
     (state: any) => state.contentvaluesreducer
@@ -10,6 +12,7 @@ export default function Total() {
 
   const [sortType, setSortType] = useState<string | null>(null);
   const [sortDescending, setSortDescending] = useState<boolean>(true);
+
   const handleSortChange = (newSortType: string) => {
     if (newSortType === sortType) {
       setSortDescending(!sortDescending);
@@ -59,8 +62,8 @@ export default function Total() {
   const [category, setCategory] = useState("");
   const categorylist = [
     {
-      label: "레이드 보상",
-      value: "레이드 보상",
+      label: "레이드",
+      value: "레이드",
     },
     {
       label: "상자",
@@ -86,7 +89,7 @@ export default function Total() {
       setCategory(newData2);
     }
   }, [selectedOption2]);
-
+  const router = useRouter();
   return (
     <div>
       <div className="flex flex-row"></div>
@@ -103,8 +106,8 @@ export default function Total() {
               />
             </th>
 
-            <th>{category === "레이드" ? "기본보상" : "교환가능"}</th>
-            <th>{category === "레이드" ? "기본보상" : "교환가능"}</th>
+            <th>{category === "레이드" ? "기본" : "교환가능"}</th>
+            <th>{category === "레이드" ? "더보기" : "교환불가"}</th>
             <th>
               총합
               <span
@@ -122,7 +125,17 @@ export default function Total() {
             .filter((i) => i.Category.includes(category))
             .map((item: any, index: number) => (
               <tr key={index}>
-                <td>{item.Title} </td>
+                <td>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      router.push(`/Calculator/Info?search=${item.Title}`)
+                    }
+                  >
+                    {item.Title}
+                  </button>
+                </td>
+
                 <td className="text-right">
                   {item.totalprice.toFixed(0).toLocaleString()} G
                 </td>
@@ -136,6 +149,7 @@ export default function Total() {
             ))}
         </tbody>
       </table>
+      이름 누르면 상세보기 페이지로 넘어갑니다.
     </div>
   );
 }

@@ -45,6 +45,17 @@ export default function Header2() {
               <div className="text-xl">상세보기</div>
             </Link>
           </button>
+          <button
+            className={`flex flex-row ${
+              isCurrentPage("/Calculator/Editer")
+                ? "shadow-xl bg-yellow-100"
+                : ""
+            }`}
+          >
+            <Link href="/Calculator/Editer" className="flex flex-row">
+              <div className="text-xl">수정하기</div>
+            </Link>
+          </button>
         </>
       ) : pathname.includes("Statistics") ? (
         <>
@@ -86,7 +97,7 @@ export default function Header2() {
         <>
           <button
             className={`flex flex-row ${
-              isCurrentPage("/Coin/Bloodcoin") ? "shadow-xl bg-yellow-100" : ""
+              isCurrentPage("/Coin/Blood") ? "shadow-xl bg-yellow-100" : ""
             }`}
           >
             <Link href="/Coin/Blood" className="flex flex-row">

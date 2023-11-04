@@ -3,14 +3,14 @@ import { useSelector, useDispatch, TypedUseSelectorHook } from "react-redux";
 
 import marketItemsreducer from "./slices/marketItems";
 import contentvaluesreducer from "./slices/contentLists";
-import loginreducer from "./slices/isLogin";
+import loginstatereducer from "./slices/loginstate";
 import tradedatareducer from "./slices/tradeData";
 
 export const store = configureStore({
   reducer: {
     marketItemsreducer,
     contentvaluesreducer,
-    loginreducer,
+    loginstatereducer,
     tradedatareducer,
   },
 });
