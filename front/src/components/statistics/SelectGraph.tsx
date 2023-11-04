@@ -27,7 +27,7 @@ export default function SelectGraph() {
       }
     | undefined;
 
-  const lists = useAppSelector((state) => state.tradedatareducer);
+  const lists = useAppSelector((state) => state.tradeDatareducer);
   const list: { label: string; value: Stat[] }[] = lists.map((e) => ({
     label: e.Name,
     value: e.Stats,

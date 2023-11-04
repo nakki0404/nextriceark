@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
 export default function ListTable() {
-  const list = useAppSelector((state) => state.tradedatareducer);
+  const list = useAppSelector((state) => state.tradeDatareducer);
   const lists = useAppSelector((state) => state.marketItemsreducer);
 
   let exArray = list.map((e: any) => ({
@@ -89,7 +89,7 @@ export default function ListTable() {
   useEffect(() => {
     if (selectedOption2) {
       const newData2 = selectedOption2.value;
-      setCategory(newData2);
+      newData2;
     }
   }, [selectedOption2]);
   const handleChange2 = (selected: any = {}) => {

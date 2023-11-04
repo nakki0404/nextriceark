@@ -33,7 +33,7 @@ const data = [
 ];
 
 export default function StatisticsPartialTotal2() {
-  const lists = useAppSelector((state) => state.tradedatareducer);
+  const lists = useAppSelector((state) => state.tradeDatareducer);
   //stats 내부에 그날 합 객체를 추가한 배열을 얻어보자. list는 변경이 안된다일단.
   // let array: any = [];
   // lists.forEach((i) => {

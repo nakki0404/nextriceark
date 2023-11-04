@@ -53,7 +53,7 @@ const renderTooltipContent = (o: any): JSX.Element => {
 };
 
 export default function StatisticsPartialTotal() {
-  const list = useAppSelector((state) => state.tradedatareducer);
+  const list = useAppSelector((state) => state.tradeDatareducer);
 
   function calculateResults(indices: number[]): any {
     const resultArray: any[] = [];

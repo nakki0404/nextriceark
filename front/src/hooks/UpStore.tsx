@@ -6,10 +6,11 @@ import getMarketItems from "@/api/getMarketItems";
 import getContentLists from "@/api/getContentLists";
 import getTradeData from "@/api/getTradeData";
 
-import { addmarketItems } from "@/store/slices/marketItems";
-import { addtradeData } from "@/store/slices/tradeData";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
+
+import { addmarketItems } from "@/store/slices/marketItems";
+import { addtradeData } from "@/store/slices/tradeData";
 import { addcontentLists } from "@/store/slices/contentLists";
 
 import type { ContentLists } from "@/types/ContentLists";

@@ -20,7 +20,7 @@ interface ResultData {
 }
 
 export default function StatisticsTotal() {
-  const list = useAppSelector((state) => state.tradedatareducer);
+  const list = useAppSelector((state) => state.tradeDatareducer);
 
   const allDate: any = list.map((e) =>
     e.Stats.map((item) => ({

@@ -33,7 +33,7 @@ const data = [
 ];
 
 export default function StatisticsPartialTotal2() {
-  const lists = useAppSelector((state) => state.tradedatareducer);
+  const lists = useAppSelector((state) => state.tradeDatareducer);
 
   return (
     <ResponsiveContainer width="100%" height="100%">
