@@ -174,7 +174,10 @@ export default function Maker() {
     _id?: string,
     ID?: any
   ) => {
-    let uuid = uuidv4();
+    const [uuid, setUuid] = useState("");
+    useEffect(() => {
+      setUuid(uuidv4());
+    }, [uuid]);
     if (title !== "" && selectedItems.length !== 0 && form !== "") {
       dispatch(
         addcontentlists({
@@ -191,14 +194,11 @@ export default function Maker() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          Item: {
-            _id: uuid,
-            Title: title,
-            List: selectedItems,
-            Category: category,
-            ID: loginstate.ID,
-          },
-          Pass: form,
+          _id: uuid,
+          Title: title,
+          List: selectedItems,
+          Category: category,
+          ID: loginstate.ID,
         }),
       };
       fetch(
@@ -222,6 +222,7 @@ export default function Maker() {
       localStorage.removeItem(localStorageKey);
       setForm("");
       setCategory("");
+      setUuid("");
       touch();
     }
   };

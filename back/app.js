@@ -400,15 +400,9 @@ app.post("/api/update1", async (req, res) => {
   const list = req.body; // 클라이언트에서 보낸 lists 데이터
   console.log(list);
   try {
-    const existingpass = await Prevent.find({ Num: list.Pass });
-    if (existingpass.length > 0) {
-      const deleteResult = await Prevent.deleteMany({ Num: list.Pass });
-      if (deleteResult.deletedCount > 0) {
-        const insertResult = await MarketItem.insertMany(list.Item);
-        console.log(insertResult);
-        res.status(200).json({ message: "Data updated successfully" });
-      }
-    }
+    const insertResult = await MarketItem.insertMany(list);
+    console.log(insertResult);
+    res.status(200).json({ message: "Data updated successfully" });
   } catch (error) {
     console.error("Error updating data:", error);
     res.status(500).json({ error: "Internal server error" });
