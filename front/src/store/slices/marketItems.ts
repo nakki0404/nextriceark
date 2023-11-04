@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { MarketItems } from "@/types/MarketItems";
 const initialState: MarketItems[] = [];
 export const marketItems = createSlice({
-  name: "marketitems",
+  name: "marketItems",
   initialState,
   reducers: {
     addmarketItems: (state, action: PayloadAction<MarketItems>) => {

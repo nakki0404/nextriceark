@@ -2,14 +2,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { ContentLists } from "@/types/ContentLists";
 const initialState: ContentLists[] = [];
-export const contentlists = createSlice({
-  name: "contentlists",
+export const contentLists = createSlice({
+  name: "contentLists",
   initialState,
   reducers: {
-    addcontentlists: (state, action: PayloadAction<ContentLists>) => {
+    addcontentLists: (state, action: PayloadAction<ContentLists>) => {
       state.push(action.payload);
     },
-    delcontentlists: (state, action: PayloadAction<{ _id: string }>) => {
+    delcontentLists: (state, action: PayloadAction<{ _id: string }>) => {
       // 특정 _id와 일치하는 항목 제거
       return state.filter((item) => item._id !== action.payload._id);
     },
@@ -34,6 +34,6 @@ export const contentlists = createSlice({
     },
   },
 });
-export const { addcontentlists, updateContentByKey, delcontentlists } =
-  contentlists.actions;
-export default contentlists.reducer;
+export const { addcontentLists, updateContentByKey, delcontentLists } =
+  contentLists.actions;
+export default contentLists.reducer;

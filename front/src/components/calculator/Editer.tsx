@@ -4,7 +4,7 @@ import { useAppSelector } from "@/store/store";
 import Select from "react-select";
 import {
   updateContentByKey,
-  delcontentlists,
+  delcontentLists,
 } from "@/store/slices/contentLists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
@@ -209,7 +209,7 @@ export default function Editer() {
   };
   const handleValueListdel = (_id: string) => {
     dispatch(
-      delcontentlists({
+      delcontentLists({
         _id: uuid,
       })
     );
@@ -419,7 +419,7 @@ export default function Editer() {
     }
   }, [selectedOption2]);
 
-  const contentvalues = useAppSelector((state) => state.contentlistsreducer);
+  const contentvalues = useAppSelector((state) => state.contentListsreducer);
   const toFixList: any = [];
   contentvalues.forEach((i) => {
     if (i.ID === loginstate.ID) {

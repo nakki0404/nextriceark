@@ -6,9 +6,7 @@ import Link from "next/link";
 
 import { useRouter } from "next/navigation";
 export default function Total() {
-  let contentvalues = useAppSelector(
-    (state: any) => state.contentvaluesreducer
-  ); // 이 부분은 해당 상태의 유형을 명시적으로 지정해야합니다.
+  let contentvalues = useAppSelector((state: any) => state.contentListsreducer); // 이 부분은 해당 상태의 유형을 명시적으로 지정해야합니다.
 
   const [sortType, setSortType] = useState<string | null>(null);
   const [sortDescending, setSortDescending] = useState<boolean>(true);
