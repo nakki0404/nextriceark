@@ -133,8 +133,9 @@ app.get("/api/touch", async (req, res) => {
   // 0부터 9999까지의 난수 생성
   const randomNum = Math.floor(Math.random() * 100000);
   const formattedNum = String(randomNum).padStart(5, "0");
-  await Prevent.insertMany({ Num: formattedNum });
+  const insertResult = await Prevent.insertMany({ Num: formattedNum });
   // 난수를 4자리 문자열로 변환
+  console.log(insertResult);
   res.send(formattedNum);
 });
 
@@ -259,8 +260,8 @@ app.post("/api/signup", async (req, res) => {
           user.Item.Role = "user"; // 일반적인 사용자에게는 "user" 권한을 부여
         }
 
-        await User.insertMany(user.Item); // 새로운 데이터 추가
-
+        const newUser = await User.insertMany(user.Item); // 새로운 데이터 추가
+        console.log(newUser);
         res.status(201).json({ message: "Data updated successfully" });
       } else {
         // 이미 동일한 아이디를 가진 사용자가 있는 경우
@@ -401,14 +402,12 @@ app.post("/api/update1", async (req, res) => {
   try {
     const existingpass = await Prevent.find({ Num: list.Pass });
     if (existingpass.length > 0) {
-      await Prevent.deleteMany({ Num: list.Pass });
-      // if (passNum.includes(String(list.Pass))) {
-      // 데이터베이스 업데이트 처리
-      // 예시: 데이터 삭제 후 새로운 데이터 추가
-      await MarketItem.insertMany(list.Item); // 새로운 데이터 추가
-      //state db구조 손을 봐야할듯...일단은 그냥 고고
-      res.status(200).json({ message: "Data updated successfully" });
-      console.log(list);
+      const deleteResult = await Prevent.deleteMany({ Num: list.Pass });
+      if (deleteResult.deletedCount > 0) {
+        const insertResult = await MarketItem.insertMany(list.Item);
+        console.log(insertResult);
+        res.status(200).json({ message: "Data updated successfully" });
+      }
     }
   } catch (error) {
     console.error("Error updating data:", error);
@@ -428,7 +427,7 @@ app.post("/api/update2", async (req, res) => {
   // if (passNum.includes(String(list.Pass))) {
   if (decoded.ID === list.Item.ID) {
     try {
-      await MarketItem.updateOne(
+      const insertResult = await MarketItem.updateOne(
         { _id: list.Item._id },
         {
           $set: {
@@ -438,6 +437,7 @@ app.post("/api/update2", async (req, res) => {
           },
         }
       );
+      console.log(insertResult);
       //state db구조 손을 봐야할듯...일단은 그냥 고고
       res.status(200).json({ message: "Data updated successfully" });
     } catch (error) {
