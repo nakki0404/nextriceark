@@ -22,7 +22,7 @@ export default function ForgetPW() {
     const requestBody = {
       Item: { ID: ID },
     };
-    fetch(process.env.REACT_APP_BACKEND_URL + "/forget", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/forget", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,7 +46,7 @@ export default function ForgetPW() {
     const requestBody = {
       Item: { ID: ID, Anwser: Anwser, Question: Question },
     };
-    fetch(process.env.REACT_APP_BACKEND_URL + "/forget2", {
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/forget2", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

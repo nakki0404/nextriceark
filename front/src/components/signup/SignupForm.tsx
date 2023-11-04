@@ -40,7 +40,7 @@ export default function SignupForm() {
       Pass: form,
     };
     if (ID !== "" && Password !== "" && form !== "") {
-      fetch(process.env.REACT_APP_BACKEND_URL + "/signup", {
+      fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -67,7 +67,7 @@ export default function SignupForm() {
   const [pass, setPass] = useState<string>("");
 
   const touch = () => {
-    fetch(process.env.REACT_APP_BACKEND_URL + "/touch")
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/touch")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

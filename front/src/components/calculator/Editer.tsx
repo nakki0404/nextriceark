@@ -131,7 +131,7 @@ export default function Editer() {
   };
   const [pass, setPass] = useState("");
   const touch = () => {
-    fetch(process.env.REACT_APP_BACKEND_URL + "/touch")
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/touch")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -187,7 +187,10 @@ export default function Editer() {
           Pass: form,
         }),
       };
-      fetch(process.env.REACT_APP_BACKEND_URL + "/update2", requestOptions)
+      fetch(
+        process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/update2",
+        requestOptions
+      )
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -227,7 +230,10 @@ export default function Editer() {
         Pass: form,
       }),
     };
-    fetch(process.env.REACT_APP_BACKEND_URL + "/delete1", requestOptions)
+    fetch(
+      process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/delete1",
+      requestOptions
+    )
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");

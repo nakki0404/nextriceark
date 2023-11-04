@@ -26,7 +26,7 @@ export default function LoginForm() {
       Password: Password,
     };
     if (ID && Password) {
-      fetch(`${process.env.REACT_APP_BACKEND_URL}/Login`, {
+      fetch(`${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/Login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

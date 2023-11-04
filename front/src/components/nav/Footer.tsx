@@ -6,7 +6,7 @@ export default function Footer() {
   const createCookie = () => {
     if (document.cookie.includes("user")) {
     } else {
-      fetch(process.env.REACT_APP_BACKEND_URL + "/total")
+      fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/total")
         .then((response) => {
           if (!response.ok) {
             throw new Error("Network response was not ok");
@@ -25,7 +25,7 @@ export default function Footer() {
               coo: document.cookie,
             },
           };
-          fetch(process.env.REACT_APP_BACKEND_URL + "/count", {
+          fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/count", {
             method: "POST",
             headers: config.headers,
             body: null,
@@ -40,7 +40,7 @@ export default function Footer() {
 
   useEffect(() => {
     // API 호출을 useEffect 내부로 이동
-    fetch(process.env.REACT_APP_BACKEND_URL + "/total")
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/total")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -50,7 +50,7 @@ export default function Footer() {
       .then((data) => setTotal(data))
       .catch((error) => console.error("Error fetching total data:", error));
 
-    fetch(process.env.REACT_APP_BACKEND_URL + "/howmany")
+    fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/howmany")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
