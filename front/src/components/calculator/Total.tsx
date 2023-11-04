@@ -23,29 +23,32 @@ export default function Total() {
   };
 
   let newarray = [];
-  for (let i = 0; i < contentvalues.length; i++) {
-    let e = contentvalues[i];
-    let totalprice = e
-      ? e.List.reduce(
-          (a: any, i: any) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
-          0
-        )
-      : 0;
-    let totalprice2 = e
-      ? e.List.reduce(
-          (a: any, i: any) =>
-            a + (i.Quantity2 * i.YDayAvgPrice) / i.BundleCount,
-          0
-        )
-      : 0;
-    let obj = {
-      Title: e.Title,
-      totalprice: totalprice,
-      totalprice2: totalprice2,
-      totalprice3: totalprice + totalprice2,
-      Category: e.Category,
-    };
-    newarray.push(obj);
+  if (contentvalues) {
+    for (let i = 0; i < contentvalues.length; i++) {
+      let e = contentvalues[i];
+      let totalprice = e
+        ? e.List.reduce(
+            (a: any, i: any) =>
+              a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+            0
+          )
+        : 0;
+      let totalprice2 = e
+        ? e.List.reduce(
+            (a: any, i: any) =>
+              a + (i.Quantity2 * i.YDayAvgPrice) / i.BundleCount,
+            0
+          )
+        : 0;
+      let obj = {
+        Title: e.Title,
+        totalprice: totalprice,
+        totalprice2: totalprice2,
+        totalprice3: totalprice + totalprice2,
+        Category: e.Category,
+      };
+      newarray.push(obj);
+    }
   }
   let sortedList = [...newarray];
 
