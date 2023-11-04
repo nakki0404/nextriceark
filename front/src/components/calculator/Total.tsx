@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 export default function Total() {
   let contentvalues: any = useAppSelector(
-    (state: any) => state.contentListsreducer
+    (state: any) => state.contentlistsreducer
   ); // 이 부분은 해당 상태의 유형을 명시적으로 지정해야합니다.
 
   const [sortType, setSortType] = useState<string | null>(null);
@@ -23,33 +23,31 @@ export default function Total() {
   };
 
   let newarray = [];
-  if (contentvalues) {
-    for (let i = 0; i < contentvalues.length; i++) {
-      let e = contentvalues[i];
-      let totalprice = e
-        ? e.List.reduce(
-            (a: any, i: any) =>
-              a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
-            0
-          )
-        : 0;
-      let totalprice2 = e
-        ? e.List.reduce(
-            (a: any, i: any) =>
-              a + (i.Quantity2 * i.YDayAvgPrice) / i.BundleCount,
-            0
-          )
-        : 0;
-      let obj = {
-        Title: e.Title,
-        totalprice: totalprice,
-        totalprice2: totalprice2,
-        totalprice3: totalprice + totalprice2,
-        Category: e.Category,
-      };
-      newarray.push(obj);
-    }
+  for (let i = 0; i < contentvalues.length; i++) {
+    let e = contentvalues[i];
+    let totalprice = e
+      ? e.List.reduce(
+          (a: any, i: any) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+          0
+        )
+      : 0;
+    let totalprice2 = e
+      ? e.List.reduce(
+          (a: any, i: any) =>
+            a + (i.Quantity2 * i.YDayAvgPrice) / i.BundleCount,
+          0
+        )
+      : 0;
+    let obj = {
+      Title: e.Title,
+      totalprice: totalprice,
+      totalprice2: totalprice2,
+      totalprice3: totalprice + totalprice2,
+      Category: e.Category,
+    };
+    newarray.push(obj);
   }
+
   let sortedList = [...newarray];
 
   if (sortType === "Value") {
