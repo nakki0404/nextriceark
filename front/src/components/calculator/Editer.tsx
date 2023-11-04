@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
 import {
-  addcontentlists,
   updateContentByKey,
   delcontentlists,
 } from "@/store/slices/contentLists";
