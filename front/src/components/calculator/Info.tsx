@@ -8,7 +8,7 @@ import type { ContentLists } from "@/types/ContentLists";
 import { useSearchParams } from "next/navigation";
 export default function Info() {
   const marketallitems = useAppSelector((state) => state.marketItemsreducer);
-  const contentvalues = useAppSelector((state) => state.contentListsreducer);
+  const contentvalues = useAppSelector((state) => state.contentlistsreducer);
   const [selectedTitle, setSelectedTitle] = useState<string | null>(null);
   const [selectedListItem, setSelectedListItem] = useState<ContentLists | null>(
     null
