@@ -174,11 +174,9 @@ export default function Maker() {
     _id?: string,
     ID?: any
   ) => {
-    const [uuid, setUuid] = useState("");
-    useEffect(() => {
-      setUuid(uuidv4());
-    }, [uuid]);
     if (title !== "" && selectedItems.length !== 0 && form !== "") {
+      let uuid = uuidv4();
+
       dispatch(
         addcontentlists({
           _id: uuid,
@@ -222,7 +220,6 @@ export default function Maker() {
       localStorage.removeItem(localStorageKey);
       setForm("");
       setCategory("");
-      setUuid("");
       touch();
     }
   };
