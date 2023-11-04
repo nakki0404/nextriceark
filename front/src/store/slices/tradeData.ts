@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { TradeData } from "@/types/TradeData";
 const initialState: TradeData[] = [];
-export const tradedata = createSlice({
-  name: "tradedata",
+export const tradeData = createSlice({
+  name: "tradeData",
   initialState,
   reducers: {
-    addtradedata: (state, action: PayloadAction<TradeData>) => {
+    addtradeData: (state, action: PayloadAction<TradeData>) => {
       state.push(action.payload);
     },
   },
 });
-export const { addtradedata } = tradedata.actions;
-export default tradedata.reducer;
+export const { addtradeData } = tradeData.actions;
+export default tradeData.reducer;

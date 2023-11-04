@@ -11,7 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { useAppSelector } from "@/store/store";
-import { setloginstate } from "@/store/slices/loginstate";
+import { setloginState } from "@/store/slices/loginState";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 
@@ -22,13 +22,13 @@ export default function Header() {
     const savedData: any = localStorage.getItem("localStorageKey5");
     if (savedData) {
       console.log(JSON.parse(savedData));
-      dispatch(setloginstate(JSON.parse(savedData)));
+      dispatch(setloginState(JSON.parse(savedData)));
     }
   }, []);
   const logOut = () => {
     localStorage.removeItem("localStorageKey5");
     localStorage.removeItem("token");
-    dispatch(setloginstate({ isLogin: false, ID: "" }));
+    dispatch(setloginState({ isLogin: false, ID: "" }));
   };
   const pathname = usePathname();
   const isCurrentPage = (targetPath: string) => pathname.includes(targetPath);

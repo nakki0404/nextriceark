@@ -68,6 +68,14 @@ export default function Total() {
       value: "상자",
     },
     {
+      label: "가토",
+      value: "가토",
+    },
+    {
+      label: "카던",
+      value: "카던",
+    },
+    {
       label: "전체",
       value: "",
     },

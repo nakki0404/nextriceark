@@ -7,7 +7,7 @@ import getContentLists from "@/api/getContentLists";
 import getTradeData from "@/api/getTradeData";
 
 import { addmarketItems } from "@/store/slices/marketItems";
-import { addtradedata } from "@/store/slices/tradeData";
+import { addtradeData } from "@/store/slices/tradeData";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import { addcontentLists } from "@/store/slices/contentLists";
@@ -35,7 +35,7 @@ export default function UpStore() {
       });
     getTradeData()
       .then((response: TradeData[]) => {
-        response.map((item: TradeData) => dispatch(addtradedata(item)));
+        response.map((item: TradeData) => dispatch(addtradeData(item)));
       })
       .catch((error) => {
         console.error("Error:", error);
