@@ -5,7 +5,7 @@ import Select from "react-select";
 import {
   updateContentByKey,
   delcontentLists,
-} from "@/store/slices/contentLists";
+} from "../../store/slices/contentLists";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import type { ContentLists, Item } from "@/types/ContentLists";
