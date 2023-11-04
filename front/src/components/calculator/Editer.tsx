@@ -419,7 +419,7 @@ export default function Editer() {
     }
   }, [selectedOption2]);
 
-  const contentvalues = useAppSelector((state) => state.contentvaluesreducer);
+  const contentvalues = useAppSelector((state) => state.contentlistsreducer);
   const toFixList: any = [];
   contentvalues.forEach((i) => {
     if (i.ID === loginstate.ID) {
