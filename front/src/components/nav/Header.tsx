@@ -64,7 +64,7 @@ export default function Header() {
           </Link>
         </button>
       </div>
-      {/* <div>
+      <div>
         <button
           className={`flex flex-row ${
             isCurrentPage("/Statistics") ? "shadow-xl bg-yellow-500" : ""
@@ -81,7 +81,7 @@ export default function Header() {
             <div className="text-xl hidden md:table-cell">거래소통계</div>
           </Link>
         </button>
-      </div> */}
+      </div>
       <div>
         <button
           className={`flex flex-row ${

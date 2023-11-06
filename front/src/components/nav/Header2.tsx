@@ -89,7 +89,7 @@ export default function Header2() {
             }`}
           >
             <Link href="/Statistics/Comparison" className="flex flex-row">
-              <div className="text-xl">비교</div>
+              <div className="text-xl">전일비교</div>
             </Link>
           </button>
         </>

@@ -156,7 +156,7 @@ export default function StatisticsPartialTotal() {
           ticks={[0, 0.25, 0.5, 0.75, 1]}
           tickFormatter={(value) => `${Math.round(value * 100)}%`}
         />
-        <Tooltip content={renderTooltipContent} />
+        <Tooltip />
         <Legend />
         <Area
           type="monotone"

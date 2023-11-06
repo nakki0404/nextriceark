@@ -2,11 +2,20 @@
 import React, { useState, useEffect } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 export default function ListTable() {
+  const router = useRouter();
+
+  const [selectedOption2, setSelectedOption2] = useState<any>("재련");
   const list = useAppSelector((state) => state.tradeDatareducer);
   const lists = useAppSelector((state) => state.marketItemsreducer);
 
-  let exArray = list.map((e: any) => ({
+  const list2 = list.filter((i) => i.Category === selectedOption2);
+  const list3 = list2.filter(
+    (i) => i.Stats[0].TradeCount != 0 && i.Stats[1].TradeCount != 0
+  );
+  let exArray = list3.map((e: any) => ({
     Name: e.Name,
     Today: e.Stats[0],
     Yes: e.Stats[1],
@@ -24,21 +33,8 @@ export default function ListTable() {
     };
   });
 
-  // const removeDuplicates = (arr: any[]) => {
-  //   const seen = new Set();
-  //   return arr.filter((item) => {
-  //     const objectString = JSON.stringify(item);
-  //     if (!seen.has(objectString)) {
-  //       seen.add(objectString);
-  //       return true;
-  //     }
-  //     return false;
-  //   });
-  // };
+  const [sortOrder, setSortOrder] = useState<string>("pricedesc");
 
-  const uniqueArray = newArray;
-  const filteredArray = uniqueArray.filter((item) => !isNaN(item.Change));
-  const [sortOrder, setSortOrder] = useState<string>("desc");
   const sortedArray = newArray.map((e: any) => {
     const matchingItem = lists.find((i: any) => i.Name === e.Name);
     return {
@@ -53,11 +49,24 @@ export default function ListTable() {
     sortedArray.sort((a, b) => a.Change - b.Change);
   } else if (sortOrder === "desc") {
     sortedArray.sort((a, b) => b.Change - a.Change);
+  } else if (sortOrder === "priceasc") {
+    sortedArray.sort((a, b) => a.Price - b.Price);
+  } else if (sortOrder === "pricedesc") {
+    sortedArray.sort((a, b) => b.Price - a.Price);
   }
 
   const toggleSortOrder = () => {
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    if (sortOrder === "asc") {
+      setSortOrder("desc");
+    } else if (sortOrder === "desc") {
+      setSortOrder("asc");
+    } else if (sortOrder === "priceasc") {
+      setSortOrder("pricedesc");
+    } else if (sortOrder === "pricedesc") {
+      setSortOrder("priceasc");
+    }
   };
+
   const categorylist = [
     {
       label: "재련",
@@ -84,16 +93,9 @@ export default function ListTable() {
       value: "베템",
     },
   ];
-  const [selectedOption2, setSelectedOption2] = useState<any>(undefined);
 
-  useEffect(() => {
-    if (selectedOption2) {
-      const newData2 = selectedOption2.value;
-      newData2;
-    }
-  }, [selectedOption2]);
   const handleChange2 = (selected: any = {}) => {
-    setSelectedOption2(selected);
+    setSelectedOption2(selected.value);
   };
   return (
     <div>
@@ -110,14 +112,47 @@ export default function ListTable() {
             <tr>
               <th></th>
               <th>Name</th>
-              <th>TodayPrice</th>
-              <th>
-                Change
+
+              <th
+                className={
+                  sortOrder === "pricedesc" || sortOrder === "priceasc"
+                    ? "bg-yellow-100"
+                    : ""
+                }
+              >
                 <span
-                  onClick={() => toggleSortOrder()}
+                  onClick={() => {
+                    if (sortOrder === "priceasc") {
+                      toggleSortOrder();
+                    } else {
+                      setSortOrder("priceasc");
+                    }
+                  }}
                   style={{ cursor: "pointer" }}
                 >
-                  {sortOrder === "asc" ? "▲" : "▼"}
+                  TodayPrice
+                  {sortOrder === "priceasc" ? "▲" : "▼"}
+                </span>
+              </th>
+              <th
+                className={
+                  sortOrder === "desc" || sortOrder === "asc"
+                    ? "bg-yellow-100"
+                    : ""
+                }
+              >
+                <span
+                  onClick={() => {
+                    if (sortOrder === "asc") {
+                      toggleSortOrder();
+                    } else {
+                      setSortOrder("asc");
+                    }
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  Change
+                  {sortOrder === "asc" ? "▲" : "▼"}{" "}
                 </span>
               </th>
             </tr>
@@ -128,7 +163,15 @@ export default function ListTable() {
                 <td>
                   <img src={item.Icon} title={item.Name} />
                 </td>
-                <td>{item.Name}</td>
+                <button
+                  type="button"
+                  onClick={() =>
+                    router.push(`/Statistics/Search?search=${item.Name}`)
+                  }
+                >
+                  <td>{item.Name}</td>
+                </button>
+
                 <td>{item.Price.toLocaleString() + " G"}</td>
                 <td>{(item.Change * 100).toFixed(2) + " %"}</td>
               </tr>

@@ -192,11 +192,14 @@ export default function Maker() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          _id: uuid,
-          Title: title,
-          List: selectedItems,
-          Category: category,
-          ID: loginstate.ID,
+          Item: {
+            _id: uuid,
+            Title: title,
+            List: selectedItems,
+            Category: category,
+            ID: loginstate.ID,
+          },
+          Pass: form,
         }),
       };
       fetch(

@@ -94,7 +94,6 @@ export default function StatisticsTotal() {
 
   return (
     <div>
-      <h1>재련 각인 요리 배템 모험 생활</h1>
       <h6>거래대금=평균가*거래량</h6>
       <BarChart
         width={375}
@@ -110,9 +109,9 @@ export default function StatisticsTotal() {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="Date" reversed={true} />
         <YAxis tick={<CustomYAxisTick />} />
-        <Tooltip content={renderTooltipContent} />
+        <Tooltip />
         <Legend />
-        <Bar dataKey="일별 거래 대금" fill="#8884d8" />
+        <Bar dataKey="일별 거래 대금" fill="#888ddd" />
       </BarChart>
     </div>
   );

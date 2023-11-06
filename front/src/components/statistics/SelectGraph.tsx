@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 // import Image from "./images/monegi.jpg";
 import Select from "react-select";
 import {
@@ -20,20 +21,28 @@ import { useAppSelector } from "@/store/store";
 import type { Stat } from "@/types/TradeData";
 
 export default function SelectGraph() {
-  type selectedOption =
-    | {
-        label: string;
-        value: Stat[];
-      }
-    | undefined;
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get("search");
+  useEffect(() => {
+    if (search) {
+      let obj = lists.filter((i) => i.Name === search);
+      setData(obj[0].Stats);
+    }
+  }, [search]);
+  // type selectedOption =
+  //   | {
+  //       label: string;
+  //       value: Stat[];
+  //     }
+  //   | undefined;
 
   const lists = useAppSelector((state) => state.tradeDatareducer);
   const list: { label: string; value: Stat[] }[] = lists.map((e) => ({
     label: e.Name,
     value: e.Stats,
   }));
-  const [selectedOption, setSelectedOption] =
-    useState<selectedOption>(undefined);
+  const [selectedOption, setSelectedOption] = useState<any>(undefined);
   const [data, setData] = useState<Stat[]>([]);
 
   useEffect(() => {
