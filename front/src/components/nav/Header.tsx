@@ -7,6 +7,8 @@ import loginimage from "@/asset/png/icons8-login-64.png";
 import logoutimage from "@/asset/png/icons8-logout-64.png";
 import statisticimage from "@/asset/png/icons8-statistic-64.png";
 import coinimage from "@/asset/png/icons8-coin-64.png";
+import recycleimage from "@/asset/png/icons8-recycle-64.png";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -97,6 +99,24 @@ export default function Header() {
               height={32}
             />
             <div className="text-xl hidden md:table-cell">주화효율</div>
+          </Link>
+        </button>
+      </div>
+      <div>
+        <button
+          className={`flex flex-row ${
+            isCurrentPage("/Recycle") ? "shadow-xl bg-yellow-500" : ""
+          }`}
+        >
+          <Link href="/Recycle" className="flex flex-row">
+            <Image
+              src={recycleimage}
+              alt="coin icon by Icons8"
+              title="coin icon by Icons8"
+              width={32}
+              height={32}
+            />
+            <div className="text-xl hidden md:table-cell">악세조합기</div>
           </Link>
         </button>
       </div>

@@ -96,13 +96,13 @@ export default function StatisticsTotal() {
     <div>
       <h6>거래대금=평균가*거래량</h6>
       <BarChart
-        width={375}
-        height={300}
+        width={300}
+        height={275}
         data={data}
         margin={{
           top: 5,
           right: 30,
-          left: 20,
+          left: -10,
           bottom: 5,
         }}
       >

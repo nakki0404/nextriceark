@@ -87,14 +87,14 @@ export default function StatisticsSummary() {
   return (
     <div>
       <div>지난 {date}일동안 6가지 항목 거래 대금 비중</div>
-      <PieChart width={400} height={400}>
+      <PieChart width={300} height={350}>
         <Pie
           data={data}
-          cx={200}
-          cy={200}
+          cx={150}
+          cy={150}
           labelLine={false}
           label={renderCustomizedLabel}
-          outerRadius={150}
+          outerRadius={100}
           fill="#8884d8"
           dataKey="value"
         >

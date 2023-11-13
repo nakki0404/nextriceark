@@ -94,7 +94,7 @@ export default function SignupForm() {
   return (
     <div className=" box-border h-1/2 w-1/2 p-4 border-8">
       <div className="text-xl">쌀로아 회원가입</div>
-      <div className="px-4 py-2">아이디</div>
+      <div className="px-4 py-2">ID</div>
       <input
         className="w-11/12 h-12 px-4 py-2"
         type="text"
