@@ -148,7 +148,11 @@ export default function Total() {
                 <td className="text-right">
                   {item.totalprice.toFixed(0).toLocaleString()} G
                 </td>
-                <td className="text-right">
+                <td
+                  className={`text-right ${
+                    item.totalprice2 < 0 ? "bg-red-100" : ""
+                  }`}
+                >
                   {item.totalprice2.toFixed(0).toLocaleString()} G
                 </td>
                 <td className="text-right">

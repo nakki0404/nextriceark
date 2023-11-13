@@ -22,7 +22,7 @@ export default function Footer() {
           document.cookie = `${cookieName}=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/;`;
           const config = {
             headers: {
-              coo: document.cookie,
+              Cookie: document.cookie,
             },
           };
           fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/count", {

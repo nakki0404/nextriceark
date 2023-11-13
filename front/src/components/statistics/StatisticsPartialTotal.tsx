@@ -139,14 +139,14 @@ export default function StatisticsPartialTotal() {
       <h1>구간별 재련 재료 거래 대금</h1>
       <h6>명파, 숨결을 제외</h6>
       <AreaChart
-        width={375}
-        height={300}
+        width={300}
+        height={275}
         data={data}
         stackOffset="expand"
         margin={{
           top: 10,
           right: 30,
-          left: 0,
+          left: -10,
           bottom: 0,
         }}
       >

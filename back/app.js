@@ -7,6 +7,7 @@ const marketList = require("./src/model/market");
 const MarketItem = require("./src/model/item");
 const User = require("./src/model/user");
 const Report = require("./src/model/report");
+const hasitem = require("./src/model/hasitem");
 
 const trading_data = require("./src/model/trading_data");
 
@@ -182,7 +183,7 @@ app.get("/api/howmany", async (req, res) => {
 
 app.post("/api/count", async (req, res) => {
   try {
-    const visitors = req.headers.coo;
+    const visitors = req.headers.Cookie;
     const existingVisitor = await Visitor.findOne({ Name: visitors });
     if (!existingVisitor) {
       const currentDate = new Date();
@@ -405,11 +406,37 @@ app.post("/api/update1", async (req, res) => {
     try {
       const insertResult = await MarketItem.insertMany(list.Item);
       console.log(insertResult);
-      res.status(200).json({ message: "Data updated successfully" });
+      res.json({ message: "Data updated successfully" });
     } catch (error) {
       console.error("Error updating data:", error);
       res.status(500).json({ error: "Internal server error" });
     }
+  }
+});
+app.post("/api/update3", async (req, res) => {
+  const list = req.body; // 클라이언트에서 보낸 lists 데이터
+  console.log(list);
+  try {
+    const deleteedResult = await hasitem.deleteMany({ ID: list.ID });
+    const insertResult = await hasitem.insertMany(list);
+    console.log(insertResult);
+    res.status(200).json({ message: "Data updated successfully" });
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+app.post("/api/hasitemload", async (req, res) => {
+  const list = req.body; // 클라이언트에서 보낸 lists 데이터
+  console.log(list);
+  try {
+    const insertResult = await hasitem.find({ ID: list.ID });
+    console.log(insertResult);
+    // res.send(insertResult);
+    res.json(insertResult);
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 // const token = req.headers.authorization;
