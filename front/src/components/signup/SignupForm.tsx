@@ -28,7 +28,7 @@ export default function SignupForm() {
     setAnwser(e.target.value); // 입력된 값을 title 상태에 저장
   };
   // 로그인 정보
-  const handleSignup = (form: string) => {
+  const handleSignup = () => {
     const requestBody = {
       Item: {
         ID: ID,
@@ -39,7 +39,8 @@ export default function SignupForm() {
       },
       Pass: form,
     };
-    if (ID !== "" && Password !== "" && form !== "") {
+    if (ID.length > 0 && Password.length > 0 && form.length > 0) {
+      console.log(1);
       fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/signup", {
         method: "POST",
         headers: {
@@ -142,7 +143,7 @@ export default function SignupForm() {
       />
 
       <div className="flex flex-row justify-around ">
-        <button className="px-4 py-2" onClick={() => handleSignup(form)}>
+        <button className="px-4 py-2" onClick={() => handleSignup()}>
           가입신청
         </button>
 

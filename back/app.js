@@ -246,9 +246,12 @@ app.post("/api/Login", async (req, res) => {
 app.post("/api/signup", async (req, res) => {
   const user = req.body; // 클라이언트에서 보낸 사용자 데이터
   // if (Prevent.findOne({Num:user.Pass})) {
-  const existingpass = Prevent.find({ Num: user.Pass });
-  if (existingpass.length > 0) {
-    await Prevent.deleteMany({ Num: user.Pass });
+  console.log(user);
+  const existingpass = await Prevent.findOne({ Num: user.Pass });
+  console.log(existingpass);
+  if (existingpass.Num.length > 0) {
+    const existingpass2 = await Prevent.deleteMany({ Num: user.Pass });
+    console.log(existingpass2);
     // if (passNum.includes(String(user.Pass))) {
     try {
       const existingUser = await User.findOne({ ID: user.Item.ID });
