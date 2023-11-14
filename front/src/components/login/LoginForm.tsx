@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import PopupModal from "@/components/common/PopupModal";
 
 export default function LoginForm() {
   const router = useRouter();
@@ -20,6 +21,25 @@ export default function LoginForm() {
   };
   const dispatch = useDispatch<AppDispatch>();
   // 로그인 정보
+
+  const [isTModalOpen, setTModalOpen] = useState(false);
+  const openTModal = () => {
+    setTModalOpen(true);
+  };
+
+  const closeTModal = () => {
+    setTModalOpen(false);
+  };
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const logIn = () => {
     const loginData = {
       ID: ID,
@@ -56,10 +76,14 @@ export default function LoginForm() {
           setID("");
           setPassword("");
           router.back();
+          openTModal();
         })
         .catch((error) => {
           console.error("Error updating data:", error);
+          openModal();
         });
+    } else {
+      openModal();
     }
   };
 
@@ -87,6 +111,17 @@ export default function LoginForm() {
           로그인
         </button>
 
+        <PopupModal
+          isOpen={isTModalOpen}
+          closeModal={closeTModal}
+          message="로그인 성공!!!"
+        />
+
+        <PopupModal
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          message="로그인 실패, 아이디와 비밀번호를 확인해주세요"
+        />
         <Link href="/Login/Signup">
           <button className="px-4 py-2">회원가입</button>
         </Link>

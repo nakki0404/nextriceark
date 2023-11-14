@@ -60,7 +60,16 @@ app.use(bodyParser.json());
 //   express: app,
 //   watch: true,
 // });
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://www.nextriceark.site/",
+      "https://developer-lostark.game.onstove.com",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json()); // JSON 데이터 처리를 위한 미들웨어 추가
 mongoose
   .connect(
@@ -183,7 +192,8 @@ app.get("/api/howmany", async (req, res) => {
 
 app.post("/api/count", async (req, res) => {
   try {
-    const visitors = req.headers.Cookie;
+    const visitors = req.headers.cookie;
+    console.log(visitors);
     const existingVisitor = await Visitor.findOne({ Name: visitors });
     if (!existingVisitor) {
       const currentDate = new Date();
@@ -240,6 +250,21 @@ app.post("/api/Login", async (req, res) => {
     console.log(token);
   } else {
     res.status(401).json({ message: "Authentication failed" });
+  }
+});
+
+app.post("/api/check", async (req, res) => {
+  const user = req.body; // 클라이언트에서 보낸 사용자 데이터
+  try {
+    const existingUser = await User.findOne({ ID: user.Item.ID });
+    if (!existingUser) {
+      res.json(false);
+    } else {
+      res.json(true);
+    }
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

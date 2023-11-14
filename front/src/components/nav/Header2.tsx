@@ -123,8 +123,10 @@ export default function Header2() {
             </Link>
           </button>
         </>
+      ) : pathname.includes("Recycle") ? (
+        <>이 페이지는 pc 환경에서 이용해주세요.</>
       ) : (
-        <div></div>
+        <div className=""></div>
       )}
     </div>
   );

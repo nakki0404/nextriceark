@@ -104,6 +104,9 @@ export default function Recycle() {
   const [category, setCategory] = useState("");
   useEffect(() => {
     if (selectedOption2) {
+      setStat2("");
+      setStat2num(0);
+      setSelectedOption4("");
       setCategory(selectedOption2.value);
     }
   }, [selectedOption2]);
@@ -287,6 +290,7 @@ export default function Recycle() {
   const saveHasskill = () => {
     let newdata = {
       _id: [uuidv4()],
+      category: ["장착 각인"],
       skill: {},
     };
     newdata["skill"] = {
@@ -352,6 +356,7 @@ export default function Recycle() {
   const saveAbillity = () => {
     let newdata = {
       _id: [uuidv4()],
+      category: ["어빌돌"],
       skill: {},
       panalty: {},
     };
@@ -761,336 +766,356 @@ export default function Recycle() {
   }
 
   return (
-    <div className="  ">
-      <div className="text-2xl  ">악세추가</div>
-      <Select
-        options={Array.isArray(forwholist) ? forwholist : []}
-        value={selectedOption8}
-        onChange={handleChange8}
-        isSearchable={true} // 검색 가능한 드롭다운으로 설정
-        placeholder="용도"
-      />
-      <Select
-        options={Array.isArray(gradelist) ? gradelist : []}
-        value={selectedOption}
-        onChange={handleChange}
-        isSearchable={true} // 검색 가능한 드롭다운으로 설정
-        placeholder="등급"
-      />
-      <Select
-        options={Array.isArray(categorylist) ? categorylist : []}
-        value={selectedOption2}
-        onChange={handleChange2}
-        isSearchable={true} // 검색 가능한 드롭다운으로 설정
-        placeholder="부위"
-      />
-      <div className="flex flex row">
-        <Select
-          options={Array.isArray(statlist) ? statlist : []}
-          value={selectedOption3}
-          onChange={handleChange3}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="스텟1"
-        />
-        <input
-          className=""
-          type="number"
-          value={statnum}
-          onChange={(e) => handleQuantityChange3(e.target.value)}
-        ></input>
-      </div>
-      <div className="flex flex row">
-        <Select
-          options={Array.isArray(statlist) ? statlist : []}
-          value={selectedOption4}
-          onChange={handleChange4}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="스텟2"
-        />
-        <input
-          className=""
-          type="number"
-          value={stat2num}
-          onChange={(e) => handleQuantityChange4(e.target.value)}
-        ></input>
-      </div>
-      <div className="flex flex row">
-        <Select
-          options={Array.isArray(newskilllist) ? newskilllist : []}
-          value={selectedOption5}
-          onChange={handleChange5}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="각인1"
-        />
-        <input
-          className=""
-          type="number"
-          value={skillnum}
-          onChange={(e) => handleQuantityChange5(e.target.value)}
-        ></input>
-      </div>
-      <div className="flex flex row">
-        <Select
-          options={Array.isArray(newskilllist) ? newskilllist : []}
-          value={selectedOption6}
-          onChange={handleChange6}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="각인2"
-        />
-        <input
-          className=""
-          type="number"
-          value={skill2num}
-          onChange={(e) => handleQuantityChange6(e.target.value)}
-        ></input>
-      </div>
-      <div className="flex flex row">
-        <Select
-          options={Array.isArray(panaltylist) ? panaltylist : []}
-          value={selectedOption7}
-          onChange={handleChange7}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="디버프"
-        />
-        <input
-          className=""
-          type="number"
-          value={panaltynum}
-          onChange={(e) => handleQuantityChange7(e.target.value)}
-        ></input>
-      </div>
-      <input
-        className=""
-        type="string"
-        value={location}
-        placeholder="저장 캐릭터 이름"
-        onChange={(e) => handleQuantityChange(e.target.value)}
-      ></input>
-      <div className="flex flex row justify-between">
-        <button
-          className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
-          onClick={(e) => saveItem()}
-        >
-          목록추가
-        </button>
-        <button
-          className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
-          onClick={(e) => saveHasItemList()}
-        >
-          DB저장
-        </button>
-        <button
-          className="h-8 w-24 bg-yellow-500 rounded-lg text-white m-1"
-          onClick={(e) => loadHasItemList()}
-        >
-          DB불러오기
-        </button>
-      </div>
-      <div>
-        <div className="text-2xl  ">보유 악세</div>
-        <div style={{ maxHeight: "400px", overflowY: "auto" }}>
-          <table>
-            <thead>
-              <tr>
-                <th>분류</th>
-                <th>등급</th>
-                <th>부위</th>
-                <th>스텟1</th>
-                <th>스텟2</th>
-                <th>각인1</th>
-                <th>각인2</th>
-                <th>디버프</th>
-                <th>위치</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {itemlist.map((e: any, index: any) => (
-                <tr key={index}>
-                  <th>{e.forwho}</th>
-                  <th>{e.grade}</th>
+    <div>
+      <div className="flex flex row  ">
+        <div className="p-8 ">
+          <div className="text-2xl  ">악세추가</div>
+          <div className="flex flex row  ">
+            <Select
+              options={Array.isArray(forwholist) ? forwholist : []}
+              value={selectedOption8}
+              onChange={handleChange8}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="용도"
+            />
+            <Select
+              options={Array.isArray(gradelist) ? gradelist : []}
+              value={selectedOption}
+              onChange={handleChange}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="등급"
+            />
+            <Select
+              options={Array.isArray(categorylist) ? categorylist : []}
+              value={selectedOption2}
+              onChange={handleChange2}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="부위"
+            />
+          </div>
+          <div className="flex flex row">
+            <div>
+              <div className="flex flex row">
+                <Select
+                  options={Array.isArray(statlist) ? statlist : []}
+                  value={selectedOption3}
+                  onChange={handleChange3}
+                  isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                  placeholder="스텟1"
+                />
+                <input
+                  className=""
+                  type="number"
+                  value={statnum}
+                  onChange={(e) => handleQuantityChange3(e.target.value)}
+                ></input>
+              </div>
+              <div
+                className={`flex flex row ${
+                  category === "목걸이" ? "" : "hidden"
+                }`}
+              >
+                <Select
+                  options={Array.isArray(statlist) ? statlist : []}
+                  value={selectedOption4}
+                  onChange={handleChange4}
+                  isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                  placeholder="스텟2"
+                />
+                <input
+                  className=""
+                  type="number"
+                  value={stat2num}
+                  onChange={(e) => handleQuantityChange4(e.target.value)}
+                ></input>
+              </div>
+            </div>
+            <div>
+              <div className="flex flex row">
+                <Select
+                  options={Array.isArray(newskilllist) ? newskilllist : []}
+                  value={selectedOption5}
+                  onChange={handleChange5}
+                  isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                  placeholder="각인1"
+                />
+                <input
+                  className=""
+                  type="number"
+                  value={skillnum}
+                  onChange={(e) => handleQuantityChange5(e.target.value)}
+                ></input>
+              </div>
+              <div className="flex flex row">
+                <Select
+                  options={Array.isArray(newskilllist) ? newskilllist : []}
+                  value={selectedOption6}
+                  onChange={handleChange6}
+                  isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                  placeholder="각인2"
+                />
+                <input
+                  className=""
+                  type="number"
+                  value={skill2num}
+                  onChange={(e) => handleQuantityChange6(e.target.value)}
+                ></input>
+              </div>
+              <div className="flex flex row">
+                <Select
+                  options={Array.isArray(panaltylist) ? panaltylist : []}
+                  value={selectedOption7}
+                  onChange={handleChange7}
+                  isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                  placeholder="디버프"
+                />
+                <input
+                  className=""
+                  type="number"
+                  value={panaltynum}
+                  onChange={(e) => handleQuantityChange7(e.target.value)}
+                ></input>
+              </div>
+            </div>
+          </div>
+          <input
+            className=""
+            type="string"
+            value={location}
+            placeholder="저장 캐릭터 이름"
+            onChange={(e) => handleQuantityChange(e.target.value)}
+          ></input>
+          <div className="flex flex row justify-between">
+            <button
+              className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
+              onClick={(e) => saveItem()}
+            >
+              목록추가
+            </button>
+            <button
+              className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+              onClick={(e) => saveHasItemList()}
+            >
+              DB저장
+            </button>
+            <button
+              className="h-8 w-24 bg-yellow-500 rounded-lg text-white m-1"
+              onClick={(e) => loadHasItemList()}
+            >
+              DB불러오기
+            </button>
+          </div>
+          <div>
+            <div className="text-2xl  ">보유 악세 목록</div>
+            <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>분류</th>
+                    <th>등급</th>
+                    <th>부위</th>
+                    <th>스텟1</th>
+                    <th>스텟2</th>
+                    <th>각인1</th>
+                    <th>각인2</th>
+                    <th>디버프</th>
+                    <th>위치</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {itemlist.map((e: any, index: any) => (
+                    <tr key={index}>
+                      <th>{e.forwho}</th>
+                      <th>{e.grade}</th>
 
-                  <th>{e.category}</th>
-                  {Object.keys(e.stat).map((key) => (
-                    <th key={key}>
-                      {key}: {e.stat[key]}
-                    </th>
+                      <th>{e.category}</th>
+                      {Object.keys(e.stat).map((key) => (
+                        <th key={key}>
+                          {key}: {e.stat[key]}
+                        </th>
+                      ))}
+                      {Object.keys(e.stat).length === 1 && <th></th>}
+                      {Object.keys(e.skill).map((key) => (
+                        <th key={key}>
+                          {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                          {e.skill[key]}
+                        </th>
+                      ))}
+                      {Object.keys(e.panalty).map((key) => (
+                        <th key={key}>
+                          {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                          {e.panalty[key]}
+                        </th>
+                      ))}
+                      <th>{e.location}</th>
+                      <th>
+                        <button
+                          className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+                          onClick={() => deletelist(index)}
+                        >
+                          삭제
+                        </button>
+                      </th>
+                    </tr>
                   ))}
-                  {Object.keys(e.stat).length === 1 && <th></th>}
-                  {Object.keys(e.skill).map((key) => (
-                    <th key={key}>
-                      {key}: {e.skill[key]}
-                    </th>
-                  ))}
-                  {Object.keys(e.panalty).map((key) => (
-                    <th key={key}>
-                      {key}: {e.panalty[key]}
-                    </th>
-                  ))}
-                  <th>{e.location}</th>
-                  <th>
-                    <button
-                      className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
-                      onClick={() => deletelist(index)}
-                    >
-                      삭제
-                    </button>
-                  </th>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div className="p-8 ">
+          <div className="text-2xl  ">보유 각인 설정</div>
+          <div className="flex flex row">
+            <Select
+              options={Array.isArray(newskilllist) ? newskilllist : []}
+              value={selectedOption10}
+              onChange={handleChange10}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="보유 각인"
+            />
+            <input
+              className=""
+              type="number"
+              value={hasskillnum}
+              onChange={(e) => handleQuantityChange10(e.target.value)}
+            ></input>
+            <button
+              className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
+              onClick={(e) => saveHasskill()}
+            >
+              목록추가
+            </button>
+          </div>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th>보유 각인 목록</th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div className="text-2xl  ">각인 설정</div>
-
-      <div className="flex flex row">
-        <Select
-          options={Array.isArray(newskilllist) ? newskilllist : []}
-          value={selectedOption10}
-          onChange={handleChange10}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="보유 각인"
-        />
-        <input
-          className=""
-          type="number"
-          value={hasskillnum}
-          onChange={(e) => handleQuantityChange10(e.target.value)}
-        ></input>
-      </div>
-      <div className="flex flex row">
-        <button
-          className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
-          onClick={(e) => saveHasskill()}
-        >
-          목록추가
-        </button>
-      </div>
-
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th>보유 각인 목록</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {hasskilllist.map((e: any, index: any) => (
-              <tr key={index}>
-                {Object.keys(e.skill).map((key) => (
-                  <th key={key}>
-                    {key}: {e.skill[key]}
-                  </th>
+              </thead>
+              <tbody>
+                {hasskilllist.map((e: any, index: any) => (
+                  <tr key={index}>
+                    {Object.keys(e.skill).map((key) => (
+                      <th key={key}>
+                        {key}: {e.skill[key]}
+                      </th>
+                    ))}
+                    <th>
+                      <button
+                        className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+                        onClick={() => deletelist2(index)}
+                      >
+                        삭제
+                      </button>
+                    </th>
+                  </tr>
                 ))}
-                <th>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div className="text-2xl  ">어빌설정</div>
+            <div className="flex flex row">
+              <div>
+                <div className="flex flex row">
+                  <Select
+                    options={Array.isArray(skilllist) ? skilllist : []}
+                    value={selectedOption12}
+                    onChange={handleChange12}
+                    isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                    placeholder="각인1"
+                  />
+                  <input
+                    className=""
+                    type="number"
+                    value={abillityskillnum}
+                    onChange={(e) => handleQuantityChange12(e.target.value)}
+                  ></input>
+                </div>
+                <div className="flex flex row">
+                  <Select
+                    options={Array.isArray(skilllist) ? skilllist : []}
+                    value={selectedOption13}
+                    onChange={handleChange13}
+                    isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                    placeholder="각인2"
+                  />
+                  <input
+                    className=""
+                    type="number"
+                    value={abillityskill2num}
+                    onChange={(e) => handleQuantityChange13(e.target.value)}
+                  ></input>
+                </div>
+              </div>
+              <div>
+                <div className="flex flex row">
+                  <Select
+                    options={Array.isArray(panaltylist) ? panaltylist : []}
+                    value={selectedOption14}
+                    onChange={handleChange14}
+                    isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                    placeholder="디버프"
+                  />
+                  <input
+                    className=""
+                    type="number"
+                    value={abillitypanaltynum}
+                    onChange={(e) => handleQuantityChange14(e.target.value)}
+                  ></input>
+                </div>
+                <div className="flex flex row">
                   <button
-                    className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
-                    onClick={() => deletelist2(index)}
+                    className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
+                    onClick={(e) => saveAbillity()}
                   >
-                    삭제
+                    목록추가
                   </button>
-                </th>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <div className="text-2xl  ">어빌설정</div>
-        <div className="flex flex row">
-          <Select
-            options={Array.isArray(skilllist) ? skilllist : []}
-            value={selectedOption12}
-            onChange={handleChange12}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
-            placeholder="각인1"
-          />
-          <input
-            className=""
-            type="number"
-            value={abillityskillnum}
-            onChange={(e) => handleQuantityChange12(e.target.value)}
-          ></input>
-        </div>
-        <div className="flex flex row">
-          <Select
-            options={Array.isArray(skilllist) ? skilllist : []}
-            value={selectedOption13}
-            onChange={handleChange13}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
-            placeholder="각인2"
-          />
-          <input
-            className=""
-            type="number"
-            value={abillityskill2num}
-            onChange={(e) => handleQuantityChange13(e.target.value)}
-          ></input>
-        </div>
-        <div className="flex flex row">
-          <Select
-            options={Array.isArray(panaltylist) ? panaltylist : []}
-            value={selectedOption14}
-            onChange={handleChange14}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
-            placeholder="디버프"
-          />
-          <input
-            className=""
-            type="number"
-            value={abillitypanaltynum}
-            onChange={(e) => handleQuantityChange14(e.target.value)}
-          ></input>
-        </div>
-        <div className="flex flex row">
-          <button
-            className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
-            onClick={(e) => saveAbillity()}
-          >
-            목록추가
-          </button>
-        </div>
-        보유 어빌돌
-        <table>
-          <thead>
-            <tr>
-              <th>각인1</th>
-              <th>각인2</th>
-              <th>디버프</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {abilltylist.map((e: any, index: any) => (
-              <tr key={index}>
-                {Object.keys(e.skill).map((key) => (
-                  <th key={key}>
-                    {key}: {e.skill[key]}
-                  </th>
-                ))}
-                <th>
-                  {Object.keys(e.panalty).map((key) => (
-                    <div key={key}>
-                      {key}: {e.panalty[key]}
-                    </div>
-                  ))}
-                </th>
+                </div>
+              </div>
+            </div>
+            보유 어빌돌
+            <table>
+              <thead>
+                <tr>
+                  <th>각인1</th>
+                  <th>각인2</th>
+                  <th>디버프</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {abilltylist.map((e: any, index: any) => (
+                  <tr key={index}>
+                    {Object.keys(e.skill).map((key) => (
+                      <th key={key}>
+                        {key}: {e.skill[key]}
+                      </th>
+                    ))}
+                    <th>
+                      {Object.keys(e.panalty).map((key) => (
+                        <div key={key}>
+                          {key}: {e.panalty[key]}
+                        </div>
+                      ))}
+                    </th>
 
-                <th>
-                  <button
-                    className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
-                    onClick={() => deletelist3(index)}
-                  >
-                    삭제
-                  </button>
-                </th>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {/* <Select
+                    <th>
+                      <button
+                        className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+                        onClick={() => deletelist3(index)}
+                      >
+                        삭제
+                      </button>
+                    </th>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {/* <Select
           options={Array.isArray(forwholist) ? forwholist : []}
           value={selectedOption16}
           onChange={handleChange16}
@@ -1225,22 +1250,26 @@ export default function Recycle() {
             </tbody>
           </table>
         </div> */}
-        <div className="text-2xl  ">목표 각인 설정</div>
-        <Select
-          options={Array.isArray(wantskilllist) ? wantskilllist : []}
-          value={selectedOption30}
-          onChange={handleChange30}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="목표각인"
-        />
-        <div className="flex flex row">
-          <button
-            className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
-            onClick={() => maker()}
-          >
-            검색
-          </button>
+            <div className="text-2xl  ">목표 각인 설정</div>
+            <Select
+              options={Array.isArray(wantskilllist) ? wantskilllist : []}
+              value={selectedOption30}
+              onChange={handleChange30}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="목표각인"
+            />
+            <div className="flex flex row">
+              <button
+                className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+                onClick={() => maker()}
+              >
+                검색
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
+      <div>
         <div className="text-2xl  ">탐색 결과</div>
         <table>
           <thead>
@@ -1257,7 +1286,7 @@ export default function Recycle() {
                 {Object.keys(e.panalty).map((key, index) => (
                   <th key={index}>{index === 0 ? "패널티" : ""}</th>
                 ))}
-                <th></th>
+                <th>조합확인</th>
               </tr>
             ))}
           </thead>
@@ -1271,12 +1300,14 @@ export default function Recycle() {
                 ))}
                 {Object.keys(e.skill).map((key) => (
                   <th key={key}>
-                    {key}: {e.skill[key]}
+                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                    {e.skill[key]}
                   </th>
                 ))}
                 {Object.keys(e.panalty).map((key) => (
                   <th key={key}>
-                    {key}: {e.panalty[key]}
+                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                    {e.panalty[key]}
                   </th>
                 ))}
                 <th>
@@ -1297,21 +1328,9 @@ export default function Recycle() {
           <tbody>
             {viewcobin.map((e: any, index: any) => (
               <tr key={index}>
-                {e.location
-                  ? Object.keys(e.location).map((key) => (
-                      <th key={key}>{e.location[key]}</th>
-                    ))
-                  : ""}
                 {e.category
                   ? Object.keys(e.category).map((key) => (
                       <th key={key}>{e.category[key]}</th>
-                    ))
-                  : ""}
-                {e.stat
-                  ? Object.keys(e.stat).map((key) => (
-                      <th key={key}>
-                        {key}: {e.stat[key]}
-                      </th>
                     ))
                   : ""}
                 {Object.keys(e.skill).map((key) => (
@@ -1319,6 +1338,19 @@ export default function Recycle() {
                     {key}: {e.skill[key]}
                   </th>
                 ))}
+                {e.stat
+                  ? Object.keys(e.stat).map((key) => (
+                      <th key={key}>
+                        {key}: {e.stat[key]}
+                      </th>
+                    ))
+                  : ""}
+
+                {e.location
+                  ? Object.keys(e.location).map((key) => (
+                      <th key={key}>{e.location[key]}</th>
+                    ))
+                  : ""}
               </tr>
             ))}
           </tbody>

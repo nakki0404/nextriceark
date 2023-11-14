@@ -20,15 +20,16 @@ export default function Footer() {
           expirationDate.setDate(expirationDate.getDate() + 1);
           // 쿠키 생성
           document.cookie = `${cookieName}=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/;`;
+          console.log(document.cookie);
           const config = {
             headers: {
-              Cookie: document.cookie,
+              cookie: document.cookie,
             },
           };
           fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/count", {
             method: "POST",
             headers: config.headers,
-            body: null,
+            credentials: "include",
           });
         });
     }
