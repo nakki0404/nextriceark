@@ -62,7 +62,11 @@ app.use(bodyParser.json());
 // });
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://www.nextriceark.site/"],
+    origin: [
+      "http://localhost:3000",
+      "https://www.nextriceark.site/",
+      "https://developer-lostark.game.onstove.com",
+    ],
     credentials: true,
   })
 );
@@ -246,6 +250,21 @@ app.post("/api/Login", async (req, res) => {
     console.log(token);
   } else {
     res.status(401).json({ message: "Authentication failed" });
+  }
+});
+
+app.post("/api/check", async (req, res) => {
+  const user = req.body; // 클라이언트에서 보낸 사용자 데이터
+  try {
+    const existingUser = await User.findOne({ ID: user.Item.ID });
+    if (!existingUser) {
+      res.json(false);
+    } else {
+      res.json(true);
+    }
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

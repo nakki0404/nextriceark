@@ -4,6 +4,7 @@ import { useState, ChangeEvent, useEffect } from "react";
 // import logIn from "@/api/logIn";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import PopupModal from "@/components/common/PopupModal";
 
 export default function SignupForm() {
   const router = useRouter();
@@ -27,6 +28,75 @@ export default function SignupForm() {
   const handleAnwserChange = (e: ChangeEvent<HTMLInputElement>) => {
     setAnwser(e.target.value); // 입력된 값을 title 상태에 저장
   };
+
+  const [isIDTModalOpen, setIDTModalOpen] = useState(false);
+  const openIDTModal = () => {
+    setIDTModalOpen(true);
+  };
+
+  const closeIDTModal = () => {
+    setIDTModalOpen(false);
+  };
+  const [isIDFModalOpen, setIDFModalOpen] = useState(false);
+  const openIDFModal = () => {
+    setIDFModalOpen(true);
+  };
+
+  const closeIDFModal = () => {
+    setIDFModalOpen(false);
+  };
+  const [isTModalOpen, setTModalOpen] = useState(false);
+  const openTModal = () => {
+    setTModalOpen(true);
+  };
+
+  const closeTModal = () => {
+    setTModalOpen(false);
+  };
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleIDCheck = () => {
+    const requestBody = {
+      Item: {
+        ID: ID,
+      },
+    };
+    if (ID.length > 0) {
+      fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Error updating data: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data === true) {
+            openIDFModal();
+          } else {
+            openIDTModal();
+          }
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error updating data:", error.message);
+        });
+    }
+  };
+
   // 로그인 정보
   const handleSignup = () => {
     const requestBody = {
@@ -39,8 +109,13 @@ export default function SignupForm() {
       },
       Pass: form,
     };
-    if (ID.length > 0 && Password.length > 0 && form.length > 0) {
-      console.log(1);
+    if (
+      ID.length > 0 &&
+      Password.length > 0 &&
+      form.length > 0 &&
+      Question.length > 0 &&
+      Anwser.length > 0
+    ) {
       fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/signup", {
         method: "POST",
         headers: {
@@ -59,10 +134,14 @@ export default function SignupForm() {
           setID("");
           setPassword("");
           router.push("/Login");
+          openTModal();
         })
         .catch((error) => {
           console.error("Error updating data:", error.message);
+          openModal();
         });
+    } else {
+      openModal();
     }
   };
   const [pass, setPass] = useState<string>("");
@@ -96,13 +175,21 @@ export default function SignupForm() {
     <div className=" box-border h-1/2 w-1/2 p-4 border-8">
       <div className="text-xl">쌀로아 회원가입</div>
       <div className="px-4 py-2">ID</div>
-      <input
-        className="w-11/12 h-12 px-4 py-2"
-        type="text"
-        placeholder="ID"
-        onChange={handleIDChange}
-        value={ID}
-      ></input>
+      <div className="flex flex-row">
+        <input
+          className="w-11/12 h-12 px-4 py-2"
+          type="text"
+          placeholder="ID"
+          onChange={handleIDChange}
+          value={ID}
+        ></input>
+        <button
+          onClick={(e) => handleIDCheck()}
+          className=" box-border h-1/2 w-1/2 p-4 flex justify-center"
+        >
+          중복 검사
+        </button>
+      </div>
       <div>비밀번호</div>
       <input
         className="w-11/12 h-12 px-4 py-2"
@@ -146,7 +233,26 @@ export default function SignupForm() {
         <button className="px-4 py-2" onClick={() => handleSignup()}>
           가입신청
         </button>
-
+        <PopupModal
+          isOpen={isTModalOpen}
+          closeModal={closeTModal}
+          message="가입 성공!!!"
+        />
+        <PopupModal
+          isOpen={isIDFModalOpen}
+          closeModal={closeIDFModal}
+          message="이미 존재하는 ID 입니다."
+        />
+        <PopupModal
+          isOpen={isIDTModalOpen}
+          closeModal={closeIDTModal}
+          message="사용가능한 ID입니다."
+        />
+        <PopupModal
+          isOpen={isModalOpen}
+          closeModal={closeModal}
+          message="가입 실패, 입력된 정보를 확인해주세요."
+        />
         <Link href="/Login">
           <button className="px-4 py-2">뒤로가기</button>
         </Link>
