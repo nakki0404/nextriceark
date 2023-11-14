@@ -64,7 +64,9 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://www.nextriceark.site/",
+      "https://www.nextriceark.site",
+      "nextriceark-jnwk-ilctgzavm-nakkis-projects.vercel.app",
+      "nextriceark-jnwk.vercel.app",
       "https://developer-lostark.game.onstove.com",
     ],
     credentials: true,
