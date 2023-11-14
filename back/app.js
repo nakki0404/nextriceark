@@ -60,7 +60,12 @@ app.use(bodyParser.json());
 //   express: app,
 //   watch: true,
 // });
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://www.nextriceark.site/"],
+    credentials: true,
+  })
+);
 app.use(express.json()); // JSON 데이터 처리를 위한 미들웨어 추가
 mongoose
   .connect(
@@ -183,7 +188,8 @@ app.get("/api/howmany", async (req, res) => {
 
 app.post("/api/count", async (req, res) => {
   try {
-    const visitors = req.headers.Cookie;
+    const visitors = req.headers.cookie;
+    console.log(visitors);
     const existingVisitor = await Visitor.findOne({ Name: visitors });
     if (!existingVisitor) {
       const currentDate = new Date();
