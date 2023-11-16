@@ -38,3 +38,4 @@ async function fetchDataAndUpdate() {
 module.exports = {
   fetchDataAndUpdate: fetchDataAndUpdate,
 };
+6;
