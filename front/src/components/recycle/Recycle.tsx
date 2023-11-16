@@ -7,6 +7,10 @@ import skilllist2 from "@/asset/data/skilllistorigin.json";
 import jobskilllist2 from "@/asset/data/jobskilllist.json";
 export default function Recycle() {
   useEffect(() => {
+    const savedata: any = localStorage.getItem("itemlist");
+    setItemlist(JSON.parse(savedata));
+  }, ["itemlist"]);
+  useEffect(() => {
     const savedata: any = localStorage.getItem("hasskilllist");
     setHasskilllist(JSON.parse(savedata));
   }, ["hasskilllist"]);
@@ -269,6 +273,9 @@ export default function Recycle() {
     setItemlist([newdata, ...itemlist]);
   };
 
+  useEffect(() => {
+    localStorage.setItem("itemlist", JSON.stringify(itemlist));
+  }, [itemlist]);
   const [hasskilllist, setHasskilllist] = useState<any>([]);
 
   const [selectedOption10, setSelectedOption10] = useState<any>("");
@@ -794,7 +801,7 @@ export default function Recycle() {
             />
           </div>
           <div className="flex flex row">
-            <div>
+            <div className="flex flex row">
               <div className="flex flex row">
                 <Select
                   options={Array.isArray(statlist) ? statlist : []}
@@ -830,7 +837,9 @@ export default function Recycle() {
                 ></input>
               </div>
             </div>
-            <div>
+          </div>
+          <div className="flex flex-row">
+            <div className="flex flex-col">
               <div className="flex flex row">
                 <Select
                   options={Array.isArray(newskilllist) ? newskilllist : []}
@@ -861,13 +870,15 @@ export default function Recycle() {
                   onChange={(e) => handleQuantityChange6(e.target.value)}
                 ></input>
               </div>
+            </div>
+            <div className="flex flex-col">
               <div className="flex flex row">
                 <Select
                   options={Array.isArray(panaltylist) ? panaltylist : []}
                   value={selectedOption7}
                   onChange={handleChange7}
                   isSearchable={true} // 검색 가능한 드롭다운으로 설정
-                  placeholder="디버프"
+                  placeholder="패널티"
                 />
                 <input
                   className=""
@@ -876,15 +887,16 @@ export default function Recycle() {
                   onChange={(e) => handleQuantityChange7(e.target.value)}
                 ></input>
               </div>
+              <input
+                className=""
+                type="string"
+                value={location}
+                placeholder="저장 캐릭터 이름"
+                onChange={(e) => handleQuantityChange(e.target.value)}
+              ></input>
             </div>
           </div>
-          <input
-            className=""
-            type="string"
-            value={location}
-            placeholder="저장 캐릭터 이름"
-            onChange={(e) => handleQuantityChange(e.target.value)}
-          ></input>
+
           <div className="flex flex row justify-between">
             <button
               className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
@@ -892,18 +904,28 @@ export default function Recycle() {
             >
               목록추가
             </button>
-            <button
-              className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
-              onClick={(e) => saveHasItemList()}
-            >
-              DB저장
-            </button>
-            <button
-              className="h-8 w-24 bg-yellow-500 rounded-lg text-white m-1"
-              onClick={(e) => loadHasItemList()}
-            >
-              DB불러오기
-            </button>
+            {loginstate && loginstate.isLogin ? (
+              <>
+                <button
+                  className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+                  onClick={(e) => saveHasItemList()}
+                >
+                  DB저장
+                </button>
+                <button
+                  className="h-8 w-24 bg-yellow-500 rounded-lg text-white m-1"
+                  onClick={(e) => loadHasItemList()}
+                >
+                  DB불러오기
+                </button>
+              </>
+            ) : (
+              <>
+                <div>
+                  비회원도 이용 가능하나 로그인시 목록을 저장할 수 있습니다.
+                </div>
+              </>
+            )}
           </div>
           <div>
             <div className="text-2xl  ">보유 악세 목록</div>
@@ -1116,140 +1138,140 @@ export default function Recycle() {
               </tbody>
             </table>
             {/* <Select
-          options={Array.isArray(forwholist) ? forwholist : []}
-          value={selectedOption16}
-          onChange={handleChange16}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="용도"
-        />
-        <Select
-          options={Array.isArray(gradelist2) ? gradelist2 : []}
-          value={selectedOption17}
-          onChange={handleChange17}
-          isSearchable={true} // 검색 가능한 드롭다운으로 설정
-          placeholder="구성"
-        />
-        <div className="flex flex row">
-          <Select
-            options={Array.isArray(statlist) ? statlist : []}
-            value={selectedOption18}
-            onChange={handleChange18}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
-            placeholder="스텟 설정"
-          />
-          <input
-            className=""
-            type="number"
-            value={constatnum}
-            onChange={(e) => handleQuantityChange18(e.target.value)}
-          ></input>
-        </div>
-        <div className="flex flex row">
-          <button onClick={(e) => saveConstatlist()}>목록 추가</button>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>스탯 설정 목록</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {constatlist.map((e, index) => (
-              <tr key={index}>
-                {Object.keys(e).map((key) => (
-                  <th key={key}>
-                    {key}: {e[key]}
-                  </th>
+              options={Array.isArray(forwholist) ? forwholist : []}
+              value={selectedOption16}
+              onChange={handleChange16}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="용도"
+            />
+            <Select
+              options={Array.isArray(gradelist2) ? gradelist2 : []}
+              value={selectedOption17}
+              onChange={handleChange17}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="구성"
+            />
+            <div className="flex flex row">
+              <Select
+                options={Array.isArray(statlist) ? statlist : []}
+                value={selectedOption18}
+                onChange={handleChange18}
+                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                placeholder="스텟 설정"
+              />
+              <input
+                className=""
+                type="number"
+                value={constatnum}
+                onChange={(e) => handleQuantityChange18(e.target.value)}
+              ></input>
+            </div>
+            <div className="flex flex row">
+              <button onClick={(e) => saveConstatlist()}>목록 추가</button>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>스탯 설정 목록</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {constatlist.map((e, index) => (
+                  <tr key={index}>
+                    {Object.keys(e).map((key) => (
+                      <th key={key}>
+                        {key}: {e[key]}
+                      </th>
+                    ))}
+                    <th>
+                      <button onClick={() => deletelist7(index)}>삭제</button>
+                    </th>
+                  </tr>
                 ))}
-                <th>
-                  <button onClick={() => deletelist7(index)}>삭제</button>
-                </th>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <div className="">
-          <Select
-            options={Array.isArray(skilllist) ? skilllist : []}
-            value={selectedOption23}
-            onChange={handleChange23}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
-            placeholder="필수포함각인"
-          />
-          <table>
-            <thead>
-              <tr>
-                <th>필수포함각인 목록</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {conaskill.map((e, index) => (
-                <tr key={index}>
-                  <th>{e}</th>
-                  <th>
-                    <button onClick={() => deletelist4(index)}>삭제</button>
-                  </th>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="">
-          <Select
-            options={Array.isArray(skilllist) ? skilllist : []}
-            value={selectedOption22}
-            onChange={handleChange22}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
-            placeholder="예외각인설정"
-          />
-          <table>
-            <thead>
-              <tr>
-                <th>예외각인설정 목록</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {conexskill.map((e, index) => (
-                <tr key={index}>
-                  <th>{e}</th>
-                  <th>
-                    <button onClick={() => deletelist5(index)}>삭제</button>
-                  </th>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="">
-          <Select
-            options={Array.isArray(panaltylist) ? panaltylist : []}
-            value={selectedOption21}
-            onChange={handleChange21}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
-            placeholder="허용 패널티"
-          />
-          <table>
-            <thead>
-              <tr>
-                <th>허용 패널티 목록</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {conpanaltylist.map((e, index) => (
-                <tr key={index}>
-                  <th>{e}</th>
-                  <th>
-                    <button onClick={() => deletelist6(index)}>삭제</button>
-                  </th>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div> */}
+              </tbody>
+            </table>
+            <div className="">
+              <Select
+                options={Array.isArray(skilllist) ? skilllist : []}
+                value={selectedOption23}
+                onChange={handleChange23}
+                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                placeholder="필수포함각인"
+              />
+              <table>
+                <thead>
+                  <tr>
+                    <th>필수포함각인 목록</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {conaskill.map((e, index) => (
+                    <tr key={index}>
+                      <th>{e}</th>
+                      <th>
+                        <button onClick={() => deletelist4(index)}>삭제</button>
+                      </th>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="">
+              <Select
+                options={Array.isArray(skilllist) ? skilllist : []}
+                value={selectedOption22}
+                onChange={handleChange22}
+                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                placeholder="예외각인설정"
+              />
+              <table>
+                <thead>
+                  <tr>
+                    <th>예외각인설정 목록</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {conexskill.map((e, index) => (
+                    <tr key={index}>
+                      <th>{e}</th>
+                      <th>
+                        <button onClick={() => deletelist5(index)}>삭제</button>
+                      </th>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="">
+              <Select
+                options={Array.isArray(panaltylist) ? panaltylist : []}
+                value={selectedOption21}
+                onChange={handleChange21}
+                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                placeholder="허용 패널티"
+              />
+              <table>
+                <thead>
+                  <tr>
+                    <th>허용 패널티 목록</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {conpanaltylist.map((e, index) => (
+                    <tr key={index}>
+                      <th>{e}</th>
+                      <th>
+                        <button onClick={() => deletelist6(index)}>삭제</button>
+                      </th>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div> */}
             <div className="text-2xl  ">목표 각인 설정</div>
             <Select
               options={Array.isArray(wantskilllist) ? wantskilllist : []}
