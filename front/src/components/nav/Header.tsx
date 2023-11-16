@@ -51,7 +51,9 @@ export default function Header() {
       <div>
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Calculator") ? "shadow-xl bg-yellow-500" : ""
+            isCurrentPage("/Calculator")
+              ? "shadow-xl bg-yellow-300 rounded-lg"
+              : ""
           }`}
         >
           <Link href="/Calculator/Maker" className="flex flex-row">
@@ -69,7 +71,9 @@ export default function Header() {
       <div>
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Statistics") ? "shadow-xl bg-yellow-500" : ""
+            isCurrentPage("/Statistics")
+              ? "shadow-xl bg-yellow-300 rounded-lg"
+              : ""
           }`}
         >
           <Link href="/Statistics/Summary" className="flex flex-row ">
@@ -87,7 +91,7 @@ export default function Header() {
       <div>
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Coin") ? "shadow-xl bg-yellow-500" : ""
+            isCurrentPage("/Coin") ? "shadow-xl bg-yellow-300 rounded-lg" : ""
           }`}
         >
           <Link href="/Coin/Blood" className="flex flex-row">
@@ -105,7 +109,9 @@ export default function Header() {
       <div>
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Recycle") ? "shadow-xl bg-yellow-500" : ""
+            isCurrentPage("/Recycle")
+              ? "shadow-xl bg-yellow-300 rounded-lg"
+              : ""
           }`}
         >
           <Link href="/Recycle" className="flex flex-row">
@@ -121,16 +127,22 @@ export default function Header() {
         </button>
       </div>
       {!loginstate.isLogin ? (
-        <Link href="/Login" className="flex flex-row">
-          <Image
-            src={loginimage}
-            alt="login icon by Icons8"
-            title="login icon by Icons8"
-            width={32}
-            height={32}
-          />
-          <div className="text-xl hidden md:table-cell">로그인</div>
-        </Link>
+        <button
+          className={`flex flex-row ${
+            isCurrentPage("/Login") ? "shadow-xl bg-yellow-300 rounded-lg" : ""
+          }`}
+        >
+          <Link href="/Login" className="flex flex-row">
+            <Image
+              src={loginimage}
+              alt="login icon by Icons8"
+              title="login icon by Icons8"
+              width={32}
+              height={32}
+            />
+            <div className="text-xl hidden md:table-cell">로그인</div>
+          </Link>
+        </button>
       ) : (
         <div className="flex flex-row" onClick={logOut}>
           <Image

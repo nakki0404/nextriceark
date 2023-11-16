@@ -86,12 +86,13 @@ export default function StatisticsSummary() {
   ];
   return (
     <div>
-      <div>지난 {date}일동안 6가지 항목 거래 대금 비중</div>
-      <PieChart width={300} height={350}>
+      <div className="text-2xl  "> 거래 대금 비중</div>
+      <div>지난 {date}일동안</div>
+      <PieChart width={300} height={300}>
         <Pie
           data={data}
-          cx={150}
-          cy={150}
+          cx={140}
+          cy={120}
           labelLine={false}
           label={renderCustomizedLabel}
           outerRadius={100}
@@ -103,7 +104,7 @@ export default function StatisticsSummary() {
           ))}
         </Pie>
         <Tooltip
-          formatter={(value: any) => (parseInt(value) / 1e6).toFixed(0) + "M"}
+          formatter={(value: any) => (parseInt(value) / 1e6).toFixed(0) + "M G"}
         />
         <Legend />
       </PieChart>

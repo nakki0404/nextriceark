@@ -88,11 +88,11 @@ export default function LoginForm() {
   };
 
   return (
-    <div className=" box-border h-1/2 w-1/2 p-4 border-8">
+    <div className=" ">
       <div className="text-xl">쌀로아 로그인</div>
       <div className="px-4 py-2">아이디</div>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 rounded-lg m-1"
         type="text"
         placeholder="ID"
         onChange={handleIDChange}
@@ -100,14 +100,17 @@ export default function LoginForm() {
       ></input>
       <div>비밀번호</div>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 rounded-lg m-1"
         type="password"
         placeholder="password"
         onChange={handlePasswordChange}
         value={Password}
       ></input>
       <div className="flex flex-row justify-around ">
-        <button className="px-4 py-2" onClick={logIn}>
+        <button
+          className="h-12 w-24 bg-blue-500 rounded-lg text-white m-1"
+          onClick={logIn}
+        >
           로그인
         </button>
 
@@ -123,11 +126,15 @@ export default function LoginForm() {
           message="로그인 실패, 아이디와 비밀번호를 확인해주세요"
         />
         <Link href="/Login/Signup">
-          <button className="px-4 py-2">회원가입</button>
+          <button className="h-12 w-24 bg-green-500 rounded-lg text-white m-1">
+            회원가입
+          </button>
         </Link>
       </div>
-      <Link href="/Login/Forget">
-        <button className="px-4 py-2">비밀번호를 잊으셨나요?</button>
+      <Link href="/Login/Forget" className="flex justify-center">
+        <button className="h-12 w-48 bg-yellow-500 rounded-lg text-white m-1">
+          비밀번호를 잊으셨나요?
+        </button>
       </Link>
     </div>
   );

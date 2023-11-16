@@ -75,7 +75,6 @@ export default function SelectGraph() {
   return (
     <div>
       <div className="container">
-        <h1>단일 품목 검색</h1>
         <Select
           options={list}
           value={selectedOption}
@@ -85,14 +84,14 @@ export default function SelectGraph() {
         />
       </div>
       <LineChart
-        width={375}
+        width={300}
         height={300}
         data={data}
         syncId="anyId"
         margin={{
           top: 10,
           right: 30,
-          left: 0,
+          left: -10,
           bottom: -30,
         }}
       >
@@ -109,14 +108,14 @@ export default function SelectGraph() {
       </LineChart>
 
       <AreaChart
-        width={375}
+        width={300}
         height={150}
         data={data}
         syncId="anyId"
         margin={{
           top: 0,
           right: 30,
-          left: 0,
+          left: -10,
           bottom: 0,
         }}
       >

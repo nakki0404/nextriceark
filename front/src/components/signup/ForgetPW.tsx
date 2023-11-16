@@ -68,47 +68,55 @@ export default function ForgetPW() {
   };
 
   return (
-    <div className=" box-border h-1/2 w-1/2 p-4 border-8">
+    <div className=" ">
       <div className="text-xl">쌀로아 비밀번호 찾기</div>
       <div className="px-4 py-2">아이디</div>
 
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 rounded-lg m-1"
         type="text"
         placeholder="ID"
         onChange={handleIDChange}
         value={ID}
       ></input>
-      <button className="px-4 py-2" onClick={() => handleForget()}>
+      <button
+        className="h-12 w-24 bg-green-500 rounded-lg text-white m-1"
+        onClick={() => handleForget()}
+      >
         확인
       </button>
       <div>비밀번호 찾기 질문</div>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 rounded-lg m-1"
         type="text"
         placeholder="Question"
         value={Question}
       ></input>
       <div>답변</div>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 rounded-lg m-1"
         type="text"
         placeholder="Anwser"
         onChange={handleAnwserChange}
         value={Anwser}
       ></input>
 
-      <button className="px-4 py-2" onClick={() => handleForget2()}>
+      <button
+        className="h-12 w-24 bg-green-500 rounded-lg text-white m-1"
+        onClick={() => handleForget2()}
+      >
         확인
       </button>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 rounded-lg m-1"
         type="text"
         placeholder="Anwser"
         value={Password}
       ></input>
       <Link href="/Login">
-        <button className="px-4 py-2">뒤로가기</button>
+        <button className="h-12 w-24 bg-red-500 rounded-lg text-white m-1">
+          뒤로가기
+        </button>
       </Link>
     </div>
   );

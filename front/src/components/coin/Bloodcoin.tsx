@@ -234,7 +234,7 @@ export default function Bloodcoin() {
         value={selectedOption2}
         onChange={handleChange2}
         isSearchable={true} // 검색 가능한 드롭다운으로 설정
-        placeholder="구매 캐릭터 레벨 : 1620 설정"
+        placeholder="구매 캐릭터 레벨 : 초기값 1620 설정"
       />
       <div style={{ maxHeight: "800px", overflowY: "auto" }}>
         <table>
@@ -280,15 +280,7 @@ export default function Bloodcoin() {
       <br />
       골드/주화는 주화 1개당 골드 가치
       <br />
-      큐브 보상은 교환불가 재료까지 포함한 가치
-      <br />
-      입장권 상자의 등장 확률 실링 80% 입장권 20%
-      <br />
-      보조재 상자의 등장 확률 가호 3% 축복 24.7% 은총 72.3%
-      <br />
-      경우에따라 다른 레벨대 입장권 효율이 더 좋을 수 있다.
-      <br />
-      보조재 쓸일없으면 안사는게 낫다
+      보조재는 쓸일없으면 안사는게 낫다
     </div>
   );
 }
