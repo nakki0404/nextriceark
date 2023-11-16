@@ -512,6 +512,7 @@ export default function Recycle() {
         ID: loginstate.ID,
       }),
     };
+
     fetch(
       process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/update3",
       requestOptions
@@ -811,7 +812,7 @@ export default function Recycle() {
                   placeholder="스텟1"
                 />
                 <input
-                  className=""
+                  className="w-4/6  rounded-lg text-right "
                   type="number"
                   value={statnum}
                   onChange={(e) => handleQuantityChange3(e.target.value)}
@@ -830,7 +831,7 @@ export default function Recycle() {
                   placeholder="스텟2"
                 />
                 <input
-                  className=""
+                  className="w-4/6  rounded-lg text-right "
                   type="number"
                   value={stat2num}
                   onChange={(e) => handleQuantityChange4(e.target.value)}
@@ -849,7 +850,7 @@ export default function Recycle() {
                   placeholder="각인1"
                 />
                 <input
-                  className=""
+                  className="w-4/6  rounded-lg text-right "
                   type="number"
                   value={skillnum}
                   onChange={(e) => handleQuantityChange5(e.target.value)}
@@ -864,7 +865,7 @@ export default function Recycle() {
                   placeholder="각인2"
                 />
                 <input
-                  className=""
+                  className="w-4/6  rounded-lg text-right "
                   type="number"
                   value={skill2num}
                   onChange={(e) => handleQuantityChange6(e.target.value)}
@@ -881,17 +882,17 @@ export default function Recycle() {
                   placeholder="패널티"
                 />
                 <input
-                  className=""
+                  className="w-4/6  rounded-lg text-right "
                   type="number"
                   value={panaltynum}
                   onChange={(e) => handleQuantityChange7(e.target.value)}
                 ></input>
               </div>
               <input
-                className=""
+                className="w-5/6 h-8  rounded-lg text-right "
                 type="string"
                 value={location}
-                placeholder="저장 캐릭터 이름"
+                placeholder="보유 캐릭터 이름"
                 onChange={(e) => handleQuantityChange(e.target.value)}
               ></input>
             </div>
@@ -997,7 +998,7 @@ export default function Recycle() {
               placeholder="보유 각인"
             />
             <input
-              className=""
+              className="w-4/6  rounded-lg text-right "
               type="number"
               value={hasskillnum}
               onChange={(e) => handleQuantityChange10(e.target.value)}
@@ -1051,7 +1052,7 @@ export default function Recycle() {
                     placeholder="각인1"
                   />
                   <input
-                    className=""
+                    className="w-4/6  rounded-lg text-right "
                     type="number"
                     value={abillityskillnum}
                     onChange={(e) => handleQuantityChange12(e.target.value)}
@@ -1066,7 +1067,7 @@ export default function Recycle() {
                     placeholder="각인2"
                   />
                   <input
-                    className=""
+                    className="w-4/6  rounded-lg text-right "
                     type="number"
                     value={abillityskill2num}
                     onChange={(e) => handleQuantityChange13(e.target.value)}
@@ -1083,7 +1084,7 @@ export default function Recycle() {
                     placeholder="디버프"
                   />
                   <input
-                    className=""
+                    className="w-4/6  rounded-lg text-right "
                     type="number"
                     value={abillitypanaltynum}
                     onChange={(e) => handleQuantityChange14(e.target.value)}

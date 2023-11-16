@@ -172,12 +172,12 @@ export default function SignupForm() {
   };
 
   return (
-    <div className=" box-border h-1/2 w-1/2 p-4 border-8">
+    <div className=" ">
       <div className="text-xl">쌀로아 회원가입</div>
       <div className="px-4 py-2">ID</div>
       <div className="flex flex-row">
         <input
-          className="w-11/12 h-12 px-4 py-2"
+          className="w-11/12 h-12 px-4 py-2 m-1 rounded-lg"
           type="text"
           placeholder="ID"
           onChange={handleIDChange}
@@ -185,14 +185,14 @@ export default function SignupForm() {
         ></input>
         <button
           onClick={(e) => handleIDCheck()}
-          className=" box-border h-1/2 w-1/2 p-4 flex justify-center"
+          className=" h-12 w-24 bg-green-500 rounded-lg text-white m-1"
         >
           중복 검사
         </button>
       </div>
       <div>비밀번호</div>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 m-1 rounded-lg"
         type="password"
         placeholder="password"
         onChange={handlePasswordChange}
@@ -200,7 +200,7 @@ export default function SignupForm() {
       ></input>
       <div>비밀번호 재확인</div>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 m-1 rounded-lg"
         type="password"
         placeholder="password"
         onChange={handlePassword2Change}
@@ -208,7 +208,7 @@ export default function SignupForm() {
       ></input>
       <div>비밀번호 찾기 질문</div>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2  m-1 rounded-lg"
         type="text"
         placeholder="Question"
         onChange={handleQuestionChange}
@@ -216,13 +216,14 @@ export default function SignupForm() {
       ></input>
       <div>답변</div>
       <input
-        className="w-11/12 h-12 px-4 py-2"
+        className="w-11/12 h-12 px-4 py-2 m-1 rounded-lg"
         type="text"
         placeholder="Anwser"
         onChange={handleAnwserChange}
         value={Anwser}
       ></input>
       <input
+        className="w-11/12 h-12 px-4 py-2 m-1  rounded-lg"
         type="string"
         placeholder={`${pass}` + "자동입력방지"}
         onChange={(e) => fillForm(e.target.value)}
@@ -230,7 +231,10 @@ export default function SignupForm() {
       />
 
       <div className="flex flex-row justify-around ">
-        <button className="px-4 py-2" onClick={() => handleSignup()}>
+        <button
+          className="h-12 w-24 bg-blue-500 rounded-lg text-white m-1"
+          onClick={() => handleSignup()}
+        >
           가입신청
         </button>
         <PopupModal
@@ -254,7 +258,9 @@ export default function SignupForm() {
           message="가입 실패, 입력된 정보를 확인해주세요."
         />
         <Link href="/Login">
-          <button className="px-4 py-2">뒤로가기</button>
+          <button className="h-12 w-24 bg-red-500 rounded-lg text-white m-1">
+            뒤로가기
+          </button>
         </Link>
       </div>
     </div>

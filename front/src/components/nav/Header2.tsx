@@ -6,13 +6,13 @@ export default function Header2() {
   const isCurrentPage = (targetPath: string) => pathname.includes(targetPath);
 
   return (
-    <div className="bg-yellow-50 flex flex-row justify-between">
+    <div className="bg-yellow-50 flex flex-row justify-evenly ">
       {pathname.includes("Calculator") ? (
         <>
           <button
             className={`flex flex-row ${
               isCurrentPage("/Calculator/Maker")
-                ? "shadow-xl bg-yellow-100"
+                ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
             }`}
           >
@@ -23,7 +23,7 @@ export default function Header2() {
           <button
             className={`flex flex-row ${
               isCurrentPage("/Calculator/Total")
-                ? "shadow-xl bg-yellow-100"
+                ? "shadow-xl bg-yellow-200 rounded-lg "
                 : ""
             }`}
           >
@@ -38,7 +38,9 @@ export default function Header2() {
           </button>
           <button
             className={`flex flex-row ${
-              isCurrentPage("/Calculator/Info") ? "shadow-xl bg-yellow-100" : ""
+              isCurrentPage("/Calculator/Info")
+                ? "shadow-xl bg-yellow-200 rounded-lg "
+                : ""
             }`}
           >
             <Link href="/Calculator/Info" className="flex flex-row">
@@ -48,7 +50,7 @@ export default function Header2() {
           <button
             className={`flex flex-row ${
               isCurrentPage("/Calculator/Editer")
-                ? "shadow-xl bg-yellow-100"
+                ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
             }`}
           >
@@ -62,7 +64,7 @@ export default function Header2() {
           <button
             className={`flex flex-row ${
               isCurrentPage("/Statistics/Summary")
-                ? "shadow-xl bg-yellow-100"
+                ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
             }`}
           >
@@ -73,7 +75,7 @@ export default function Header2() {
           <button
             className={`flex flex-row ${
               isCurrentPage("/Statistics/Search")
-                ? "shadow-xl bg-yellow-100"
+                ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
             }`}
           >
@@ -84,7 +86,7 @@ export default function Header2() {
           <button
             className={`flex flex-row ${
               isCurrentPage("/Statistics/Comparison")
-                ? "shadow-xl bg-yellow-100"
+                ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
             }`}
           >
@@ -97,7 +99,9 @@ export default function Header2() {
         <>
           <button
             className={`flex flex-row ${
-              isCurrentPage("/Coin/Blood") ? "shadow-xl bg-yellow-100" : ""
+              isCurrentPage("/Coin/Blood")
+                ? "shadow-xl bg-yellow-200 rounded-lg"
+                : ""
             }`}
           >
             <Link href="/Coin/Blood" className="flex flex-row">
@@ -106,7 +110,9 @@ export default function Header2() {
           </button>
           <button
             className={`flex flex-row ${
-              isCurrentPage("/Coin/Brave") ? "shadow-xl bg-yellow-100" : ""
+              isCurrentPage("/Coin/Brave")
+                ? "shadow-xl bg-yellow-200 rounded-lg"
+                : ""
             }`}
           >
             <Link href="/Coin/Brave" className="flex flex-row">
@@ -115,7 +121,9 @@ export default function Header2() {
           </button>
           <button
             className={`flex flex-row ${
-              isCurrentPage("/Coin/Pirate") ? "shadow-xl bg-yellow-100" : ""
+              isCurrentPage("/Coin/Pirate")
+                ? "shadow-xl bg-yellow-200 rounded-lg"
+                : ""
             }`}
           >
             <Link href="/Coin/Pirate" className="flex flex-row">

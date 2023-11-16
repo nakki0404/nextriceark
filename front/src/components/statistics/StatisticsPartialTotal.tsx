@@ -136,8 +136,8 @@ export default function StatisticsPartialTotal() {
 
   return (
     <div>
-      <h1>구간별 재련 재료 거래 대금</h1>
-      <h6>명파, 숨결을 제외</h6>
+      <div className="text-2xl  ">구간별 재련 재료 거래 대금</div>
+      <div>명파, 숨결을 제외</div>
       <AreaChart
         width={300}
         height={275}
@@ -156,7 +156,9 @@ export default function StatisticsPartialTotal() {
           ticks={[0, 0.25, 0.5, 0.75, 1]}
           tickFormatter={(value) => `${Math.round(value * 100)}%`}
         />
-        <Tooltip />
+        <Tooltip
+          formatter={(value: any) => (parseInt(value) / 1e6).toFixed(0) + "M G"}
+        />
         <Legend />
         <Area
           type="monotone"

@@ -556,7 +556,7 @@ export default function Editer() {
               </td>
               <td className="">
                 <input
-                  className="w-5/6 m-1 rounded-lg text-right bg-yellow-50  "
+                  className="w-5/6 m-1 rounded-lg text-right   "
                   type="number"
                   value={item.Quantity}
                   onChange={(e) =>
@@ -566,7 +566,7 @@ export default function Editer() {
               </td>
               <td className="">
                 <input
-                  className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
+                  className="w-5/6 m-1 rounded-lg text-right "
                   type="number"
                   value={item.Quantity2}
                   onChange={(e) =>
@@ -606,7 +606,7 @@ export default function Editer() {
       <div className="flex flex-row items-center justify-center">
         <div className="flex flex-col">
           <input
-            className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
+            className="w-5/6 m-1 rounded-lg text-right "
             type="text"
             placeholder="컨텐츠 이름"
             onChange={handleTitleChange}

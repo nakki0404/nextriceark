@@ -457,7 +457,7 @@ export default function Maker() {
               </td>
               <td className="">
                 <input
-                  className="w-5/6 m-1 rounded-lg text-right bg-yellow-50  "
+                  className="w-5/6 m-1 rounded-lg text-right   "
                   type="number"
                   value={item.Quantity}
                   onChange={(e) =>
@@ -467,7 +467,7 @@ export default function Maker() {
               </td>
               <td className="">
                 <input
-                  className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
+                  className="w-5/6 m-1 rounded-lg text-right "
                   type="number"
                   value={item.Quantity2}
                   onChange={(e) =>
@@ -507,14 +507,14 @@ export default function Maker() {
       <div className="flex flex-row items-center justify-center">
         <div className="flex flex-col">
           <input
-            className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
+            className="w-5/6 m-1 rounded-lg text-right "
             type="text"
             placeholder="컨텐츠 이름"
             onChange={handleTitleChange}
             value={title}
           />
           <input
-            className="w-5/6 m-1 rounded-lg text-right bg-yellow-50"
+            className="w-5/6 m-1 rounded-lg text-right "
             type="text"
             placeholder={`${pass}` + " 자동입력방지 문자"}
             onChange={(e) => fillForm(e.target.value)}

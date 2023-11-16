@@ -3,7 +3,7 @@ import Bravecoin from "@/components/coin/Bravecoin";
 export default function Coin() {
   return (
     <main className="flex flex-row justify-center ">
-      <div className=" min-h-screen p-4 m-4">
+      <div className=" border-4 border-yellow-200 rounded-3xl p-8 m-8">
         <Bravecoin />
       </div>
     </main>
