@@ -1,2 +1,8 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /Calculator/
+Disallow: /Coin/
+Disallow: /Letter/
+Disallow: /Login/
+Disallow: /Recycle/
+Disallow: /Statistics/
