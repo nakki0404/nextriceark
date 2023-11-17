@@ -23,7 +23,7 @@ export default function Header() {
   useEffect(() => {
     const savedData: any = localStorage.getItem("localStorageKey5");
     if (savedData) {
-      console.log(JSON.parse(savedData));
+      // console.log(JSON.parse(savedData));
       dispatch(setloginstate(JSON.parse(savedData)));
     }
   }, []);
