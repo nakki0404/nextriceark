@@ -44,7 +44,7 @@ export default function Home() {
         ? (scrollIndicator3.style.opacity = scrollPosition > 700 ? "1" : "0")
         : null;
       scrollIndicator4
-        ? (scrollIndicator4.style.opacity = scrollPosition > 1000 ? "1" : "0")
+        ? (scrollIndicator4.style.opacity = scrollPosition > 1100 ? "1" : "0")
         : null;
     });
   }
@@ -115,7 +115,7 @@ export default function Home() {
       <div className=" hidden md:block">
         <div
           id="caculator_manual-indicator"
-          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500"
+          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500 p-8 m-8"
         >
           <div>
             <div>
@@ -150,7 +150,7 @@ export default function Home() {
         </div>
         <div
           id="statistics_manual-indicator"
-          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500"
+          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500 p-8 m-8"
         >
           <div>
             <div>
@@ -186,7 +186,7 @@ export default function Home() {
         </div>
         <div
           id="coin_manual-indicator"
-          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500"
+          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500 p-8 m-8"
         >
           <div>
             <div>
@@ -218,7 +218,7 @@ export default function Home() {
         </div>
         <div
           id="recycle_manual-indicator"
-          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500"
+          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500 p-8 m-8"
         >
           <div>
             <div>
