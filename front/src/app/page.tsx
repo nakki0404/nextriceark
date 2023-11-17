@@ -17,35 +17,37 @@ import recycle_manual from "@/asset/png/recycle-manual.png";
 import coin_manual from "@/asset/png/coin-manual.png";
 
 export default function Home() {
-  window.addEventListener("scroll", function () {
-    let scrollIndicator: HTMLElement | null = document.getElementById(
-      "caculator_manual-indicator"
-    );
-    let scrollIndicator2: HTMLElement | null = document.getElementById(
-      "statistics_manual-indicator"
-    );
-    let scrollIndicator3: HTMLElement | null = document.getElementById(
-      "coin_manual-indicator"
-    );
-    let scrollIndicator4: HTMLElement | null = document.getElementById(
-      "recycle_manual-indicator"
-    );
-    let scrollPosition = window.scrollY;
+  if (typeof window !== "undefined") {
+    window.addEventListener("scroll", function () {
+      let scrollIndicator: HTMLElement | null = document.getElementById(
+        "caculator_manual-indicator"
+      );
+      let scrollIndicator2: HTMLElement | null = document.getElementById(
+        "statistics_manual-indicator"
+      );
+      let scrollIndicator3: HTMLElement | null = document.getElementById(
+        "coin_manual-indicator"
+      );
+      let scrollIndicator4: HTMLElement | null = document.getElementById(
+        "recycle_manual-indicator"
+      );
+      let scrollPosition = window.scrollY;
 
-    // 스크롤 위치에 따라 scroll-indicator의 투명도를 조절합니다.
-    scrollIndicator
-      ? (scrollIndicator.style.opacity = scrollPosition > 250 ? "1" : "0")
-      : null;
-    scrollIndicator2
-      ? (scrollIndicator2.style.opacity = scrollPosition > 400 ? "1" : "0")
-      : null;
-    scrollIndicator3
-      ? (scrollIndicator3.style.opacity = scrollPosition > 700 ? "1" : "0")
-      : null;
-    scrollIndicator4
-      ? (scrollIndicator4.style.opacity = scrollPosition > 1000 ? "1" : "0")
-      : null;
-  });
+      // 스크롤 위치에 따라 scroll-indicator의 투명도를 조절합니다.
+      scrollIndicator
+        ? (scrollIndicator.style.opacity = scrollPosition > 250 ? "1" : "0")
+        : null;
+      scrollIndicator2
+        ? (scrollIndicator2.style.opacity = scrollPosition > 400 ? "1" : "0")
+        : null;
+      scrollIndicator3
+        ? (scrollIndicator3.style.opacity = scrollPosition > 700 ? "1" : "0")
+        : null;
+      scrollIndicator4
+        ? (scrollIndicator4.style.opacity = scrollPosition > 1000 ? "1" : "0")
+        : null;
+    });
+  }
   return (
     <div className="flex flex-col space-y-16 min-w-screen min-h-screen">
       <div className="text-7xl p-8 flex text-yellow-300 sm:text-8xl sm:p-16 justify-center">
