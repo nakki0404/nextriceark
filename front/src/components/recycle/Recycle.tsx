@@ -685,7 +685,7 @@ export default function Recycle() {
           }
           //키 값에 객체의 객체로 들어가는데
         } else {
-          // conbin에 부위 스탯 각인 디버프가 없다면
+          // conbin에 부위 스탯 각인 패널티가 없다면
           conbin[key] = obj[key];
         }
       }
@@ -941,7 +941,7 @@ export default function Recycle() {
                     <th>스텟2</th>
                     <th>각인1</th>
                     <th>각인2</th>
-                    <th>디버프</th>
+                    <th>패널티</th>
                     <th>위치</th>
                     <th></th>
                   </tr>
@@ -1081,7 +1081,7 @@ export default function Recycle() {
                     value={selectedOption14}
                     onChange={handleChange14}
                     isSearchable={true} // 검색 가능한 드롭다운으로 설정
-                    placeholder="디버프"
+                    placeholder="패널티"
                   />
                   <input
                     className="w-4/6  rounded-lg text-right "
@@ -1106,7 +1106,7 @@ export default function Recycle() {
                 <tr>
                   <th>각인1</th>
                   <th>각인2</th>
-                  <th>디버프</th>
+                  <th>패널티</th>
                   <th></th>
                 </tr>
               </thead>
