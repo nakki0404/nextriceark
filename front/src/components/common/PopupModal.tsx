@@ -13,7 +13,7 @@ const PopupModal: FC<PopupModalProps> = ({ isOpen, closeModal, message }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div className="absolute inset-0 bg-gray-800 opacity-50"></div>
-      <div className="bg-white p-8 rounded shadow-lg z-50">
+      <div className="bg-white p-8 rounded-lg shadow-lg z-50">
         <span
           className="absolute top-4 right-4 text-gray-700 cursor-pointer"
           onClick={closeModal}
@@ -22,7 +22,7 @@ const PopupModal: FC<PopupModalProps> = ({ isOpen, closeModal, message }) => {
         </span>
         <p>{message}</p>
         <button
-          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded"
+          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg"
           onClick={closeModal}
         >
           닫기
