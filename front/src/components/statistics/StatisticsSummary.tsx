@@ -86,7 +86,7 @@ export default function StatisticsSummary() {
   ];
   return (
     <div>
-      <div className="text-2xl  "> 거래 대금 비중</div>
+      <div className="text-2xl  ">항목별 거래 대금 비중</div>
       <div>지난 {date}일동안</div>
       <PieChart width={300} height={300}>
         <Pie

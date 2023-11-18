@@ -147,8 +147,7 @@ app.get("/api/touch", async (req, res) => {
   const formattedNum = String(randomNum).padStart(5, "0");
   const insertResult = await Prevent.insertMany({ Num: formattedNum });
   // 난수를 4자리 문자열로 변환
-  console.log(insertResult);
-  res.send(formattedNum);
+  res.send(insertResult[0].Num);
 });
 
 app.use(logger("dev"));

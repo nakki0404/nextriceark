@@ -52,7 +52,7 @@ export default function Home() {
       </div>
       <div className="flex flex-col p-4 sm:flex-row  justify-center">
         <Link href="/Calculator/Maker" className=" m-4 flex justify-center ">
-          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col shadow-2xl ">
+          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col  transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
             <div className="flex flex-row justify-center p-4 ">
               <Image
                 src={calculatorimage}
@@ -66,7 +66,7 @@ export default function Home() {
           </div>
         </Link>
         <Link href="/Statistics/Summary" className=" m-4 flex justify-center ">
-          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col shadow-2xl ">
+          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
             <div className="flex flex-row justify-center p-4 ">
               <Image
                 src={statisticimage}
@@ -80,7 +80,7 @@ export default function Home() {
           </div>
         </Link>
         <Link href="/Coin/Blood" className=" m-4 flex justify-center">
-          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col shadow-2xl">
+          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
             <div className="flex flex-row justify-center p-4 ">
               <Image
                 src={coinimage}
@@ -94,7 +94,7 @@ export default function Home() {
           </div>
         </Link>
         <Link href="/Recycle" className=" m-4 flex justify-center">
-          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300  flex flex-col shadow-2xl">
+          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300  flex flex-col  transition  hover:-translate-y-1  hover:shadow-2xl duration-300">
             <div className="flex flex-row justify-center p-4 ">
               <Image
                 src={recycleimage}
@@ -117,13 +117,13 @@ export default function Home() {
           <div>
             <div>
               <p>이 상자 얼마에요? 뭐 받아요?</p>
-              <p> 거래소 가격으로 계산합니다</p>
+              <p>이 페이지는 평균가로 계산해줍니다</p>
             </div>
             <Link
               href="/Calculator/Maker"
               className=" m-4 flex justify-center "
             >
-              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col shadow-2xl ">
+              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
                 <div className="flex flex-row justify-center p-4 ">
                   <Image
                     src={calculatorimage}
@@ -151,15 +151,13 @@ export default function Home() {
         >
           <div>
             <div>
-              <p>거래소 6가지 종목 통계</p>
-              <p>레벨대별 재련재료 거래비중</p>
-              <p>거래소 일별 거래대금</p>
+              <p>거래소 각종 통계</p>
             </div>
             <Link
               href="/Statistics/Summary"
               className=" m-4 flex justify-center "
             >
-              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col shadow-2xl ">
+              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
                 <div className="flex flex-row justify-center p-4 ">
                   <Image
                     src={statisticimage}
@@ -188,10 +186,10 @@ export default function Home() {
           <div>
             <div>
               <p>주화로 뭐부터 사지?</p>
-              <p>각종 주화 효율</p>
+              <p>혈석 용기 해적 주화 효율</p>
             </div>
             <Link href="/Coin/Blood" className=" m-4 flex justify-center">
-              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col shadow-2xl">
+              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
                 <div className="flex flex-row justify-center p-4 ">
                   <Image
                     src={coinimage}
@@ -223,7 +221,7 @@ export default function Home() {
               <p>모아둔 악세들 조합 추천</p>
             </div>
             <Link href="/Recycle" className=" m-4 flex justify-center">
-              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300  flex flex-col shadow-2xl">
+              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300  flex flex-col  transition  hover:-translate-y-1  hover:shadow-2xl duration-300">
                 <div className="flex flex-row justify-center p-4 ">
                   <Image
                     src={recycleimage}
