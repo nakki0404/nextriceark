@@ -94,7 +94,7 @@ export default function StatisticsTotal() {
 
   return (
     <div>
-      <div className="text-2xl  ">6가지 항목 일간 거래대금</div>
+      <div className="text-2xl  ">일간 거래대금</div>
       <div>거래대금=평균가*거래량</div>
       <BarChart
         width={300}

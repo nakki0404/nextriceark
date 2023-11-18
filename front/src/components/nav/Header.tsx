@@ -37,7 +37,10 @@ export default function Header() {
   return (
     <div className="bg-yellow-50 flex flex-row justify-between">
       <div>
-        <Link href="/" className="flex flex-row">
+        <Link
+          href="/"
+          className="flex flex-row  transition hover:bg-yellow-300 duration-500"
+        >
           <Image
             src={riceimage}
             alt="rice icon by Icons8"
@@ -45,16 +48,14 @@ export default function Header() {
             width={32}
             height={32}
           />
-          <div className="text-xl hidden md:table-cell">쌀로아</div>
+          <div className="text-xl hidden md:table-cell ">쌀로아</div>
         </Link>
       </div>
       <div>
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Calculator")
-              ? "shadow-xl bg-yellow-300 rounded-lg"
-              : ""
-          }`}
+            isCurrentPage("/Calculator") ? " bg-yellow-300 rounded-lg" : ""
+          } transition hover:bg-yellow-300 hover:shadow-xl duration-500`}
         >
           <Link href="/Calculator/Maker" className="flex flex-row">
             <Image
@@ -71,10 +72,8 @@ export default function Header() {
       <div>
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Statistics")
-              ? "shadow-xl bg-yellow-300 rounded-lg"
-              : ""
-          }`}
+            isCurrentPage("/Statistics") ? " bg-yellow-300 rounded-lg" : ""
+          } transition hover:bg-yellow-300 duration-500`}
         >
           <Link href="/Statistics/Summary" className="flex flex-row ">
             <Image
@@ -91,8 +90,8 @@ export default function Header() {
       <div>
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Coin") ? "shadow-xl bg-yellow-300 rounded-lg" : ""
-          }`}
+            isCurrentPage("/Coin") ? " bg-yellow-300 rounded-lg" : ""
+          } transition hover:bg-yellow-300 duration-500`}
         >
           <Link href="/Coin/Blood" className="flex flex-row">
             <Image
@@ -109,10 +108,8 @@ export default function Header() {
       <div>
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Recycle")
-              ? "shadow-xl bg-yellow-300 rounded-lg"
-              : ""
-          }`}
+            isCurrentPage("/Recycle") ? " bg-yellow-300 rounded-lg" : ""
+          } transition hover:bg-yellow-300 duration-500`}
         >
           <Link href="/Recycle" className="flex flex-row">
             <Image
@@ -129,8 +126,8 @@ export default function Header() {
       {!loginstate.isLogin ? (
         <button
           className={`flex flex-row ${
-            isCurrentPage("/Login") ? "shadow-xl bg-yellow-300 rounded-lg" : ""
-          }`}
+            isCurrentPage("/Login") ? " bg-yellow-300 rounded-lg" : ""
+          } transition hover:bg-yellow-300 duration-500`}
         >
           <Link href="/Login" className="flex flex-row">
             <Image
@@ -144,16 +141,21 @@ export default function Header() {
           </Link>
         </button>
       ) : (
-        <div className="flex flex-row" onClick={logOut}>
-          <Image
-            src={logoutimage}
-            alt="logout icon by Icons8"
-            title="logout icon by Icons8"
-            width={32}
-            height={32}
-          />
-          <div className="text-xl hidden md:table-cell">로그아웃</div>
-        </div>
+        <button>
+          <div
+            className="flex flex-row  transition hover:bg-yellow-300 duration-500"
+            onClick={logOut}
+          >
+            <Image
+              src={logoutimage}
+              alt="logout icon by Icons8"
+              title="logout icon by Icons8"
+              width={32}
+              height={32}
+            />
+            <div className="text-xl hidden md:table-cell">로그아웃</div>
+          </div>
+        </button>
       )}
     </div>
   );

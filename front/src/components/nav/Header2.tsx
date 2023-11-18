@@ -14,7 +14,7 @@ export default function Header2() {
               isCurrentPage("/Calculator/Maker")
                 ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
-            }`}
+            }  transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Calculator/Maker" className={`flex flex-row`}>
               <div className="text-xl">재화계산기</div>
@@ -25,7 +25,7 @@ export default function Header2() {
               isCurrentPage("/Calculator/Total")
                 ? "shadow-xl bg-yellow-200 rounded-lg "
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link
               href="/Calculator/Total"
@@ -41,7 +41,7 @@ export default function Header2() {
               isCurrentPage("/Calculator/Info")
                 ? "shadow-xl bg-yellow-200 rounded-lg "
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Calculator/Info" className="flex flex-row">
               <div className="text-xl">상세보기</div>
@@ -52,7 +52,7 @@ export default function Header2() {
               isCurrentPage("/Calculator/Editer")
                 ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Calculator/Editer" className="flex flex-row">
               <div className="text-xl">수정하기</div>
@@ -66,7 +66,7 @@ export default function Header2() {
               isCurrentPage("/Statistics/Summary")
                 ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Statistics/Summary" className="flex flex-row">
               <div className="text-xl">요약</div>
@@ -77,7 +77,7 @@ export default function Header2() {
               isCurrentPage("/Statistics/Search")
                 ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Statistics/Search" className="flex flex-row">
               <div className="text-xl">단일검색</div>
@@ -88,7 +88,7 @@ export default function Header2() {
               isCurrentPage("/Statistics/Comparison")
                 ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Statistics/Comparison" className="flex flex-row">
               <div className="text-xl">전일비교</div>
@@ -102,7 +102,7 @@ export default function Header2() {
               isCurrentPage("/Coin/Blood")
                 ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Coin/Blood" className="flex flex-row">
               <div className="text-xl">실마엘 혈석</div>
@@ -113,7 +113,7 @@ export default function Header2() {
               isCurrentPage("/Coin/Brave")
                 ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Coin/Brave" className="flex flex-row">
               <div className="text-xl">용기의 주화</div>
@@ -124,7 +124,7 @@ export default function Header2() {
               isCurrentPage("/Coin/Pirate")
                 ? "shadow-xl bg-yellow-200 rounded-lg"
                 : ""
-            }`}
+            }transition hover:bg-yellow-100 duration-500`}
           >
             <Link href="/Coin/Pirate" className="flex flex-row">
               <div className="text-xl">해적 주화</div>
