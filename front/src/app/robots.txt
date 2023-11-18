@@ -6,3 +6,6 @@ Disallow: /Letter/
 Disallow: /Login/
 Disallow: /Recycle/
 Disallow: /Statistics/
+
+User-agent: *
+Disallow: /

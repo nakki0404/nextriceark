@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "쌀로아",
-  description: "쌀로아입니다",
+  description: "재화계산기, 거래소통계, 주화효율표, 악세조합기를 제공합니다",
   icons: "favicon.ico",
 };
 

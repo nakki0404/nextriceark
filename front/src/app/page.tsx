@@ -3,10 +3,7 @@ import React, { useState, useEffect } from "react";
 
 import Link from "next/link";
 import Image from "next/image";
-import riceimage from "@/asset/png/icons8-rice-64.png";
 import calculatorimage from "@/asset/png/icons8-calculator-64.png";
-import loginimage from "@/asset/png/icons8-login-64.png";
-import logoutimage from "@/asset/png/icons8-logout-64.png";
 import statisticimage from "@/asset/png/icons8-statistic-64.png";
 import coinimage from "@/asset/png/icons8-coin-64.png";
 import recycleimage from "@/asset/png/icons8-recycle-64.png";
