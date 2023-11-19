@@ -12,7 +12,7 @@ const hasitem = require("./src/model/hasitem");
 const trading_data = require("./src/model/trading_data");
 
 const Prevent = require("./src/model/prevent");
-const Visitor = require("./src/model/visitor");
+
 const Visited = require("./src/model/visited");
 require("dotenv").config();
 
