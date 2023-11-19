@@ -5,6 +5,8 @@ import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
 import skilllist2 from "@/asset/data/skilllistorigin.json";
 import jobskilllist2 from "@/asset/data/jobskilllist.json";
+import PopupModal from "@/components/common/PopupModal";
+
 export default function Recycle() {
   useEffect(() => {
     const savedata: any = localStorage.getItem("itemlist");
@@ -718,6 +720,7 @@ export default function Recycle() {
         }
       }
     }
+
     // }
   }
   function maker() {
@@ -758,6 +761,8 @@ export default function Recycle() {
         }
       }
     }
+
+    openModal();
   }
   const [viewcobin, setViewcobin] = useState<any>([]);
   function viewconbin(index: any) {
@@ -772,6 +777,15 @@ export default function Recycle() {
       }
     }
   }
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <div>
@@ -1379,6 +1393,11 @@ export default function Recycle() {
           </tbody>
         </table>
       </div>
+      <PopupModal
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+        message="목표각인에 해당되는 조합이 없으면 아무것도 나타나지 않습니다."
+      />
     </div>
   );
 }
