@@ -1,17 +1,18 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
-import Link from "next/link";
 import Image from "next/image";
-import calculatorimage from "@/asset/png/icons8-calculator-64.png";
-import statisticimage from "@/asset/png/icons8-statistic-64.png";
-import coinimage from "@/asset/png/icons8-coin-64.png";
-import recycleimage from "@/asset/png/icons8-recycle-64.png";
+import calculatorimage from "@/asset/png/icons8-calculator-48.png";
+import statisticimage from "@/asset/png/icons8-statistic-48.png";
+import coinimage from "@/asset/png/icons8-coin-48.png";
+import recycleimage from "@/asset/png/icons8-recycle-48.png";
 
 import caculator_manual from "@/asset/png/caculator-manual.png";
 import statistics_manual from "@/asset/png/statistics-manual.png";
 import recycle_manual from "@/asset/png/recycle-manual.png";
 import coin_manual from "@/asset/png/coin-manual.png";
+
+import { HomePageButton } from "@/components/HomePageButton";
 
 export default function Home() {
   if (typeof window !== "undefined") {
@@ -51,64 +52,28 @@ export default function Home() {
         쌀로아
       </div>
       <div className="flex flex-col p-4 sm:flex-row  justify-center">
-        <Link href="/Calculator/Maker" className=" m-4 flex justify-center ">
-          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col  transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
-            <div className="flex flex-row justify-center p-4 ">
-              <Image
-                src={calculatorimage}
-                alt="calculator icon by Icons8"
-                title="calculator icon by Icons8"
-                width={32}
-                height={32}
-              />
-              <div className="text-xl  md:table-cell">재화계산기</div>
-            </div>
-          </div>
-        </Link>
-        <Link href="/Statistics/Summary" className=" m-4 flex justify-center ">
-          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
-            <div className="flex flex-row justify-center p-4 ">
-              <Image
-                src={statisticimage}
-                alt="statistic icon by Icons8"
-                title="statistic icon by Icons8"
-                width={32}
-                height={32}
-              />
-              <div className="text-xl  md:table-cell">거래소통계</div>
-            </div>
-          </div>
-        </Link>
-        <Link href="/Coin/Blood" className=" m-4 flex justify-center">
-          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
-            <div className="flex flex-row justify-center p-4 ">
-              <Image
-                src={coinimage}
-                alt="coin icon by Icons8"
-                title="coin icon by Icons8"
-                width={32}
-                height={32}
-              />
-              <div className="text-xl  md:table-cell">주화효율</div>
-            </div>
-          </div>
-        </Link>
-        <Link href="/Recycle" className=" m-4 flex justify-center">
-          <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300  flex flex-col  transition  hover:-translate-y-1  hover:shadow-2xl duration-300">
-            <div className="flex flex-row justify-center p-4 ">
-              <Image
-                src={recycleimage}
-                alt="coin icon by Icons8"
-                title="coin icon by Icons8"
-                width={32}
-                height={32}
-              />
-              <div className="text-xl  md:table-cell">악세조합기</div>
-            </div>
-          </div>
-        </Link>
+        <HomePageButton
+          url="/Calculator/Maker"
+          icon={calculatorimage}
+          buttonText="재화계산기"
+        />
+        <HomePageButton
+          url="/Statistics/Summary"
+          icon={statisticimage}
+          buttonText="거래소통계"
+        />
+        <HomePageButton
+          url="/Coin/Blood"
+          icon={coinimage}
+          buttonText="주화효율"
+        />
+        <HomePageButton
+          url="/Recycle"
+          icon={recycleimage}
+          buttonText="악세조합기"
+        />
       </div>
-      {/* <Homemenu /> */}
+
       <div className=" hidden md:block">
         <div
           id="caculator_manual-indicator"
@@ -119,23 +84,11 @@ export default function Home() {
               <p>이 상자 얼마에요? 뭐 받아요?</p>
               <p>이 페이지는 평균가로 계산해줍니다</p>
             </div>
-            <Link
-              href="/Calculator/Maker"
-              className=" m-4 flex justify-center "
-            >
-              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
-                <div className="flex flex-row justify-center p-4 ">
-                  <Image
-                    src={calculatorimage}
-                    alt="calculator icon by Icons8"
-                    title="calculator icon by Icons8"
-                    width={32}
-                    height={32}
-                  />
-                  <div className="text-xl  md:table-cell">재화계산기</div>
-                </div>
-              </div>
-            </Link>
+            <HomePageButton
+              url="/Calculator/Maker"
+              icon={calculatorimage}
+              buttonText="재화계산기"
+            />
           </div>
           <Image
             src={caculator_manual}
@@ -153,23 +106,11 @@ export default function Home() {
             <div>
               <p>거래소 각종 통계</p>
             </div>
-            <Link
-              href="/Statistics/Summary"
-              className=" m-4 flex justify-center "
-            >
-              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
-                <div className="flex flex-row justify-center p-4 ">
-                  <Image
-                    src={statisticimage}
-                    alt="statistic icon by Icons8"
-                    title="statistic icon by Icons8"
-                    width={32}
-                    height={32}
-                  />
-                  <div className="text-xl  md:table-cell">거래소통계</div>
-                </div>
-              </div>
-            </Link>
+            <HomePageButton
+              url="/Statistics/Summary"
+              icon={statisticimage}
+              buttonText="거래소통계"
+            />
           </div>
           <Image
             src={statistics_manual}
@@ -188,20 +129,12 @@ export default function Home() {
               <p>주화로 뭐부터 사지?</p>
               <p>혈석 용기 해적 주화 효율</p>
             </div>
-            <Link href="/Coin/Blood" className=" m-4 flex justify-center">
-              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300 flex flex-col transition  hover:-translate-y-1  hover:shadow-2xl duration-300 ">
-                <div className="flex flex-row justify-center p-4 ">
-                  <Image
-                    src={coinimage}
-                    alt="coin icon by Icons8"
-                    title="coin icon by Icons8"
-                    width={32}
-                    height={32}
-                  />
-                  <div className="text-xl  md:table-cell">주화효율</div>
-                </div>
-              </div>
-            </Link>
+
+            <HomePageButton
+              url="/Coin/Blood"
+              icon={coinimage}
+              buttonText="주화효율"
+            />
           </div>
           <Image
             src={coin_manual}
@@ -220,20 +153,12 @@ export default function Home() {
               <p>버리긴 아깝고 당장 쓸덴 없고</p>
               <p>모아둔 악세들 조합 추천</p>
             </div>
-            <Link href="/Recycle" className=" m-4 flex justify-center">
-              <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300  flex flex-col  transition  hover:-translate-y-1  hover:shadow-2xl duration-300">
-                <div className="flex flex-row justify-center p-4 ">
-                  <Image
-                    src={recycleimage}
-                    alt="coin icon by Icons8"
-                    title="coin icon by Icons8"
-                    width={32}
-                    height={32}
-                  />
-                  <div className="text-xl  md:table-cell">악세조합기</div>
-                </div>
-              </div>
-            </Link>
+
+            <HomePageButton
+              url="/Recycle"
+              icon={recycleimage}
+              buttonText="악세조합기"
+            />
           </div>
           <Image
             src={recycle_manual}

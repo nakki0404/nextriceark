@@ -159,7 +159,8 @@ app.get("/", (req, res) => {
   res.send("hi");
 });
 
-app.get("/api/total", async (req, res) => {
+app.get("/api/VisitorCount", async (req, res) => {
+  let totalVistor = 0;
   const result = await Visited.aggregate([
     {
       $group: {
@@ -170,50 +171,38 @@ app.get("/api/total", async (req, res) => {
   ]);
 
   if (result.length > 0) {
-    const totalSum = result[0].total + 1;
-    res.json(totalSum);
-    console.log("전체 날짜의 todayTotal 누적 합:", totalSum);
+    totalVistor = result[0].total + 1;
   } else {
     console.log("데이터가 없습니다.");
   }
-});
+  //전체 방문자 totalVistor 설정 완료
 
-app.get("/api/howmany", async (req, res) => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
   const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
 
   const formattedDate = `${year}-${month}-${day}`;
-  // console.log(formattedDate);
-  const visited = await Visited.find({ Date: formattedDate });
-  // console.log(visited);
-  res.json(visited);
-});
+  const todatVisitor = await Visited.find({ Date: formattedDate });
 
-app.post("/api/count", async (req, res) => {
-  try {
-    const visitors = req.headers.cookie;
-    console.log(visitors);
-    const existingVisitor = await Visitor.findOne({ Name: visitors });
-    if (!existingVisitor) {
-      const currentDate = new Date();
-      const year = currentDate.getFullYear();
-      const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
-      const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
-      const formattedDate = `${year}-${month}-${day}`;
-      await Visitor.insertMany({ Name: visitors });
-      await Visited.updateOne(
-        { Date: formattedDate },
-        { $inc: { todayTotal: 1 } }
-      );
-    }
+  await Visited.updateOne({ Date: formattedDate }, { $inc: { todayTotal: 1 } });
+  const VisitorData = {
+    Total: totalVistor,
+    Today: todatVisitor[0].todayTotal,
+  };
+  //일간 방문자 , +1 통합
 
-    res.send(req.headers);
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Internal Server Error");
-  }
+  const cookieName = "Visitor";
+  const cookieValue = totalVistor;
+  const expirationDate = new Date(); // 수정된 부분
+  expirationDate.setDate(expirationDate.getDate() + 1);
+  res.header("Access-Control-Allow-Credentials", true);
+  res.cookie(cookieName, cookieValue, {
+    expires: expirationDate,
+    // httpOnly: true, // 클라이언트에서 JavaScript로 쿠키에 접근 불가능하도록 설정 // 확인절차상 해제
+  });
+  /// 쿠키끝
+  res.json(VisitorData);
 });
 
 app.get("/api/data", async (req, res) => {
