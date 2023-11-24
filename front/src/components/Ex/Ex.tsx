@@ -7,7 +7,7 @@ export default function Ex() {
   const handleOpenModal = () => {
     setModalOpen(true);
   };
-  const handleModalClose = async (confirmed: string) => {
+  const handleModalClose = async (confirmed: boolean) => {
     setModalOpen(false);
     const result = await new Promise((resolve) => {
       const data = confirmed;
