@@ -7,7 +7,12 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
 import type { Item } from "@/types/ContentLists";
 import { v4 as uuidv4 } from "uuid";
+import { useCaptchaCodeQuery } from "@/hooks/api/useCaptchaCodeQuery";
+import { useCaptchaCodeMutation } from "@/hooks/api/useCaptchaCodeMutation";
+import PopupBooleanModal from "@/components/common/PopupBooleanModal";
+import PopupModal from "@/components/common/PopupModal";
 export default function Maker() {
+  const mutation = useCaptchaCodeMutation();
   const dispatch = useDispatch<AppDispatch>();
   const newlist = useAppSelector((state) => state.marketItemsreducer);
   let loginstate = useAppSelector((state: any) => state.loginstatereducer); // 이 부분은 해당 상태의 유형을 명시적으로 지정해야합니다.
@@ -20,7 +25,6 @@ export default function Maker() {
     }
   }, [localStorageKey]);
   type selectedItems = {
-    _id: string;
     Id: number;
     Category: String;
     Name: string;
@@ -74,6 +78,23 @@ export default function Maker() {
   );
 
   const totalprice3: number = totalprice2 + totalprice;
+
+  const [isModalOpen2, setModalOpen2] = useState(false);
+  const handleOpenModal2 = () => {
+    setModalOpen2(true);
+  };
+  const handleModalClose2 = async (confirmed: boolean) => {
+    setModalOpen2(false);
+    const result = await new Promise((resolve) => {
+      const data = confirmed;
+      resolve(data);
+    });
+    if (result == true) {
+      handleClearTable();
+    } else {
+    }
+  };
+
   const handleClearTable = () => {
     setSelectedItems([]);
     setTitle("");
@@ -143,38 +164,42 @@ export default function Maker() {
   const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
   };
-  const [pass, setPass] = useState("");
-  const touch = () => {
-    fetch(process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/touch")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setPass(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-  useEffect(() => {
-    touch();
-  }, []);
+  const { captchaCode } = useCaptchaCodeQuery();
+
   const [form, setForm] = useState("");
-  const fillForm = (value: any) => {
+  const fillForm = (value: string) => {
     setForm(value);
   };
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+  const handleModalClose = async (confirmed: boolean) => {
+    setModalOpen(false);
+    const result = await new Promise((resolve) => {
+      const data = confirmed;
+      resolve(data);
+    });
+    if (result == true) {
+      handleValueListMake(title, selectedItems, category, form);
+    } else {
+    }
+  };
+
   const handleValueListMake = (
     title: string,
     selectedItems: Item[],
     category: string,
     form: string,
-    _id?: string,
+    _id?: any,
     ID?: any
   ) => {
-    if (title !== "" && selectedItems.length !== 0 && form !== "") {
+    if (
+      String(captchaCode) === form &&
+      title !== "" &&
+      selectedItems.length !== 0
+    ) {
       let uuid = uuidv4();
 
       dispatch(
@@ -199,11 +224,11 @@ export default function Maker() {
             Category: category,
             ID: loginstate.ID,
           },
-          Pass: form,
+          captchaCode: form,
         }),
       };
       fetch(
-        process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/update1",
+        process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL + "/list",
         requestOptions
       )
         .then((response) => {
@@ -223,8 +248,11 @@ export default function Maker() {
       localStorage.removeItem(localStorageKey);
       setForm("");
       setCategory("");
-      touch();
+    } else {
+      setForm("");
+      mutation.mutate(captchaCode);
     }
+    //코드와 폼의 값을 비교해서 다르면 코드를 재발급 받습니다.
   };
   function additems() {
     setSelectedItems((prevSelectedItems: any) => {
@@ -382,6 +410,7 @@ export default function Maker() {
       setCategory(newData2);
     }
   }, [selectedOption2]);
+
   return (
     <div>
       <div className="flex flex row  m-1">
@@ -515,8 +544,8 @@ export default function Maker() {
           />
           <input
             className="w-5/6 m-1 rounded-lg text-right "
-            type="text"
-            placeholder={`${pass}` + " 자동입력방지 문자"}
+            type="string"
+            placeholder={`${captchaCode}` + " 자동입력방지 문자"}
             onChange={(e) => fillForm(e.target.value)}
             value={form}
           />
@@ -524,20 +553,28 @@ export default function Maker() {
         <div>
           <button
             className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
-            onClick={() =>
-              handleValueListMake(title, selectedItems, category, form)
-            }
+            onClick={handleOpenModal}
           >
             저장
           </button>
+          <PopupBooleanModal
+            isOpen={isModalOpen}
+            onClose={handleModalClose}
+            message="저장을 하고 목록을 비웁니다."
+          />
         </div>
         <div>
           <button
             className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
-            onClick={handleClearTable}
+            onClick={handleOpenModal2}
           >
             비우기
           </button>
+          <PopupBooleanModal
+            isOpen={isModalOpen2}
+            onClose={handleModalClose2}
+            message="비우기를 클릭하셨습니다. 정말 비울까요?"
+          />
         </div>
       </div>
       <div>

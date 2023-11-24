@@ -442,8 +442,6 @@ export default function Editer() {
   useEffect(() => {
     if (selectedOption3) {
       const newData: any = arr.find((i) => i.Title === selectedOption3.value);
-      // handleDropdownSelect3(newData);
-      console.log(newData);
       additems6(newData);
       setCategory(newData?.Category);
       setTitle(newData?.Title);

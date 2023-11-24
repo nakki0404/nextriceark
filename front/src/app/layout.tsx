@@ -9,6 +9,10 @@ import UpStore from "../hooks/UpStore";
 import ReduxProvider from "@/store/reduxprovider";
 import Header2 from "@/components/nav/Header2";
 
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { queryClient } from "@/hooks/api/queryClient";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -25,19 +29,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ReduxProvider>
-          <UpStore />
-          <div className="relative">
-            <div className="fixed top-0 left-0 right-0 z-10">
-              <Header />
-              <Header2 />
+        <QueryClientProvider client={queryClient}>
+          <ReduxProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
+            <UpStore />
+            <div className="relative">
+              <div className="fixed top-0 left-0 right-0 z-10">
+                <Header />
+                <Header2 />
+              </div>
+              <div className="my-8">{children}</div>
+              <div className="fixed bottom-0 left-0 right-0 z-10">
+                <Footer />
+              </div>
             </div>
-            <div className="my-8">{children}</div>
-            <div className="fixed bottom-0 left-0 right-0 z-10">
-              <Footer />
-            </div>
-          </div>
-        </ReduxProvider>
+          </ReduxProvider>
+        </QueryClientProvider>
       </body>
     </html>
   );
