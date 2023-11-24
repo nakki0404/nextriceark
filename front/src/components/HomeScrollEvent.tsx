@@ -1,23 +1,48 @@
 import Link from "next/link";
 import Image, { StaticImageData } from "next/image";
-
 import { HomePageButton } from "@/components/HomePageButton";
 
-export function HomeScrollEvent(icon: StaticImageData, buttonText: string) {
+interface HomeScrollEventProps {
+  position: number;
+  image: StaticImageData;
+  url: string;
+  icon: StaticImageData;
+  buttonText: string;
+}
+
+export function HomeScrollEvent({
+  position,
+  image,
+  url,
+  icon,
+  buttonText,
+}: HomeScrollEventProps) {
+  let scrollIndicator: HTMLElement | null =
+    document.getElementById("indicator");
+
+  scrollIndicator
+    ? (scrollIndicator.style.opacity = position > 250 ? "1" : "0")
+    : null;
+
   return (
-    <Link href="/Recycle" className=" m-4 flex justify-center">
-      <div className="box-border h-24 w-48 border-8 bg-yellow-200 border-yellow-100 border-r-yellow-300 border-b-yellow-300  flex flex-col  transition  hover:-translate-y-1  hover:shadow-2xl duration-300">
-        <div className="flex flex-row justify-center p-4 ">
-          <Image
-            src={icon}
-            alt="coin icon by Icons8"
-            title="coin icon by Icons8"
-            width={32}
-            height={32}
-          />
-          <div className="text-xl  md:table-cell">{buttonText}</div>
+    <div
+      id="indicator"
+      className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500 p-8 m-8"
+    >
+      <div>
+        <div>
+          <p>이 상자 얼마에요? 뭐 받아요?</p>
+          <p>이 페이지는 평균가로 계산해줍니다</p>
         </div>
+        <HomePageButton url={url} icon={icon} buttonText={buttonText} />
       </div>
-    </Link>
+      <Image
+        src={image}
+        alt="caculator_manual"
+        title="caculator_manual"
+        width={500}
+        height={500}
+      />
+    </div>
   );
 }

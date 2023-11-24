@@ -8,13 +8,10 @@ const MarketItem = require("./src/model/item");
 const User = require("./src/model/user");
 const Report = require("./src/model/report");
 const hasitem = require("./src/model/hasitem");
-
 const trading_data = require("./src/model/trading_data");
-
-const Prevent = require("./src/model/prevent");
+const captchaCode = require("./src/model/captchaCode");
 const Visited = require("./src/model/visited");
 require("dotenv").config();
-
 const passport = require("passport");
 const passportJWT = require("passport-jwt");
 const JwtStrategy = passportJWT.Strategy;
@@ -24,41 +21,17 @@ const winston = require("winston");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const nunjucks = require("nunjucks");
-
-// var indexRouter = require('./routes/index');
 const path = require("path");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const update = require("./src/controllers/update");
-
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-// app.use((req, res, next) => {
-//   const clientIP = req.ip || req.connection.remoteAddress;
-//   console.log(`클라이언트 IP 주소: ${clientIP}`);
-//   next();
-// });
-
-// // 로그 파일 설정
-// const logger = winston.createLogger({
-//   level: 'info', // 로그 수준 (info, error, debug 등)
-//   format: winston.format.combine(
-//     winston.format.timestamp(),
-//     winston.format.json()
-//   ),
-//   transports: [
-//     new winston.transports.File({ filename: 'server.log' }), // 로그 파일에 저장
-//   ],
-// });
-// logger.debug('이것은 에러 로그입니다.');
-// app.set('view engine', 'njk');
-// app.set('views', path.join(__dirname, 'views'));
-
-// nunjucks.configure('views', {
-//   express: app,
-//   watch: true,
-// });
+app.use(express.json());
+app.use(passport.initialize());
+app.use(logger("dev"));
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(
   cors({
     origin: [
@@ -71,7 +44,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json()); // JSON 데이터 처리를 위한 미들웨어 추가
+
 mongoose
   .connect(
     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.ttcs9nu.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`
@@ -83,6 +56,7 @@ mongoose
     console.log("OH NO MONGO CONNECTION ERROR!!!!");
     console.log(err);
   });
+//책에선 싱글톤 패턴이랬는데 그냥 그런갑다 싶음
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -104,14 +78,10 @@ const strategy = new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
   }
 });
 passport.use(strategy);
-app.use(passport.initialize());
 
 function checkAdminRole(req, res, next) {
   const token = req.headers.authorization;
   const realtoken = token.split(" ")[1];
-  //토큰 공백제거 눈돌아가겠다
-  // console.log(jwt.verify(realtoken, 'aaaaa'));
-  // console.log(jwt.verify(token, '1'));
   try {
     if (!token) {
       return res.status(401).json({ message: "No token provided." });
@@ -144,21 +114,16 @@ app.get("/api/touch", async (req, res) => {
   // 0부터 9999까지의 난수 생성
   const randomNum = Math.floor(Math.random() * 100000);
   const formattedNum = String(randomNum).padStart(5, "0");
-  const insertResult = await Prevent.insertMany({ Num: formattedNum });
+  const insertResult = await captchaCode.insertMany({ Num: formattedNum });
   // 난수를 4자리 문자열로 변환
   res.send(insertResult[0].Num);
 });
-
-app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("hi");
 });
 
-app.get("/api/VisitorCount", async (req, res) => {
+app.get("/api/VisitorCountCookie", async (req, res) => {
   let totalVistor = 0;
   const result = await Visited.aggregate([
     {
@@ -203,6 +168,70 @@ app.get("/api/VisitorCount", async (req, res) => {
   /// 쿠키끝
   res.json(VisitorData);
 });
+
+app.get("/api/VisitorCount", async (req, res) => {
+  let totalVistor = 0;
+  const result = await Visited.aggregate([
+    {
+      $group: {
+        _id: null,
+        total: { $sum: "$todayTotal" },
+      },
+    },
+  ]);
+
+  if (result.length > 0) {
+    totalVistor = result[0].total;
+  } else {
+    console.log("데이터가 없습니다.");
+  }
+  //전체 방문자 totalVistor 설정 완료
+
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
+  const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
+
+  const formattedDate = `${year}-${month}-${day}`;
+  const todatVisitor = await Visited.find({ Date: formattedDate });
+  const VisitorData = {
+    Total: totalVistor,
+    Today: todatVisitor[0].todayTotal,
+  };
+  //일간 방문자 , +1 통합
+
+  res.json(VisitorData);
+});
+
+app.get("/api/captchaCode", async (req, res) => {
+  try {
+    const randomNum = Math.floor(Math.random() * 100000);
+    const formattedNum = String(randomNum).padStart(5, "0");
+    const [insertedResult] = await captchaCode.insertMany({
+      Num: formattedNum,
+    });
+    res.send(insertedResult.Num);
+  } catch (error) {
+    console.error("Error generating captcha code:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+//임의의 수를 생성해서 DB에 저장하고 결과 값을 보냅니다.
+
+app.delete("/api/captchaCode", async (req, res) => {
+  const data = req.query;
+
+  try {
+    const existingpass2 = await captchaCode.deleteMany({
+      Num: data.captchaCode,
+    });
+    res.status(201).json({ message: "Data updated successfully" });
+  } catch (error) {
+    console.error("Error generating captcha code:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+//임의의 수를 생성해서 DB에 저장하고 결과 값을 보냅니다.
 
 app.get("/api/data", async (req, res) => {
   const marketLists = await marketList.find({});
@@ -259,12 +288,12 @@ app.post("/api/check", async (req, res) => {
 
 app.post("/api/signup", async (req, res) => {
   const user = req.body; // 클라이언트에서 보낸 사용자 데이터
-  // if (Prevent.findOne({Num:user.Pass})) {
+  // if (captchaCode.findOne({Num:user.Pass})) {
   console.log(user);
-  const existingpass = await Prevent.findOne({ Num: user.Pass });
+  const existingpass = await captchaCode.findOne({ Num: user.Pass });
   console.log(existingpass);
   if (existingpass.Num.length > 0) {
-    const existingpass2 = await Prevent.deleteMany({ Num: user.Pass });
+    const existingpass2 = await captchaCode.deleteMany({ Num: user.Pass });
     console.log(existingpass2);
     // if (passNum.includes(String(user.Pass))) {
     try {
@@ -354,10 +383,10 @@ app.post("/api/delete1", async (req, res) => {
 
 app.post("/api/report", async (req, res) => {
   const lists = req.body; // 클라이언트에서 보낸 lists 데이터
-  const existingpass = await Prevent.find({ Num: lists.Pass });
+  const existingpass = await captchaCode.find({ Num: lists.Pass });
   if (existingpass.length > 0) {
-    await Prevent.deleteMany({ Num: lists.Pass });
-    // if (Prevent.findOne({ Num: lists.Pass })) {
+    await captchaCode.deleteMany({ Num: lists.Pass });
+    // if (captchaCode.findOne({ Num: lists.Pass })) {
     // if (passNum.includes(String(lists.Pass))) {
     try {
       console.log(lists.Item);
@@ -414,12 +443,13 @@ app.post("/api/update", async (req, res) => {
   }
 });
 
-app.post("/api/update1", async (req, res) => {
-  const list = req.body; // 클라이언트에서 보낸 lists 데이터
-  console.log(list);
-  const existingpass = await Prevent.find({ Num: list.Pass });
-  if (existingpass.length > 0) {
-    await Prevent.deleteMany({ Num: list.Pass });
+app.post("/api/list", async (req, res) => {
+  const list = req.body;
+  const existingCaptchaCode = await captchaCode.find({ Num: list.captchaCode });
+  if (existingCaptchaCode.length > 0) {
+    //일치하는 captchaCode코드 값이 없으면 이후 DB입력과정이 진행되지 않습니다.
+
+    await captchaCode.deleteMany({ Num: list.captchaCode });
     try {
       const insertResult = await MarketItem.insertMany(list.Item);
       console.log(insertResult);

@@ -10,8 +10,8 @@ export interface Item {
   YDayAvgPrice: number;
   RecentPrice: number;
   CurrentMinPrice: number;
-  Quantity: number;
-  Quantity2: number;
+  Quantity?: number;
+  Quantity2?: number;
 }
 export interface ContentLists {
   _id?: string;

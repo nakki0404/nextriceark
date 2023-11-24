@@ -21,6 +21,13 @@ const PopupModal: FC<PopupModalProps> = ({ isOpen, closeModal, message }) => {
           &times;
         </span>
         <p>{message}</p>
+
+        <button
+          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg"
+          onClick={closeModal}
+        >
+          닫기
+        </button>
         <button
           className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-lg"
           onClick={closeModal}

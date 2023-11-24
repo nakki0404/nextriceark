@@ -13,6 +13,7 @@ import recycle_manual from "@/asset/png/recycle-manual.png";
 import coin_manual from "@/asset/png/coin-manual.png";
 
 import { HomePageButton } from "@/components/HomePageButton";
+import { HomeScrollEvent } from "@/components/HomeScrollEvent";
 
 export default function Home() {
   if (typeof window !== "undefined") {
@@ -47,7 +48,7 @@ export default function Home() {
     });
   }
   return (
-    <div className="flex flex-col space-y-16 min-w-screen min-h-screen">
+    <div className="flex flex-col space-y-16 min-w-screen min-h-[1800px]">
       <div className="text-7xl p-8 flex text-yellow-300 sm:text-8xl sm:p-16 justify-center">
         쌀로아
       </div>
@@ -75,6 +76,13 @@ export default function Home() {
       </div>
 
       <div className=" hidden md:block">
+        {/* <HomeScrollEvent
+          position={scrollPosition2}
+          image={caculator_manual}
+          url="/Calculator/Maker"
+          icon={calculatorimage}
+          buttonText="재화계산기"
+        /> */}
         <div
           id="caculator_manual-indicator"
           className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500 p-8 m-8"
