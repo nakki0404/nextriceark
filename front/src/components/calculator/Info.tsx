@@ -31,11 +31,17 @@ export default function Info() {
         localStorage.setItem(localStorageKey2, JSON.stringify(selectedItem));
         setSelectedListItem(selectedItem);
         let totalprice = selectedItem.List.reduce(
-          (a, i) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+          (a, i) =>
+            a +
+            ((i?.Quantity || 0) * (i?.YDayAvgPrice || 0)) /
+              (i?.BundleCount || 1),
           0
         );
         let totalprice2 = selectedItem.List.reduce(
-          (a, i) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+          (a, i) =>
+            a +
+            ((i?.Quantity || 0) * (i?.YDayAvgPrice || 0)) /
+              (i?.BundleCount || 1),
           0
         );
         let totalprice3 = totalprice + totalprice2;
@@ -77,13 +83,17 @@ export default function Info() {
   // ?.ItemList.find((i) => i.Name === data)
   const totalprice = selectedListItem
     ? selectedListItem.List.reduce(
-        (a, i) => a + (i.Quantity * i.YDayAvgPrice) / i.BundleCount,
+        (a, i) =>
+          a +
+          ((i?.Quantity || 0) * (i?.YDayAvgPrice || 0)) / (i?.BundleCount || 1),
         0
       )
     : 0;
   const totalprice2 = selectedListItem
     ? selectedListItem.List.reduce(
-        (a, i) => a + (i.Quantity2 * i.YDayAvgPrice) / i.BundleCount,
+        (a, i) =>
+          a +
+          ((i?.Quantity || 0) * (i?.YDayAvgPrice || 0)) / (i?.BundleCount || 1),
         0
       )
     : 0;
