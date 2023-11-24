@@ -8,11 +8,8 @@ const MarketItem = require("./src/model/item");
 const User = require("./src/model/user");
 const Report = require("./src/model/report");
 const hasitem = require("./src/model/hasitem");
-
 const trading_data = require("./src/model/trading_data");
-
-const Prevent = require("./src/model/prevent");
-
+const captchaCode = require("./src/model/captchaCode");
 const Visited = require("./src/model/visited");
 require("dotenv").config();
 
