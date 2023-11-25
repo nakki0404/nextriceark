@@ -35,6 +35,4 @@ async function fetchDataAndUpdate() {
     console.log(error);
   }
 }
-module.exports = {
-  fetchDataAndUpdate: fetchDataAndUpdate,
-};
+module.exports = fetchDataAndUpdate;

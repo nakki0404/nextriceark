@@ -24,7 +24,7 @@ const nunjucks = require("nunjucks");
 const path = require("path");
 const bodyParser = require("body-parser");
 const axios = require("axios");
-const update = require("./src/controllers/update");
+const fetchDataAndUpdate = require("./src/controllers/update");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
@@ -222,7 +222,7 @@ app.delete("/api/captchaCode", async (req, res) => {
   const data = req.query;
 
   try {
-    const existingpass2 = await captchaCode.deleteMany({
+    await captchaCode.deleteMany({
       Num: data.captchaCode,
     });
     res.status(201).json({ message: "Data updated successfully" });
@@ -544,7 +544,7 @@ async function myFunction() {
   const existingVisited = await Visited.findOne({ Date: formattedDate });
   if (!existingVisited) {
     await Visited.insertMany({ Date: formattedDate, todayTotal: 0 });
-    update.fetchDataAndUpdate();
+    fetchDataAndUpdate();
   }
 }
 myFunction();
