@@ -1,6 +1,6 @@
 import axios from "axios";
 export const getVisitorCountCookie = async () => {
-  if (typeof window !== "undefined" && document.cookie.includes("V")) {
+  if (document.cookie.includes("V")) {
     try {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/VisitorCount`,
