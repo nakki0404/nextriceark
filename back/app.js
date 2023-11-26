@@ -37,8 +37,9 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://www.nextriceark.site",
-      "nextriceark-jnwk-ilctgzavm-nakkis-projects.vercel.app",
-      "nextriceark-jnwk.vercel.app",
+      "https://nextriceark-jnwk-git-main-nakkis-projects.vercel.app",
+      "https://nextriceark-jnwk-46nic2wxb-nakkis-projects.vercel.app",
+      "https://nextriceark-jnwk.vercel.app",
       "https://developer-lostark.game.onstove.com",
     ],
     credentials: true,
@@ -160,9 +161,10 @@ app.get("/api/VisitorCountCookie", async (req, res) => {
   const cookieValue = totalVistor;
   const expirationDate = new Date(); // 수정된 부분
   expirationDate.setDate(expirationDate.getDate() + 1);
-  res.header("Access-Control-Allow-Credentials", true);
   res.cookie(cookieName, cookieValue, {
     expires: expirationDate,
+    sameSite: "None",
+    secure: true,
     // httpOnly: true, // 클라이언트에서 JavaScript로 쿠키에 접근 불가능하도록 설정 // 확인절차상 해제
   });
   /// 쿠키끝
