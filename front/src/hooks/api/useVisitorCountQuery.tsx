@@ -1,4 +1,3 @@
-"use client";
 import { useQuery } from "@tanstack/react-query";
 import { getVisitorCountCookie } from "@/api/getVisitorCountCookie";
 export const useVisitorCountQuery = () => {
@@ -7,5 +6,6 @@ export const useVisitorCountQuery = () => {
     queryFn: getVisitorCountCookie,
     gcTime: 24 * 60 * 60 * 1000,
   });
+
   return { visitData: data };
 };

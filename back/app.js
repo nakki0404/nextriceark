@@ -124,85 +124,89 @@ app.get("/", (req, res) => {
   res.send("hi");
 });
 
-app.get("/api/VisitorCountCookie", async (req, res) => {
-  let totalVistor = 0;
-  const result = await Visited.aggregate([
-    {
-      $group: {
-        _id: null,
-        total: { $sum: "$todayTotal" },
-      },
-    },
-  ]);
-
-  if (result.length > 0) {
-    totalVistor = result[0].total + 1;
-  } else {
-    console.log("데이터가 없습니다.");
-  }
-  //전체 방문자 totalVistor 설정 완료
-
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
-  const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
-
-  const formattedDate = `${year}-${month}-${day}`;
-  const todatVisitor = await Visited.find({ Date: formattedDate });
-
-  await Visited.updateOne({ Date: formattedDate }, { $inc: { todayTotal: 1 } });
-  const VisitorData = {
-    Total: totalVistor,
-    Today: todatVisitor[0].todayTotal,
-  };
-  //일간 방문자 , +1 통합
-
-  const cookieName = "Visitor";
-  const cookieValue = totalVistor;
-  const expirationDate = new Date(); // 수정된 부분
-  expirationDate.setDate(expirationDate.getDate() + 1);
-  res.cookie(cookieName, cookieValue, {
-    expires: expirationDate,
-    sameSite: "None",
-    secure: true,
-    // httpOnly: true, // 클라이언트에서 JavaScript로 쿠키에 접근 불가능하도록 설정 // 확인절차상 해제
-  });
-  /// 쿠키끝
-  res.json(VisitorData);
-});
-
 app.get("/api/VisitorCount", async (req, res) => {
-  let totalVistor = 0;
-  const result = await Visited.aggregate([
-    {
-      $group: {
-        _id: null,
-        total: { $sum: "$todayTotal" },
+  const userCookie = req.headers.cookie;
+  if (userCookie ? userCookie.includes("Visitor") : false) {
+    let totalVistor = 0;
+    const result = await Visited.aggregate([
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$todayTotal" },
+        },
       },
-    },
-  ]);
+    ]);
 
-  if (result.length > 0) {
-    totalVistor = result[0].total;
+    if (result.length > 0) {
+      totalVistor = result[0].total;
+    } else {
+      console.log("데이터가 없습니다.");
+    }
+    //전체 방문자 totalVistor 설정 완료
+
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
+    const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
+
+    const formattedDate = `${year}-${month}-${day}`;
+    const todatVisitor = await Visited.find({ Date: formattedDate });
+    const VisitorData = {
+      Total: totalVistor,
+      Today: todatVisitor[0].todayTotal,
+    };
+    //일간 방문자 , +1 통합
+
+    res.json(VisitorData);
   } else {
-    console.log("데이터가 없습니다.");
+    let totalVistor = 0;
+    const result = await Visited.aggregate([
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$todayTotal" },
+        },
+      },
+    ]);
+
+    if (result.length > 0) {
+      totalVistor = result[0].total + 1;
+    } else {
+      console.log("데이터가 없습니다.");
+    }
+    //전체 방문자 totalVistor 설정 완료
+
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
+    const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
+
+    const formattedDate = `${year}-${month}-${day}`;
+    const todatVisitor = await Visited.find({ Date: formattedDate });
+
+    await Visited.updateOne(
+      { Date: formattedDate },
+      { $inc: { todayTotal: 1 } }
+    );
+    const VisitorData = {
+      Total: totalVistor,
+      Today: todatVisitor[0].todayTotal,
+    };
+    //일간 방문자 , +1 통합
+
+    const cookieName = "Visitor";
+    const cookieValue = totalVistor;
+    const expirationDate = new Date(); // 수정된 부분
+    expirationDate.setDate(expirationDate.getDate() + 1);
+    res.cookie(cookieName, cookieValue, {
+      expires: expirationDate,
+      sameSite: "None",
+      secure: true,
+      httpOnly: true,
+    });
+    /// 쿠키끝
+    res.json(VisitorData);
   }
-  //전체 방문자 totalVistor 설정 완료
-
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
-  const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
-
-  const formattedDate = `${year}-${month}-${day}`;
-  const todatVisitor = await Visited.find({ Date: formattedDate });
-  const VisitorData = {
-    Total: totalVistor,
-    Today: todatVisitor[0].todayTotal,
-  };
-  //일간 방문자 , +1 통합
-
-  res.json(VisitorData);
 });
 
 app.get("/api/captchaCode", async (req, res) => {

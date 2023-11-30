@@ -78,7 +78,7 @@ export default function StatisticsSummary() {
   );
   const data = [
     { name: "재련", value: result2 },
-    { name: "베템", value: result3 },
+    { name: "배템", value: result3 },
     { name: "각인", value: result4 },
     { name: "음식", value: result5 },
     { name: "모험", value: result6 },

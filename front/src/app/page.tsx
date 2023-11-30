@@ -89,8 +89,8 @@ export default function Home() {
         >
           <div>
             <div>
-              <p>이 상자 얼마에요? 뭐 받아요?</p>
-              <p>이 페이지는 평균가로 계산해줍니다</p>
+              <p>이 보상, 패키지 얼마에요?</p>
+              <p>평균가로 계산해줍니다</p>
             </div>
             <HomePageButton
               url="/Calculator/Maker"

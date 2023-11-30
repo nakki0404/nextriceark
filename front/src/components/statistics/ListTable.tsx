@@ -89,8 +89,8 @@ export default function ListTable() {
       value: "각인",
     },
     {
-      label: "베템",
-      value: "베템",
+      label: "배템",
+      value: "배템",
     },
   ];
 

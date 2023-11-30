@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useState } from "react";
 import { useVisitorCountQuery } from "@/hooks/api/useVisitorCountQuery";
 export const useVisitorCount = () => {
