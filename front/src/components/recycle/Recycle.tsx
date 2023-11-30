@@ -790,7 +790,209 @@ export default function Recycle() {
   return (
     <div>
       <div className="flex flex row  ">
-        <div className="p-8 ">
+        <div className="grid grid-cols-4 gap-4 p-8 ">
+          <div className="col-span-4 text-2xl  ">악세추가</div>
+          <Select
+            options={Array.isArray(forwholist) ? forwholist : []}
+            value={selectedOption8}
+            onChange={handleChange8}
+            isSearchable={true} // 검색 가능한 드롭다운으로 설정
+            placeholder="용도"
+          />
+
+          <Select
+            options={Array.isArray(gradelist) ? gradelist : []}
+            value={selectedOption}
+            onChange={handleChange}
+            isSearchable={true} // 검색 가능한 드롭다운으로 설정
+            placeholder="등급"
+          />
+          <Select
+            options={Array.isArray(categorylist) ? categorylist : []}
+            value={selectedOption2}
+            onChange={handleChange2}
+            isSearchable={true} // 검색 가능한 드롭다운으로 설정
+            placeholder="부위"
+          />
+          <div></div>
+          <div className="flex flex row col-span-2">
+            <Select
+              options={Array.isArray(statlist) ? statlist : []}
+              value={selectedOption3}
+              onChange={handleChange3}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="스텟1"
+            />
+            <input
+              className="w-4/6  rounded-lg text-right "
+              type="number"
+              value={statnum}
+              onChange={(e) => handleQuantityChange3(e.target.value)}
+            ></input>
+          </div>
+          <div
+            className={`flex flex row col-span-2 ${
+              category === "목걸이" ? "opacity-1" : "opacity-0"
+            }`}
+          >
+            <Select
+              options={Array.isArray(statlist) ? statlist : []}
+              value={selectedOption4}
+              onChange={handleChange4}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="스텟2"
+            />
+            <input
+              className="w-4/6  rounded-lg text-right "
+              type="number"
+              value={stat2num}
+              onChange={(e) => handleQuantityChange4(e.target.value)}
+            ></input>
+          </div>
+          <div className="flex flex row col-span-2">
+            <Select
+              options={Array.isArray(newskilllist) ? newskilllist : []}
+              value={selectedOption5}
+              onChange={handleChange5}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="각인1"
+            />
+            <input
+              className="w-4/6  rounded-lg text-right "
+              type="number"
+              value={skillnum}
+              onChange={(e) => handleQuantityChange5(e.target.value)}
+            ></input>
+          </div>
+          <div className="flex flex row col-span-2">
+            <Select
+              options={Array.isArray(newskilllist) ? newskilllist : []}
+              value={selectedOption6}
+              onChange={handleChange6}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="각인2"
+            />
+            <input
+              className="w-4/6  rounded-lg text-right "
+              type="number"
+              value={skill2num}
+              onChange={(e) => handleQuantityChange6(e.target.value)}
+            ></input>
+          </div>
+          <div className="flex flex row col-span-2">
+            <Select
+              options={Array.isArray(panaltylist) ? panaltylist : []}
+              value={selectedOption7}
+              onChange={handleChange7}
+              isSearchable={true} // 검색 가능한 드롭다운으로 설정
+              placeholder="패널티"
+            />
+            <input
+              className="w-4/6  rounded-lg text-right "
+              type="number"
+              value={panaltynum}
+              onChange={(e) => handleQuantityChange7(e.target.value)}
+            ></input>
+          </div>
+          <input
+            className="w-5/6 h-8  rounded-lg text-right col-span-2 "
+            type="string"
+            value={location}
+            placeholder="보유 캐릭터 이름"
+            onChange={(e) => handleQuantityChange(e.target.value)}
+          ></input>
+          <div className="col-span-4">
+            <div className="flex flex row justify-between">
+              <button
+                className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
+                onClick={(e) => saveItem()}
+              >
+                목록추가
+              </button>
+              {loginstate && loginstate.isLogin ? (
+                <>
+                  <button
+                    className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+                    onClick={(e) => saveHasItemList()}
+                  >
+                    DB저장
+                  </button>
+                  <button
+                    className="h-8 w-24 bg-yellow-500 rounded-lg text-white m-1"
+                    onClick={(e) => loadHasItemList()}
+                  >
+                    DB불러오기
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div>
+                    비회원도 이용 가능하나 로그인시 목록을 저장할 수 있습니다.
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="col-span-4">
+            <div className="text-2xl   ">보유 악세 목록</div>
+            <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <th>분류</th>
+                    <th>등급</th>
+                    <th>부위</th>
+                    <th>스텟1</th>
+                    <th>스텟2</th>
+                    <th>각인1</th>
+                    <th>각인2</th>
+                    <th>패널티</th>
+                    <th>위치</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {itemlist.map((e: any, index: any) => (
+                    <tr key={index}>
+                      <th>{e.forwho}</th>
+                      <th>{e.grade}</th>
+
+                      <th>{e.category}</th>
+                      {Object.keys(e.stat).map((key) => (
+                        <th key={key}>
+                          {key}: {e.stat[key]}
+                        </th>
+                      ))}
+                      {Object.keys(e.stat).length === 1 && <th></th>}
+                      {Object.keys(e.skill).map((key) => (
+                        <th key={key}>
+                          {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                          {e.skill[key]}
+                        </th>
+                      ))}
+                      {Object.keys(e.panalty).map((key) => (
+                        <th key={key}>
+                          {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                          {e.panalty[key]}
+                        </th>
+                      ))}
+                      <th>{e.location}</th>
+                      <th>
+                        <button
+                          className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+                          onClick={() => deletelist(index)}
+                        >
+                          삭제
+                        </button>
+                      </th>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        {/* <div className="p-8 ">
           <div className="text-2xl  ">악세추가</div>
           <div className="flex flex row  ">
             <Select
@@ -1000,23 +1202,25 @@ export default function Recycle() {
               </table>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="p-8 ">
           <div className="text-2xl  ">보유 각인 설정</div>
-          <div className="flex flex row">
-            <Select
-              options={Array.isArray(newskilllist) ? newskilllist : []}
-              value={selectedOption10}
-              onChange={handleChange10}
-              isSearchable={true} // 검색 가능한 드롭다운으로 설정
-              placeholder="보유 각인"
-            />
-            <input
-              className="w-4/6  rounded-lg text-right "
-              type="number"
-              value={hasskillnum}
-              onChange={(e) => handleQuantityChange10(e.target.value)}
-            ></input>
+          <div className="grid grid-cols-4 gap-4">
+            <div className="flex flex row col-span-3">
+              <Select
+                options={Array.isArray(newskilllist) ? newskilllist : []}
+                value={selectedOption10}
+                onChange={handleChange10}
+                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                placeholder="보유 각인"
+              />
+              <input
+                className="w-4/6  rounded-lg text-right "
+                type="number"
+                value={hasskillnum}
+                onChange={(e) => handleQuantityChange10(e.target.value)}
+              ></input>
+            </div>
             <button
               className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
               onClick={(e) => saveHasskill()}
@@ -1055,63 +1259,59 @@ export default function Recycle() {
           </div>
           <div>
             <div className="text-2xl  ">어빌설정</div>
-            <div className="flex flex row">
-              <div>
-                <div className="flex flex row">
-                  <Select
-                    options={Array.isArray(skilllist) ? skilllist : []}
-                    value={selectedOption12}
-                    onChange={handleChange12}
-                    isSearchable={true} // 검색 가능한 드롭다운으로 설정
-                    placeholder="각인1"
-                  />
-                  <input
-                    className="w-4/6  rounded-lg text-right "
-                    type="number"
-                    value={abillityskillnum}
-                    onChange={(e) => handleQuantityChange12(e.target.value)}
-                  ></input>
-                </div>
-                <div className="flex flex row">
-                  <Select
-                    options={Array.isArray(skilllist) ? skilllist : []}
-                    value={selectedOption13}
-                    onChange={handleChange13}
-                    isSearchable={true} // 검색 가능한 드롭다운으로 설정
-                    placeholder="각인2"
-                  />
-                  <input
-                    className="w-4/6  rounded-lg text-right "
-                    type="number"
-                    value={abillityskill2num}
-                    onChange={(e) => handleQuantityChange13(e.target.value)}
-                  ></input>
-                </div>
+            <div className="grid grid-cols-4 gap-4">
+              <div className="flex flex row col-span-2">
+                <Select
+                  options={Array.isArray(skilllist) ? skilllist : []}
+                  value={selectedOption12}
+                  onChange={handleChange12}
+                  isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                  placeholder="각인1"
+                />
+                <input
+                  className="w-4/6  rounded-lg text-right "
+                  type="number"
+                  value={abillityskillnum}
+                  onChange={(e) => handleQuantityChange12(e.target.value)}
+                ></input>
               </div>
-              <div>
-                <div className="flex flex row">
-                  <Select
-                    options={Array.isArray(panaltylist) ? panaltylist : []}
-                    value={selectedOption14}
-                    onChange={handleChange14}
-                    isSearchable={true} // 검색 가능한 드롭다운으로 설정
-                    placeholder="패널티"
-                  />
-                  <input
-                    className="w-4/6  rounded-lg text-right "
-                    type="number"
-                    value={abillitypanaltynum}
-                    onChange={(e) => handleQuantityChange14(e.target.value)}
-                  ></input>
-                </div>
-                <div className="flex flex row">
-                  <button
-                    className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
-                    onClick={(e) => saveAbillity()}
-                  >
-                    목록추가
-                  </button>
-                </div>
+              <div className="flex flex row col-span-2 ">
+                <Select
+                  options={Array.isArray(skilllist) ? skilllist : []}
+                  value={selectedOption13}
+                  onChange={handleChange13}
+                  isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                  placeholder="각인2"
+                />
+                <input
+                  className="w-4/6  rounded-lg text-right "
+                  type="number"
+                  value={abillityskill2num}
+                  onChange={(e) => handleQuantityChange13(e.target.value)}
+                ></input>
+              </div>
+              <div className="flex flex row col-span-3 ">
+                <Select
+                  options={Array.isArray(panaltylist) ? panaltylist : []}
+                  value={selectedOption14}
+                  onChange={handleChange14}
+                  isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                  placeholder="패널티"
+                />
+                <input
+                  className="w-4/6  rounded-lg text-right "
+                  type="number"
+                  value={abillitypanaltynum}
+                  onChange={(e) => handleQuantityChange14(e.target.value)}
+                ></input>
+              </div>
+              <div className="flex flex row ">
+                <button
+                  className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
+                  onClick={(e) => saveAbillity()}
+                >
+                  목록추가
+                </button>
               </div>
             </div>
             보유 어빌돌
