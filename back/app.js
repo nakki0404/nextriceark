@@ -125,6 +125,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/VisitorCountCookie", async (req, res) => {
+  const userCookie = req.headers.cookie;
+  console.log(userCookie);
+  console.log(userCookie);
   let totalVistor = 0;
   const result = await Visited.aggregate([
     {
@@ -172,6 +175,8 @@ app.get("/api/VisitorCountCookie", async (req, res) => {
 });
 
 app.get("/api/VisitorCount", async (req, res) => {
+  const userCookie = req.headers.cookie;
+  console.log(userCookie);
   let totalVistor = 0;
   const result = await Visited.aggregate([
     {

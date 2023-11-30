@@ -1,6 +1,10 @@
-"use client";
 import axios from "axios";
 export const getVisitorCountCookie = async () => {
+  console.log(document.cookie);
+
+  console.log(typeof window !== "undefined");
+  console.log(document.cookie.includes("V"));
+  console.log(typeof window !== "undefined" && document.cookie.includes("V"));
   if (typeof window !== "undefined" && document.cookie.includes("V")) {
     try {
       const { data } = await axios.get(
