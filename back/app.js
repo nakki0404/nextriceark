@@ -5,6 +5,7 @@ const app = express();
 const mongoose = require("mongoose");
 const marketList = require("./src/model/market");
 const MarketItem = require("./src/model/item");
+const Text = require("./src/model/text");
 const User = require("./src/model/user");
 const Report = require("./src/model/report");
 const hasitem = require("./src/model/hasitem");
@@ -80,6 +81,24 @@ const strategy = new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
 });
 passport.use(strategy);
 
+// 미들웨어: 쿠키 검증 및 사용자 인증
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.status(401).json({ message: "Authentication failed" });
+  }
+
+  jwt.verify(token, jwtOptions.secretOrKey, (err, user) => {
+    if (err) {
+      // 토큰 검증 실패 시
+      return res.status(403).json({ message: "Invalid token" });
+    }
+    req.user = user; // 검증된 사용자 정보를 요청 객체에 저장
+    next();
+  });
+};
+
 function checkAdminRole(req, res, next) {
   const token = req.headers.authorization;
   const realtoken = token.split(" ")[1];
@@ -113,8 +132,8 @@ function checkAdminRole(req, res, next) {
 
 app.get("/api/touch", async (req, res) => {
   // 0부터 9999까지의 난수 생성
-  const randomNum = Math.floor(Math.random() * 100000);
-  const formattedNum = String(randomNum).padStart(5, "0");
+  const randomNum = Math.floor(Math.random() * 10000);
+  const formattedNum = String(randomNum).padStart(4, "0");
   const insertResult = await captchaCode.insertMany({ Num: formattedNum });
   // 난수를 4자리 문자열로 변환
   res.send(insertResult[0].Num);
@@ -211,8 +230,8 @@ app.get("/api/VisitorCount", async (req, res) => {
 
 app.get("/api/captchaCode", async (req, res) => {
   try {
-    const randomNum = Math.floor(Math.random() * 100000);
-    const formattedNum = String(randomNum).padStart(5, "0");
+    const randomNum = Math.floor(Math.random() * 10000);
+    const formattedNum = String(randomNum).padStart(4, "0");
     const [insertedResult] = await captchaCode.insertMany({
       Num: formattedNum,
     });
@@ -270,8 +289,15 @@ app.post("/api/Login", async (req, res) => {
       exp: Math.floor(Date.now() / 1000) + 60 * 60, // 1시간 후 만료
     };
     const token = jwt.sign(payload, jwtOptions.secretOrKey);
+    const expirationDate = new Date(); // 수정된 부분
+    expirationDate.setDate(expirationDate.getDate() + 1);
+    res.cookie("token", token, {
+      expires: expirationDate,
+      sameSite: "None",
+      secure: true,
+      httpOnly: true,
+    });
     res.json({ token });
-    console.log(token);
   } else {
     res.status(401).json({ message: "Authentication failed" });
   }
@@ -466,6 +492,71 @@ app.post("/api/list", async (req, res) => {
     }
   }
 });
+
+app.get("/api/Board", async (req, res) => {
+  try {
+    const TextList = await Text.find({});
+    res.json(TextList);
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/api/Board", async (req, res) => {
+  const existingCaptchaCode = await captchaCode.find({
+    Num: req.body.CaptchaCode,
+  });
+  if (existingCaptchaCode.length > 0) {
+    //일치하는 captchaCode코드 값이 없으면 이후 DB입력과정이 진행되지 않습니다.
+
+    await captchaCode.deleteMany({ Num: req.body.CaptchaCode });
+    try {
+      const insertResult = await Text.insertMany(req.body.Text);
+      res.json({ message: "Data updated successfully" });
+    } catch (error) {
+      console.error("Error updating data:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+});
+
+app.delete("/api/Board", async (req, res) => {
+  const data = req.query;
+  const query = {
+    _id: data._id,
+  };
+  if (data.InputFakePassWord !== "undefined") {
+    query.FakePassWord = data.InputFakePassWord;
+  } else {
+    if (data.ID === "adminim") {
+    } else {
+      query.ID = data.ID;
+    }
+  }
+  await Text.deleteMany(query);
+  try {
+    res.json({ message: "Data deleted successfully" });
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.patch("/api/Board", async (req, res) => {
+  const data = req.body;
+  const { _id, TextTitle, TextBody, Category, Category2, ID } = data;
+  try {
+    await Text.findByIdAndUpdate(_id, {
+      $set: { TextTitle, TextBody, Category },
+    });
+    res.json({ message: "Data updated successfully" });
+  } catch (error) {
+    console.error("Error updating data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.post("/api/update3", async (req, res) => {
   const list = req.body; // 클라이언트에서 보낸 lists 데이터
   console.log(list);

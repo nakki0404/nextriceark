@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import getMarketItems from "@/api/getMarketItems";
 import getContentLists from "@/api/getContentLists";
 import getTradeData from "@/api/getTradeData";
+import getTextList from "@/api/getTextList";
 
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/store/store";
@@ -12,6 +13,9 @@ import { AppDispatch } from "@/store/store";
 import { addmarketItems } from "@/store/slices/marketItems";
 import { addtradeData } from "@/store/slices/tradeData";
 import { addcontentlists } from "@/store/slices/contentlists";
+import { setTextList } from "@/store/slices/textlist";
+
+import type { Text } from "@/types/Text";
 
 import type { ContentLists } from "@/types/ContentLists";
 import type { MarketItems } from "@/types/MarketItems";
@@ -37,6 +41,13 @@ export default function UpStore() {
     getTradeData()
       .then((response: TradeData[]) => {
         response.map((item: TradeData) => dispatch(addtradeData(item)));
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    getTextList()
+      .then((data: Text[]) => {
+        dispatch(setTextList(data));
       })
       .catch((error) => {
         console.error("Error:", error);
