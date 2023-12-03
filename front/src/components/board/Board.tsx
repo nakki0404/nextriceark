@@ -108,21 +108,21 @@ export default function Board() {
   };
 
   return (
-    <div className="w-[50vw]">
-      <h1 className="text-2xl p-4">게시판</h1>
+    <div className="w-fit md:w-[50vw]">
+      <h1 className="text-2xl p-4 ">게시판</h1>
       <div className="grid grid-cols-12   gap-1 ">
-        <div className="col-span-2 p-1">말머리</div>
-        <div className="col-span-6 p-1">글제목</div>
-        <div className="col-span-2 p-1 md:block hidden">글쓴이</div>
-        <div className="col-span-2 p-1 md:block hidden">날짜</div>
+        <div className="col-span-3 md:col-span-2 p-1">말머리</div>
+        <div className="col-span-9 md:col-span-6 p-1">글제목</div>
+        <div className=" md:col-span-2 p-1 md:block hidden">글쓴이</div>
+        <div className=" md:col-span-2 p-1 md:block hidden">날짜</div>
         {posts.map((item, index) => (
           <div
             className="flex flex-row col-span-12 cursor-pointer border-t border-yellow-900 p-1"
             key={index}
             onClick={() => viewLogic(item)}
           >
-            <div className="basis-2/12">{item.Category}</div>
-            <div className="basis-6/12 flex flex-row">
+            <div className="basis-3/12 md:basis-2/12">{item.Category}</div>
+            <div className="basis-9/12 md:basis-6/12 flex flex-row">
               <div>
                 {item.Category2 === "비밀"
                   ? "비밀글 : 관리자만 볼 수 있습니다."

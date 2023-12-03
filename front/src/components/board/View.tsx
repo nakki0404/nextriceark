@@ -88,7 +88,7 @@ export default function View() {
     }
   };
   return (
-    <div className="grid grid-cols-12 gap-4">
+    <div className="grid grid-cols-12 gap-4  w-fit md:w-[50vw]">
       <div className="col-span-12">제목 : {text?.TextTitle}</div>
       <div className="col-start-1 col-span-3">
         작성자 :{" "}
@@ -97,16 +97,39 @@ export default function View() {
       <div className="col-span-3 col-start-6">
         작성일 :{text ? new Date(text.Date).toISOString().split("T")[0] : ""}
       </div>
-      <div className="col-span-12 h-[50vh]">{text?.TextBody}</div>
-      <button
-        className="h-8 w-16 bg-yellow-500 rounded-lg text-white m-1 col-end-8 col-span-1 "
-        onClick={() => {
-          router.push(`/Board/Edit/${params.slug}`);
-        }}
-      >
-        수정
-      </button>
-
+      <div className="col-span-12 h-[50vh] whitespace-pre-line">
+        {text?.TextBody}
+      </div>
+      <div className="col-span-12 flex flex-row justify-end">
+        <button
+          className="h-8 w-16 bg-yellow-500 rounded-lg text-white m-1  "
+          onClick={() => {
+            router.push(`/Board/Edit/${params.slug}`);
+          }}
+        >
+          수정
+        </button>
+        <button
+          className="h-8 w-16 bg-red-500 rounded-lg text-white m-1  "
+          onClick={() => deleteLogic()}
+        >
+          {/* <div className="basis-2/12 md:block hidden"> */}
+          삭제
+        </button>
+        <button
+          className="h-8 w-16 bg-green-500 rounded-lg text-white m-1  "
+          onClick={() => {
+            router.push(`/Board`);
+          }}
+        >
+          뒤로가기
+        </button>
+      </div>
+      <PopupModal
+        isOpen={isTModalOpen}
+        closeModal={closeTModal}
+        message="권한이 없습니다."
+      />
       <PopupInputModal
         isOpen={isModalOpen}
         onClose={handleModalClose}
@@ -117,25 +140,6 @@ export default function View() {
         onClose={handleModalClose2}
         message="삭제하시겠습니까?"
       />
-      <button
-        className="h-8 w-16 bg-red-500 rounded-lg text-white m-1 col-end-10 col-span-1 "
-        onClick={() => deleteLogic()}
-      >
-        삭제
-      </button>
-      <PopupModal
-        isOpen={isTModalOpen}
-        closeModal={closeTModal}
-        message="권한이 없습니다."
-      />
-      <button
-        className="h-8 w-16 bg-green-500 rounded-lg text-white m-1 col-end-12 col-span-1 "
-        onClick={() => {
-          router.push(`/Board`);
-        }}
-      >
-        뒤로가기
-      </button>
     </div>
   );
 }
