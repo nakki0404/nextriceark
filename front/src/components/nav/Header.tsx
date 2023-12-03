@@ -52,21 +52,7 @@ export default function Header() {
           <div className="text-xl hidden md:table-cell ">쌀로아</div>
         </Link>
       </div>
-      <div>
-        <Link
-          href="/Board"
-          className="flex flex-row  transition hover:bg-yellow-300 duration-500"
-        >
-          <Image
-            src={noteimage}
-            alt="rice icon by Icons8"
-            title="rice icon by Icons8"
-            width={32}
-            height={32}
-          />
-          <div className="text-xl hidden md:table-cell ">게시판</div>
-        </Link>
-      </div>
+
       <div>
         <button
           className={`flex flex-row ${
@@ -138,6 +124,21 @@ export default function Header() {
             <div className="text-xl hidden md:table-cell">악세조합기</div>
           </Link>
         </button>
+      </div>
+      <div>
+        <Link
+          href="/Board"
+          className="flex flex-row  transition hover:bg-yellow-300 duration-500"
+        >
+          <Image
+            src={noteimage}
+            alt="rice icon by Icons8"
+            title="rice icon by Icons8"
+            width={32}
+            height={32}
+          />
+          <div className="text-xl hidden md:table-cell ">게시판</div>
+        </Link>
       </div>
       {!loginstate.isLogin ? (
         <button
