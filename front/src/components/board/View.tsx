@@ -78,7 +78,7 @@ export default function View() {
   };
   const deleteLogic = () => {
     //글 자체가 회원글 vs 비회원글
-    if (text?.FakeID) {
+    if (text?.FakeID && loginstate.ID !== "adminim") {
       //비회원 삭제
       handleOpenModal();
     } else if (text?.ID === loginstate.ID || loginstate.ID === "adminim") {
