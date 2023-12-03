@@ -1,6 +1,7 @@
 import axios from "axios";
 // const deleteTextList = async (_id: string, FakePassWord?: string) => {
-const deleteTextList = async (obj) => {
+
+const deleteTextList = async (obj: any) => {
   try {
     const { data } = await axios.delete(
       `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/Board?_id=${obj.slug}&InputFakePassWord=${obj.input}&ID=${obj.ID}`,

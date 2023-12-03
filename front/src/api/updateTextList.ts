@@ -1,5 +1,5 @@
 import axios from "axios";
-const updateTextList = async (updateText) => {
+const updateTextList = async (updateText: any) => {
   try {
     const { data } = await axios.patch(
       `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/Board`,
