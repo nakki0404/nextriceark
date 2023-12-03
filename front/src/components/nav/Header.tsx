@@ -8,6 +8,7 @@ import logoutimage from "@/asset/png/icons8-logout-48.png";
 import statisticimage from "@/asset/png/icons8-statistic-48.png";
 import coinimage from "@/asset/png/icons8-coin-48.png";
 import recycleimage from "@/asset/png/icons8-recycle-48.png";
+import noteimage from "@/asset/png/icons8-note-48.png";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -49,6 +50,21 @@ export default function Header() {
             height={32}
           />
           <div className="text-xl hidden md:table-cell ">쌀로아</div>
+        </Link>
+      </div>
+      <div>
+        <Link
+          href="/Board"
+          className="flex flex-row  transition hover:bg-yellow-300 duration-500"
+        >
+          <Image
+            src={noteimage}
+            alt="rice icon by Icons8"
+            title="rice icon by Icons8"
+            width={32}
+            height={32}
+          />
+          <div className="text-xl hidden md:table-cell ">게시판</div>
         </Link>
       </div>
       <div>

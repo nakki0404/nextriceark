@@ -73,10 +73,14 @@ export default function LoginForm() {
               ID: loginData.ID,
             })
           );
-          setID("");
-          setPassword("");
+          sessionStorage.setItem(
+            "loginState",
+            JSON.stringify({
+              isLogin: true,
+              ID: loginData.ID,
+            })
+          );
           router.back();
-          openTModal();
         })
         .catch((error) => {
           console.error("Error updating data:", error);

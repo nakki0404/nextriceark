@@ -5,6 +5,7 @@ import marketItemsreducer from "@/store/slices/marketItems";
 import contentlistsreducer from "@/store/slices/contentlists";
 import loginstatereducer from "@/store/slices/loginstate";
 import tradeDatareducer from "@/store/slices/tradeData";
+import textListreducer from "@/store/slices/textlist";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     contentlistsreducer,
     loginstatereducer,
     tradeDatareducer,
+    textListreducer,
   },
 });
 

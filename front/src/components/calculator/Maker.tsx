@@ -411,6 +411,59 @@ export default function Maker() {
     }
   }, [selectedOption2]);
 
+  const handleInput = (e: any, index: number) => {
+    const inputValue = e.target.value;
+
+    // 정수형 숫자인지 확인
+    if (/^\d+$/.test(inputValue)) {
+      handleQuantityChange(index, parseInt(inputValue, 10));
+    } else {
+      openModal3();
+      setSelectedItems((prevSelectedItems) => {
+        const updatedItems = [...selectedItems];
+        updatedItems[index].Quantity = updatedItems[index].Quantity; // 최소값 0으로 설정
+        return updatedItems;
+      });
+    }
+  };
+  const handleInput2 = (e: any, index: number) => {
+    const inputValue = e.target.value;
+
+    // 정수형 숫자인지 확인
+    if (/^\d+$/.test(inputValue)) {
+      handleQuantityChange2(index, parseInt(inputValue, 10));
+    } else {
+      openModal4();
+      setSelectedItems((prevSelectedItems) => {
+        const updatedItems = [...selectedItems];
+        updatedItems[index].Quantity2 = updatedItems[index].Quantity2; // 최소값 0으로 설정
+        return updatedItems;
+      });
+
+      // 유효하지 않은 입력값이면 아무것도 하지 않거나 오류 처리를 추가할 수 있습니다.
+      // 여기서는 아무런 작업도 수행하지 않음
+    }
+  };
+
+  const [isModalOpen3, setModalOpen3] = useState(false);
+
+  const openModal3 = () => {
+    setModalOpen3(true);
+  };
+
+  const closeModal3 = () => {
+    setModalOpen3(false);
+  };
+  const [isModalOpen4, setModalOpen4] = useState(false);
+
+  const openModal4 = () => {
+    setModalOpen4(true);
+  };
+
+  const closeModal4 = () => {
+    setModalOpen4(false);
+  };
+
   return (
     <div>
       <div className="flex flex row  m-1">
@@ -489,20 +542,27 @@ export default function Maker() {
                   className="w-5/6 m-1 rounded-lg text-right   "
                   type="number"
                   value={item.Quantity}
-                  onChange={(e) =>
-                    handleQuantityChange(index, parseInt(e.target.value, 10))
-                  }
+                  onInput={(e) => handleInput(e, index)}
                 ></input>
+                <PopupModal
+                  isOpen={isModalOpen3}
+                  closeModal={closeModal3}
+                  message="숫자만 입력해주세요."
+                />
               </td>
+
               <td className="">
                 <input
                   className="w-5/6 m-1 rounded-lg text-right "
                   type="number"
                   value={item.Quantity2}
-                  onChange={(e) =>
-                    handleQuantityChange2(index, parseInt(e.target.value, 10))
-                  }
+                  onInput={(e) => handleInput2(e, index)}
                 ></input>
+                <PopupModal
+                  isOpen={isModalOpen4}
+                  closeModal={closeModal4}
+                  message="숫자만 입력해주세요."
+                />
               </td>
               <td>
                 <button
