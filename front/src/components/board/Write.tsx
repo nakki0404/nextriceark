@@ -36,9 +36,11 @@ export default function Write() {
     setTextTitle(e.target.value);
   };
   const [textBody, setTextBody] = useState("");
+
   const changeTextBody = (e: any) => {
     setTextBody(e.target.value);
   };
+
   const [fakeID, setFakeID] = useState("");
   const changeFakeID = (e: any) => {
     setFakeID(e.target.value);
@@ -161,9 +163,9 @@ export default function Write() {
   };
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-4  w-fit md:w-[50vw]">
       <h1 className="col-span-3 text-lg">글쓰기</h1>
-      <div className="flex flex-row">
+      <div className="col-span-3 flex flex-row  justify-start">
         <Select
           options={loginstate.ID === "adminim" ? typeList : typeList2}
           value={category}
@@ -185,14 +187,14 @@ export default function Write() {
         message="관리자만 고를 수 있습니다."
       />
       <input
-        className={`${loginstate.isLogin === true ? "hidden" : ""}`}
+        className={`${loginstate.isLogin === true ? "hidden" : ""}col-span-1`}
         type="string"
         placeholder="아이디"
         onChange={changeFakeID}
         value={fakeID}
       ></input>
       <input
-        className={`${loginstate.isLogin === true ? "hidden" : ""}`}
+        className={`${loginstate.isLogin === true ? "hidden" : ""}col-span-1`}
         type="password"
         placeholder="비밀번호"
         onChange={changeFakePassWord}
@@ -211,39 +213,41 @@ export default function Write() {
         onChange={changeTextBody}
         value={textBody}
       ></textarea>
-      <input
-        className="w-5/6 m-1 rounded-lg text-right "
-        type="string"
-        placeholder={`${captchaCode}` + " 자동입력방지 문자"}
-        onChange={(e) => changeInputCaptchaCode(e.target.value)}
-        value={inputCaptchaCode}
-      />
-      <div className="col-end-4">
-        <div className="flex flex-row">
-          <button
-            className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
-            onClick={handleOpenModal}
-          >
-            저장
-          </button>
-          <PopupBooleanModal
-            isOpen={isModalOpen}
-            onClose={handleModalClose}
-            message="등록하시겠습니까?"
-          />
-          <button
-            className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
-            onClick={handleOpenModal2}
-          >
-            취소
-          </button>
-          <PopupBooleanModal
-            isOpen={isModalOpen2}
-            onClose={handleModalClose2}
-            message="취소하시겠습니까?"
-          />
-        </div>
+
+      <div className="col-span-1 w-48 col-start-1">
+        <input
+          className="w-5/6 m-1 rounded-lg text-right "
+          type="string"
+          placeholder={`${captchaCode}` + " 자동입력방지"}
+          onChange={(e) => changeInputCaptchaCode(e.target.value)}
+          value={inputCaptchaCode}
+        />
       </div>
+      <div className="col-span-3 flex flex-row justify-end">
+        <button
+          className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+          onClick={handleOpenModal}
+        >
+          저장
+        </button>
+
+        <button
+          className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+          onClick={handleOpenModal2}
+        >
+          취소
+        </button>
+      </div>
+      <PopupBooleanModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        message="등록하시겠습니까?"
+      />
+      <PopupBooleanModal
+        isOpen={isModalOpen2}
+        onClose={handleModalClose2}
+        message="취소하시겠습니까?"
+      />
     </div>
   );
 }

@@ -218,9 +218,9 @@ export default function Edit() {
   }, []);
 
   return (
-    <div className="grid grid-cols-3 gap-4">
+    <div className="grid grid-cols-3 gap-4  w-fit md:w-[50vw]">
       <h1 className="col-span-3 text-lg">수정하기</h1>
-      <div className="flex flex-row">
+      <div className="col-span-3 flex flex-row justify-start">
         <Select
           options={loginstate.ID === "adminim" ? typeList : typeList2}
           value={category}
@@ -264,8 +264,7 @@ export default function Edit() {
         onChange={changeTextBody}
         value={textBody}
       ></textarea>
-
-      <div className="col-end-4">
+      <div className="col-span-3 flex flex-row justify-end">
         <div className="flex flex-row">
           <button
             className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
