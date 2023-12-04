@@ -320,17 +320,12 @@ app.post("/api/check", async (req, res) => {
 
 app.post("/api/signup", async (req, res) => {
   const user = req.body; // 클라이언트에서 보낸 사용자 데이터
+
   // if (captchaCode.findOne({Num:user.Pass})) {
-  console.log(user);
-  const existingpass = await captchaCode.findOne({ Num: user.Pass });
-  console.log(existingpass);
-  if (existingpass.Num.length > 0) {
-    const existingpass2 = await captchaCode.deleteMany({ Num: user.Pass });
-    console.log(existingpass2);
-    // if (passNum.includes(String(user.Pass))) {
+  const existingpass2 = await captchaCode.deleteMany({ Num: user.Pass });
+  if (existingpass2.deletedCount > 0) {
     try {
       const existingUser = await User.findOne({ ID: user.Item.ID });
-
       if (!existingUser) {
         // 동일한 아이디를 가진 사용자가 없는 경우
         if (user.Item.ID === "adminim") {
@@ -493,9 +488,36 @@ app.post("/api/list", async (req, res) => {
   }
 });
 
+app.get(
+  "/api/Board/check",
+  async (req, res) => {
+    const data = req.query;
+    const query = {
+      _id: data._id,
+    };
+    if (data.ID === "adminim") {
+    } else {
+      query.FakePassWord = data.InputFakePassWord;
+    }
+    const existingText = await Text.find(query);
+    if (existingText.length > 0) {
+      res.json(true);
+    } else {
+      res.json(false);
+    }
+  }
+  // await Text.deleteMany(query);
+  // try {
+  //   res.json({ message: "Data deleted successfully" });
+  // } catch (error) {
+  //   console.error("Error updating data:", error);
+  //   res.status(500).json({ error: "Internal server error" });
+  // }
+);
+
 app.get("/api/Board", async (req, res) => {
   try {
-    const TextList = await Text.find({});
+    const TextList = await Text.find({}, { FakePassWord: 0 });
     res.json(TextList);
   } catch (error) {
     console.error("Error updating data:", error);
@@ -534,9 +556,13 @@ app.delete("/api/Board", async (req, res) => {
       query.ID = data.ID;
     }
   }
-  await Text.deleteMany(query);
   try {
-    res.json({ message: "Data deleted successfully" });
+    const existingText = await Text.deleteMany(query);
+    if (existingText.length > 0) {
+      res.json({ message: "Data deleted successfully" });
+    } else {
+      res.json(false);
+    }
   } catch (error) {
     console.error("Error updating data:", error);
     res.status(500).json({ error: "Internal server error" });
