@@ -140,6 +140,7 @@ export default function Header() {
           <div className="text-xl hidden md:table-cell ">게시판</div>
         </Link>
       </div>
+
       {!loginstate.isLogin ? (
         <button
           className={`flex flex-row ${

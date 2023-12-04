@@ -76,7 +76,7 @@ export default function Board() {
       }
     );
     if (passWord === result.Input) {
-      router.push(`/Board/View/${_id}`);
+      router.push(`/Board/${_id}`);
     } else {
       openModal5();
     }
@@ -99,13 +99,33 @@ export default function Board() {
       loginstate.ID === "adminim" ||
       loginstate.ID === item.ID
     ) {
-      router.push(`/Board/View/${item._id}`);
+      router.push(`/Board/${item._id}`);
     } else if (item.FakePassWord) {
       handleOpenModal3();
     } else {
       openModal5();
     }
   };
+
+  // const editLogic = () => {
+  //   //글 자체가 회원글 vs 비회원글
+  //   if (text?.FakeID) {
+  //     //비회원 삭제
+  //     handleOpenModal3();
+  //   } else if (text?.ID === loginstate.ID || loginstate.ID === "adminim") {
+  //     handleOpenModal4();
+  //   } else {
+  //     openModal5();
+  //     setTimeout(() => {
+  //       router.push(`/Board/View/${params.slug}`);
+  //     }, 500);
+  //   }
+  // };
+  // ///
+
+  // useEffect(() => {
+  //   editLogic();
+  // }, []);
 
   return (
     <div className="w-fit md:w-[50vw]">
@@ -154,7 +174,7 @@ export default function Board() {
           </div>
         ))}
 
-        <button className="col-span-12 justify-self-end h-8 w-16 bg-green-500 rounded-lg text-white m-1">
+        <button className="col-span-12 justify-self-end h-8 w-16 bg-green-500 rounded-lg text-white m-1 ">
           <Link href="/Board/Write">글쓰기</Link>
         </button>
         <div className="col-span-12 justify-self-center">

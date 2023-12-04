@@ -211,7 +211,6 @@ export default function Edit() {
       }, 500);
     }
   };
-  ///
 
   useEffect(() => {
     editLogic();
@@ -236,21 +235,6 @@ export default function Edit() {
           placeholder={category2}
         />
       </div>
-      {/* 
-      <input
-        className={`${text?.FakeID ? "" : "hidden"}`}
-        type="string"
-        placeholder="아이디"
-        onChange={changeFakeID}
-        value={fakeID}
-      ></input>
-      <input
-        className={`${text?.FakeID ? "" : "hidden"}`}
-        type="password"
-        placeholder="비밀번호"
-        onChange={changeFakePassWord}
-        value={fakePassWord}
-      ></input> */}
       <input
         className="col-span-3"
         type="string"

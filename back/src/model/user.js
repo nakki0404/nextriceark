@@ -1,10 +1,22 @@
 const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
-  ID: String,
-  Password: String,
-  Question: String,
-  Anwser: String,
+  ID: {
+    type: String,
+    maxlength: 60,
+  },
+  Password: {
+    type: String,
+    maxlength: 60,
+  },
+  Question: {
+    type: String,
+    maxlength: 60,
+  },
+  Answer: {
+    type: String,
+    maxlength: 60,
+  },
   Role: String,
 });
 
