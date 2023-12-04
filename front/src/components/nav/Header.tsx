@@ -140,21 +140,7 @@ export default function Header() {
           <div className="text-xl hidden md:table-cell ">게시판</div>
         </Link>
       </div>
-      <div>
-        <Link
-          href="/Game"
-          className="flex flex-row  transition hover:bg-yellow-300 duration-500"
-        >
-          <Image
-            src={noteimage}
-            alt="rice icon by Icons8"
-            title="rice icon by Icons8"
-            width={32}
-            height={32}
-          />
-          <div className="text-xl hidden md:table-cell ">게임</div>
-        </Link>
-      </div>
+
       {!loginstate.isLogin ? (
         <button
           className={`flex flex-row ${
