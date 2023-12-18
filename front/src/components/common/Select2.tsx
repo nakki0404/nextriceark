@@ -10,7 +10,7 @@ interface SelectProps {
 
 const Select2: FC<SelectProps> = ({ Array, PlaceHolder, onchange }) => {
   const [selectedValue, setSelectedValue] = useState(PlaceHolder);
-  const changeSelectedValue = (event) => {
+  const changeSelectedValue = (event: any) => {
     setSelectedValue(event.target.value);
   };
 
