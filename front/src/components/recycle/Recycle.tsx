@@ -1,11 +1,12 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
 import skilllist2 from "@/asset/data/skilllistorigin.json";
 import jobskilllist2 from "@/asset/data/jobskilllist.json";
 import PopupModal from "@/components/common/PopupModal";
+import Select2 from "@/components/common/Select2";
 
 export default function Recycle() {
   useEffect(() => {
@@ -787,6 +788,14 @@ export default function Recycle() {
     setModalOpen(false);
   };
 
+  const [selectedValue, setSelectedValue] = useState("option1");
+  const changeSelectedValue = (event: any) => {
+    setSelectedValue(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const newArray = ["치명", "신속", "특화", "숙련", "인내", "제압"];
+
   return (
     <div>
       <div className="flex flex-col md:flex-row  ">
@@ -818,6 +827,13 @@ export default function Recycle() {
           </div>
           <div className="col-span-4 flex flex-row  ">
             <div className=" flex flex-row  ">
+              {/* <select className="w-2/6 h-full  rounded-lg text-right">
+                {newArray.map((elem) => (
+                  <option key={elem} value={elem}>
+                    {elem}
+                  </option>
+                ))}
+              </select> */}
               <Select
                 options={Array.isArray(statlist) ? statlist : []}
                 value={selectedOption3}
@@ -826,7 +842,7 @@ export default function Recycle() {
                 placeholder="스텟1"
               />
               <input
-                className="w-2/6 h-2/3  rounded-lg text-right "
+                className="w-2/6 h-full  rounded-lg text-right "
                 type="number"
                 value={statnum}
                 onChange={(e) => handleQuantityChange3(e.target.value)}
@@ -845,7 +861,7 @@ export default function Recycle() {
                 placeholder="스텟2"
               />
               <input
-                className="w-2/6 h-2/3 rounded-lg text-right "
+                className="w-2/6 h-full rounded-lg text-right "
                 type="number"
                 value={stat2num}
                 onChange={(e) => handleQuantityChange4(e.target.value)}
@@ -861,7 +877,7 @@ export default function Recycle() {
               placeholder="각인1"
             />
             <input
-              className="w-2/6 h-2/3  rounded-lg text-right "
+              className="w-2/6 h-full  rounded-lg text-right "
               type="number"
               value={skillnum}
               onChange={(e) => handleQuantityChange5(e.target.value)}
@@ -876,7 +892,7 @@ export default function Recycle() {
               placeholder="각인2"
             />
             <input
-              className="w-2/6 h-2/3 rounded-lg text-right "
+              className="w-2/6 h-full rounded-lg text-right "
               type="number"
               value={skill2num}
               onChange={(e) => handleQuantityChange6(e.target.value)}
@@ -891,14 +907,14 @@ export default function Recycle() {
               placeholder="패널티"
             />
             <input
-              className="w-2/6 h-2/3  rounded-lg text-right "
+              className="w-2/6 h-full  rounded-lg text-right "
               type="number"
               value={panaltynum}
               onChange={(e) => handleQuantityChange7(e.target.value)}
             ></input>
           </div>
           <input
-            className="w-5/6 h-8  rounded-lg text-right col-span-2 "
+            className="w-full h-full  rounded-lg text-right col-span-2 "
             type="string"
             value={location}
             placeholder="보유 캐릭터 이름"
@@ -1015,7 +1031,7 @@ export default function Recycle() {
               ></input>
             </div>
             <button
-              className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
+              className="h-8 w-16 bg-green-500 justify-self-center col-span-2 rounded-lg text-white m-1"
               onClick={(e) => saveHasskill()}
             >
               목록추가
@@ -1062,7 +1078,7 @@ export default function Recycle() {
                   placeholder="각인1"
                 />
                 <input
-                  className="w-2/6 h-2/3  rounded-lg text-right "
+                  className="w-2/6 h-full  rounded-lg text-right "
                   type="number"
                   value={abillityskillnum}
                   onChange={(e) => handleQuantityChange12(e.target.value)}
@@ -1077,13 +1093,13 @@ export default function Recycle() {
                   placeholder="각인2"
                 />
                 <input
-                  className="w-2/6 h-2/3  rounded-lg text-right "
+                  className="w-2/6 h-full  rounded-lg text-right "
                   type="number"
                   value={abillityskill2num}
                   onChange={(e) => handleQuantityChange13(e.target.value)}
                 ></input>
               </div>
-              <div className="flex flex row col-span-3 ">
+              <div className="flex flex row col-span-2  ">
                 <Select
                   options={Array.isArray(panaltylist) ? panaltylist : []}
                   value={selectedOption14}
@@ -1092,15 +1108,15 @@ export default function Recycle() {
                   placeholder="패널티"
                 />
                 <input
-                  className="w-2/6 h-2/3  rounded-lg text-right "
+                  className="w-2/6 h-full  rounded-lg text-right "
                   type="number"
                   value={abillitypanaltynum}
                   onChange={(e) => handleQuantityChange14(e.target.value)}
                 ></input>
               </div>
-              <div className="flex flex row ">
+              <div className="flex flex row col-span-2 justify-self-center">
                 <button
-                  className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
+                  className="h-8 w-16 bg-green-500  rounded-lg text-white m-1"
                   onClick={(e) => saveAbillity()}
                 >
                   목록추가
@@ -1386,6 +1402,7 @@ export default function Recycle() {
           </tbody>
         </table>
       </div>
+
       <PopupModal
         isOpen={isModalOpen}
         closeModal={closeModal}

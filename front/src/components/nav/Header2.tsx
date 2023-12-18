@@ -133,7 +133,7 @@ export default function Header2() {
         </>
       ) : pathname.includes("Recycle") ? (
         <>
-          <>이 페이지는 pc 환경에서 이용해주세요.</>
+          <>pc환경이 더 적합합니다.</>
         </>
       ) : (
         <div className=""></div>
