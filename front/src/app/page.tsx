@@ -6,6 +6,7 @@ import calculatorimage from "@/asset/png/icons8-calculator-48.png";
 import statisticimage from "@/asset/png/icons8-statistic-48.png";
 import coinimage from "@/asset/png/icons8-coin-48.png";
 import recycleimage from "@/asset/png/icons8-recycle-48.png";
+import gameimage from "@/asset/png/icons8-game-48.png";
 
 import caculator_manual from "@/asset/png/caculator-manual.png";
 import statistics_manual from "@/asset/png/statistics-manual.png";
