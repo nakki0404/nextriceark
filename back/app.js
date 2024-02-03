@@ -138,8 +138,10 @@ app.get("/api/touch", async (req, res) => {
   // 난수를 4자리 문자열로 변환
   res.send(insertResult[0].Num);
 });
+console.log(124);
 
 app.get("/", (req, res) => {
+  console.log(123);
   res.send("hi");
 });
 

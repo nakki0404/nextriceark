@@ -1,0 +1,6 @@
+nodemon.json
+server.log
+.env
+Dockerfile
+docker-compose.yml
+nextricearkkey.pem

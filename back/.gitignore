@@ -1,3 +1,6 @@
 nodemon.json
 server.log
 .env
+Dockerfile
+nextricearkkey.pem
+docker-compose.yml
