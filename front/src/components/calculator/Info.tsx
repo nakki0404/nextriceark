@@ -25,12 +25,12 @@ export default function Info() {
 
   useEffect(() => {
     const savedData = localStorage.getItem(localStorageKey2);
-    if (savedData) {
-      setSelectedListItem(JSON.parse(savedData));
-      setPlaceholder(JSON.parse(savedData).Title);
-    } else if (search) {
+    if (search) {
       setSelectedTitle(search);
       setPlaceholder(search);
+    } else if (savedData) {
+      setSelectedListItem(JSON.parse(savedData));
+      setPlaceholder(JSON.parse(savedData).Title);
     } else {
       setPlaceholder("컨텐츠 이름을 선택하세요");
     }
