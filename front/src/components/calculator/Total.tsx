@@ -13,14 +13,8 @@ export default function Total() {
   const [sortType, setSortType] = useState<string | null>(null);
   const [sortDescending, setSortDescending] = useState<boolean>(true);
 
-  const handleSortChange = (newSortType: string) => {
-    if (newSortType === sortType) {
-      setSortDescending(!sortDescending);
-    } else {
-      setSortType(newSortType);
-      setSortDescending(true);
-    }
-  };
+  const [sortType2, setSortType2] = useState<string | null>(null);
+  const [sortDescending2, setSortDescending2] = useState<boolean>(true);
 
   let newarray = [];
   for (let i = 0; i < contentvalues.length; i++) {
@@ -50,17 +44,50 @@ export default function Total() {
 
   let sortedList = [...newarray];
 
+  const handleSortChange = (newSortType: string) => {
+    if (newSortType === sortType) {
+      setSortDescending(!sortDescending);
+    } else {
+      setSortType(newSortType);
+      setSortType2("");
+
+      setSortDescending(true);
+    }
+  };
+
+  const handleSortChange2 = (newSortType2: string) => {
+    if (newSortType2 === sortType2) {
+      setSortDescending2(!sortDescending2);
+    } else {
+      setSortType2(newSortType2);
+      setSortType("");
+      setSortDescending2(true);
+    }
+  };
+
   if (sortType === "Value") {
     sortedList = sortedList.sort((a, b) => {
+      //배열에 대해서
       const aValue = a.totalprice3;
       const bValue = b.totalprice3;
+      //기준
       return sortDescending ? bValue - aValue : aValue - bValue;
+      // 오름 내림 차순
     });
   }
+
+  if (sortType2 === "Value2") {
+    sortedList = sortedList.sort((a, b) => {
+      const aValue = a.totalprice;
+      const bValue = b.totalprice;
+      return sortDescending2 ? bValue - aValue : aValue - bValue;
+    });
+  }
+
   const handleChange2 = (selected: any = {}) => {
     setSelectedOption2(selected);
   };
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState("레이드");
   const categorylist = [
     {
       label: "레이드",
@@ -77,10 +104,6 @@ export default function Total() {
     {
       label: "카던",
       value: "카던",
-    },
-    {
-      label: "전체",
-      value: "",
     },
   ];
   type selectedOption =
@@ -111,12 +134,20 @@ export default function Total() {
                 value={selectedOption2}
                 onChange={handleChange2}
                 isSearchable={true} // 검색 가능한 드롭다운으로 설정
-                placeholder="분류"
+                placeholder="레이드"
               />
             </th>
 
-            <th>{category === "레이드" ? "기본" : "교환가능"}</th>
-            <th>{category === "레이드" ? "더보기" : "교환불가"}</th>
+            <th>
+              {category === "레이드" ? "기본보상" : "교환가능"}
+              <span
+                onClick={() => handleSortChange2("Value2")}
+                style={{ cursor: "pointer" }}
+              >
+                {sortType2 === "Value2" && sortDescending2 ? "▼" : "▲"}
+              </span>
+            </th>
+            <th>{category === "레이드" ? "더보기손익" : "교환불가"}</th>
             <th>
               총합
               <span
@@ -126,7 +157,6 @@ export default function Total() {
                 {sortType === "Value" && sortDescending ? "▼" : "▲"}
               </span>
             </th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -162,7 +192,7 @@ export default function Total() {
             ))}
         </tbody>
       </table>
-      이름 누르면 상세보기 페이지로 넘어갑니다.
+      이름 누르면 상세보기 페이지로 이동합니다.
     </div>
   );
 }

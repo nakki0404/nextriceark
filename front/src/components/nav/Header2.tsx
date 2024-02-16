@@ -6,7 +6,7 @@ export default function Header2() {
   const isCurrentPage = (targetPath: string) => pathname.includes(targetPath);
 
   return (
-    <div className="bg-yellow-50 flex flex-row justify-evenly ">
+    <div className=" flex flex-row justify-evenly ">
       {pathname.includes("Calculator") ? (
         <>
           <button
@@ -133,7 +133,7 @@ export default function Header2() {
         </>
       ) : pathname.includes("Recycle") ? (
         <>
-          <>pc환경이 더 적합합니다.</>
+          <>모바일 UI 지원 예정</>
         </>
       ) : (
         <div className=""></div>
