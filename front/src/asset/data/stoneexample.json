@@ -1,0 +1,95 @@
+{
+  "PageNo": 1,
+  "PageSize": 10,
+  "TotalCount": 10000,
+  "Items": [
+    {
+      "Name": "고고한 비상의 돌",
+      "Grade": "유물",
+      "Tier": 3,
+      "Level": null,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ability/ability_21.png",
+      "GradeQuality": null,
+      "AuctionInfo": {
+        "StartPrice": 1,
+        "BuyPrice": 1,
+        "BidPrice": 0,
+        "EndDate": "2024-02-06T00:48:40.9",
+        "BidCount": 0,
+        "BidStartPrice": 1,
+        "IsCompetitive": false,
+        "TradeAllowCount": 0
+      },
+      "Options": [
+        {
+          "Type": "ABILITY_ENGRAVE",
+          "OptionName": "질량 증가",
+          "OptionNameTripod": "",
+          "Value": 10,
+          "IsPenalty": false,
+          "ClassName": ""
+        },
+        {
+          "Type": "ABILITY_ENGRAVE",
+          "OptionName": "슈퍼 차지",
+          "OptionNameTripod": "",
+          "Value": 10,
+          "IsPenalty": false,
+          "ClassName": ""
+        },
+        {
+          "Type": "ABILITY_ENGRAVE",
+          "OptionName": "이동속도 감소",
+          "OptionNameTripod": "",
+          "Value": 10,
+          "IsPenalty": true,
+          "ClassName": ""
+        }
+      ]
+    },
+    {
+      "Name": "고고한 비상의 돌",
+      "Grade": "유물",
+      "Tier": 3,
+      "Level": null,
+      "Icon": "https://cdn-lostark.game.onstove.com/efui_iconatlas/ability/ability_21.png",
+      "GradeQuality": null,
+      "AuctionInfo": {
+        "StartPrice": 1,
+        "BuyPrice": 1,
+        "BidPrice": 0,
+        "EndDate": "2024-02-06T00:48:41.123",
+        "BidCount": 0,
+        "BidStartPrice": 1,
+        "IsCompetitive": false,
+        "TradeAllowCount": 0
+      },
+      "Options": [
+        {
+          "Type": "ABILITY_ENGRAVE",
+          "OptionName": "굳은 의지",
+          "OptionNameTripod": "",
+          "Value": 10,
+          "IsPenalty": false,
+          "ClassName": ""
+        },
+        {
+          "Type": "ABILITY_ENGRAVE",
+          "OptionName": "정기 흡수",
+          "OptionNameTripod": "",
+          "Value": 10,
+          "IsPenalty": false,
+          "ClassName": ""
+        },
+        {
+          "Type": "ABILITY_ENGRAVE",
+          "OptionName": "공격력 감소",
+          "OptionNameTripod": "",
+          "Value": 10,
+          "IsPenalty": true,
+          "ClassName": ""
+        }
+      ]
+    }
+  ]
+}

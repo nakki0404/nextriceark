@@ -40,6 +40,16 @@ export default function FindEki() {
   useEffect(() => {
     const classNames = `flex flex-row duration-[${duration}ms] translate-y-${translateY}`;
   }, [translateY]);
+
+  //차이점
+  //로컬 새로고침하면 반대 그림이 변한다.
+  //정상적인 접근? 네비 바를 통해서 이동.
+  //주소입력으로 접근해도 버그가 발생함.
+  //렌더링 문제고.
+  //csr ssr 둘중 하나일텐데.
+  //근데 또, 렌더링 문제라하면,
+  //위에서 말한 정상적으로 이용하기 위한 접근 방식에선
+  //왜 발생하지 않는가
   return (
     <div>
       <div>진짜에키드나 찾기</div>

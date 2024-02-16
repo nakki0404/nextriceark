@@ -69,13 +69,6 @@ export default function Bravecoin() {
           </tbody>
         </table>
       </div>
-      *주의
-      <br />
-      골드/주화는 주화 1개당 골드 가치
-      <br />
-      제작자는 PVP 초극
-      <br />
-      보조재 쓸일없으면 안사는게 낫다
     </div>
   );
 }

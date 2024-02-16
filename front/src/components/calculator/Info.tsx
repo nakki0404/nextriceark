@@ -14,13 +14,27 @@ export default function Info() {
     null
   );
   const [localStorageKey2] = useState<string>("tableDataKey2"); // 로컬 저장소 키
+  const [placeholder, setPlaceholder] = useState("");
+
+  const searchParams = useSearchParams();
+
+  const search = searchParams.get("search");
+  const handleChange = (selected: any) => {
+    setSelectedOption(selected);
+  };
 
   useEffect(() => {
     const savedData = localStorage.getItem(localStorageKey2);
     if (savedData) {
       setSelectedListItem(JSON.parse(savedData));
+      setPlaceholder(JSON.parse(savedData).Title);
+    } else if (search) {
+      setSelectedTitle(search);
+      setPlaceholder(search);
+    } else {
+      setPlaceholder("컨텐츠 이름을 선택하세요");
     }
-  }, [localStorageKey2]);
+  }, [search, localStorageKey2]);
 
   useEffect(() => {
     if (selectedTitle !== null) {
@@ -40,7 +54,7 @@ export default function Info() {
         let totalprice2 = selectedItem.List.reduce(
           (a, i) =>
             a +
-            ((i?.Quantity || 0) * (i?.YDayAvgPrice || 0)) /
+            ((i?.Quantity2 || 0) * (i?.YDayAvgPrice || 0)) /
               (i?.BundleCount || 1),
           0
         );
@@ -52,17 +66,6 @@ export default function Info() {
   const [data, setData] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<any>(null);
   const list = contentvalues.map((e) => ({ label: e.Title, value: e.Title }));
-  const searchParams = useSearchParams();
-
-  const search = searchParams.get("search");
-  const handleChange = (selected: any) => {
-    setSelectedOption(selected);
-  };
-  useEffect(() => {
-    if (search) {
-      setSelectedTitle(search);
-    }
-  }, [search]);
 
   useEffect(() => {
     if (selectedOption) {
@@ -93,7 +96,8 @@ export default function Info() {
     ? selectedListItem.List.reduce(
         (a, i) =>
           a +
-          ((i?.Quantity || 0) * (i?.YDayAvgPrice || 0)) / (i?.BundleCount || 1),
+          ((i?.Quantity2 || 0) * (i?.YDayAvgPrice || 0)) /
+            (i?.BundleCount || 1),
         0
       )
     : 0;
@@ -106,15 +110,23 @@ export default function Info() {
           value={selectedOption}
           onChange={handleChange}
           isSearchable={true}
-          placeholder="컨텐츠 이름을 선택하세요"
+          placeholder={placeholder}
         />
       </div>
       <table>
         <thead>
           <tr>
             <th>그림</th>
-            <th>개수(교환가능,기본 보상)</th>
-            <th>개수(귀속, 더보기 보상)</th>
+            <th>
+              {selectedListItem && selectedListItem.Category === "레이드"
+                ? "기본보상"
+                : "교환가능"}
+            </th>
+            <th>
+              {selectedListItem && selectedListItem.Category === "레이드"
+                ? "더보기"
+                : "교환불가"}
+            </th>
           </tr>
         </thead>
         <tbody>

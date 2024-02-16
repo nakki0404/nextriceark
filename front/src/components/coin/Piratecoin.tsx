@@ -68,9 +68,6 @@ export default function Piratecoin() {
           </tbody>
         </table>
       </div>
-      *주의
-      <br />
-      골드/주화는 주화 1개당 골드 가치
     </div>
   );
 }

@@ -37,7 +37,7 @@ export default function Header() {
   const pathname = usePathname();
   const isCurrentPage = (targetPath: string) => pathname.includes(targetPath);
   return (
-    <div className="bg-yellow-50 flex flex-row justify-between">
+    <div className="flex flex-row justify-between">
       <div>
         <Link
           href="/"
