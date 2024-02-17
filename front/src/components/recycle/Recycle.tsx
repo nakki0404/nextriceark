@@ -979,7 +979,7 @@ export default function Recycle() {
           <div className="col-span-6 text-2xl   ">보유 악세 목록</div>
 
           <div
-            className="col-span-6 grid grid-cols-6 md:grid-cols-10 "
+            className="col-span-6 grid grid-cols-12 md:grid-cols-12 "
             style={{ maxHeight: "200px", overflowY: "auto" }}
           >
             {/* <div className="col-span-1 hidden md:table-cell">분류</div>
@@ -995,45 +995,91 @@ export default function Recycle() {
 
             {itemlist.map((e: any, index: any) => (
               <div
-                className="col-span-10 md:col-span-10 grid grid-cols-6 md:grid-cols-10 m-1"
+                className="col-span-12 md:col-span-12 grid grid-cols-10 md:grid-cols-10 m-1"
                 key={index}
               >
-                <div className="col-span-1 hidden md:table-cell">
+                <div className="text-xs self-center self-center md:text-base ">
                   {e.forwho}
                 </div>
-                <div className="col-span-1 hidden md:table-cell">{e.grade}</div>
-                <div className="col-span-1 hidden md:table-cell">
+                <div className="text-xs self-center self-center md:text-base">
+                  {e.grade}
+                </div>
+                <div className="text-xs self-center self-center md:text-base">
                   {e.category}
                 </div>
+
                 {Object.keys(e.stat).map((key) => (
-                  <div className="col-span-1" key={key}>
+                  <div
+                    className="text-xs self-center self-center md:text-base"
+                    key={key}
+                  >
                     {key}: {e.stat[key]}
                   </div>
                 ))}
-                {Object.keys(e.stat).length === 1 && (
-                  <div className="col-span-1"></div>
-                )}
+                {Object.keys(e.stat).length === 1 && <div className=""></div>}
                 {Object.keys(e.skill).map((key) => (
-                  <div className="col-span-1" key={key}>
-                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                  <div
+                    className="text-xs self-center self-center md:text-base"
+                    key={key}
+                  >
+                    {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
                     {e.skill[key]}
                   </div>
                 ))}
                 {Object.keys(e.panalty).map((key) => (
-                  <div key={key} className="col-span-1 hidden md:table-cell">
+                  <div
+                    key={key}
+                    className=" text-xs self-center self-center md:text-base"
+                  >
                     {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
                     {e.panalty[key]}
                   </div>
                 ))}
-                <div className="col-span-1">{e.location}</div>
-                <div className="col-span-1">
+                <div className="text-xs self-center self-center md:text-base">
+                  {e.location}
+                </div>
+                <div className="text-xs self-center self-center md:text-base">
                   <button
-                    className="col-span-1 text-red-500 "
+                    className=" text-red-500 "
                     onClick={() => deletelist(index)}
                   >
                     X
                   </button>
                 </div>
+                {/* <div className="col-span-2 ">{e.forwho}</div>
+                <div className="col-span-2 ">{e.grade}</div>
+                <div className="col-span-2 ">{e.category}</div>
+
+                <div className="col-span-3">{e.location}</div>
+                <div className="col-span-3">
+                  <button
+                    className=" text-red-500 "
+                    onClick={() => deletelist(index)}
+                  >
+                    X
+                  </button>
+                </div>
+
+                {Object.keys(e.stat).map((key) => (
+                  <div className="col-span-3" key={key}>
+                    {key}: {e.stat[key]}
+                  </div>
+                ))}
+                {Object.keys(e.stat).length === 1 && (
+                  <div className="col-span-3"></div>
+                )}
+                {Object.keys(e.skill).map((key) => (
+                  <div className="col-span-2" key={key}>
+                    {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
+                    {e.skill[key]}
+                  </div>
+                ))}
+                {Object.keys(e.panalty).map((key) => (
+                  <div key={key} className="col-span-2 text-xs self-center ">
+                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                    {e.panalty[key]}
+                  </div>
+                ))} */}
               </div>
             ))}
           </div>
@@ -1141,17 +1187,20 @@ export default function Recycle() {
             <div className="col-span-4 p-1">보유 어빌돌</div>
             {abilltylist.map((e: any, index: any) => (
               <div
-                className="col-span-4 md:col-span-2 grid grid-cols-10 m-1"
+                className="col-span-4 md:col-span-2 grid grid-cols-10 m-1 "
                 key={index}
               >
                 {Object.keys(e.skill).map((key) => (
                   <div className="col-span-3" key={key}>
-                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                    {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
                     {e.skill[key]}
                   </div>
                 ))}
                 {Object.keys(e.panalty).map((key) => (
-                  <div className="col-span-3" key={key}>
+                  <div
+                    className="col-span-3 text-xs self-center self-center "
+                    key={key}
+                  >
                     {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
                     {e.panalty[key]}
                   </div>
@@ -1193,22 +1242,46 @@ export default function Recycle() {
           {result.map((e: any, index: any) => (
             <div className="col-span-12 grid grid-cols-12" key={index}>
               {Object.keys(e.stat).map((key) => (
-                <div className="" key={key}>
+                <div className="text-xs self-center md:text-base" key={key}>
                   {key}: {e.stat[key]}
                 </div>
               ))}
-              {Object.keys(e.skill).map((key) => (
+              {/* {Object.keys(e.skill).map((key) => (
+                
                 <div className="" key={key}>
-                  {key.length >= 4 ? key.substring(0, 3) : key}: {e.skill[key]}
+                  {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
+                  {Math.floor(e.skill[key] / 5)}
                 </div>
-              ))}
-              {Object.keys(e.panalty).map((key) => (
-                <div className="" key={key}>
+              ))} */}
+
+              {Object.keys(e.skill).map((key) =>
+                Math.floor(e.skill[key] / 5) > 0 ? (
+                  <div className="text-xs self-center md:text-base" key={key}>
+                    {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
+                    {Math.floor(e.skill[key] / 5)}
+                  </div>
+                ) : (
+                  <></>
+                )
+              )}
+
+              {Object.keys(e.panalty).map((key) =>
+                Math.floor(e.panalty[key] / 5) > 0 ? (
+                  <div className="text-xs self-center md:text-base" key={key}>
+                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                    {Math.floor(e.panalty[key] / 5)}
+                  </div>
+                ) : (
+                  <></>
+                )
+              )}
+              {/* {Object.keys(e.panalty).map((key) => (
+                <div className="text-xs self-center" key={key}>
                   {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
-                  {e.panalty[key]}
+                  {Math.floor(e.panalty[key] / 5)}
                 </div>
-              ))}
-              <div className="">
+              ))} */}
+              <div className="col-end-11 col-span-1">
                 <button
                   className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
                   onClick={() => viewconbin(index)}
@@ -1223,25 +1296,37 @@ export default function Recycle() {
             <div className="col-span-12 grid grid-cols-12" key={index}>
               {e.category
                 ? Object.keys(e.category).map((key) => (
-                    <div key={key}>{e.category[key]}</div>
+                    <div className="text-xs self-center md:text-base" key={key}>
+                      {e.category[key]}
+                    </div>
                   ))
                 : ""}
 
               {Object.keys(e.skill).map((key) => (
-                <div key={key}>
-                  {key.length >= 4 ? key.substring(0, 3) : key}: {e.skill[key]}
+                <div className="text-xs self-center md:text-base" key={key}>
+                  {key.length >= 4 ? key.substring(0, 2) : key}: {e.skill[key]}
                 </div>
               ))}
+              {e.panalty
+                ? Object.keys(e.panalty).map((key) => (
+                    <div className="text-xs self-center md:text-base" key={key}>
+                      {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                      {e.panalty[key]}
+                    </div>
+                  ))
+                : ""}
               {e.stat
                 ? Object.keys(e.stat).map((key) => (
-                    <div key={key}>
+                    <div className="text-xs self-center md:text-base" key={key}>
                       {key}: {e.stat[key]}
                     </div>
                   ))
                 : ""}
               {e.location
                 ? Object.keys(e.location).map((key) => (
-                    <div key={key}>{e.location[key]}</div>
+                    <div className="text-xs self-center md:text-base" key={key}>
+                      {e.location[key]}
+                    </div>
                   ))
                 : ""}
             </div>
