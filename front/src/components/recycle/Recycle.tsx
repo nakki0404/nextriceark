@@ -7,6 +7,24 @@ import skilllist2 from "@/asset/data/skilllistorigin.json";
 import jobskilllist2 from "@/asset/data/jobskilllist.json";
 import PopupModal from "@/components/common/PopupModal";
 import Select2 from "@/components/common/Select2";
+// import cv from "@/hooks/opencv.js";
+
+import ReactDOM from "react-dom";
+
+// Import React FilePond
+import { FilePond, registerPlugin } from "react-filepond";
+
+// Import FilePond styles
+import "filepond/dist/filepond.min.css";
+
+// Import the Image EXIF Orientation and Image Preview plugins
+// Note: These need to be installed separately
+// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function Recycle() {
   useEffect(() => {
@@ -81,6 +99,7 @@ export default function Recycle() {
   ];
   const [selectedOption8, setSelectedOption8] = useState<any>("");
   const handleChange8 = (selected: any = {}) => {
+    // console.log(selected);
     setSelectedOption8(selected);
   };
   const [forwho, setForwho] = useState("");
@@ -110,10 +129,12 @@ export default function Recycle() {
   };
   const [category, setCategory] = useState("");
   useEffect(() => {
-    if (selectedOption2) {
+    if (selectedOption2.value === ("귀걸이" || "반지")) {
       setStat2("");
       setStat2num(0);
       setSelectedOption4("");
+      setCategory(selectedOption2.value);
+    } else {
       setCategory(selectedOption2.value);
     }
   }, [selectedOption2]);
@@ -211,20 +232,20 @@ export default function Recycle() {
 
   const panaltylist = [
     {
-      label: "공격력감소",
-      value: "공격력감소",
+      label: "공격력 감소",
+      value: "공격력 감소",
     },
     {
-      label: "공격속도감소",
-      value: "공격속도감소",
+      label: "공격속도 감소",
+      value: "공격속도 감소",
     },
     {
-      label: "방어력감소",
-      value: "방어력감소",
+      label: "방어력 감소",
+      value: "방어력 감소",
     },
     {
-      label: "이동속도감소",
-      value: "이동속도감소",
+      label: "이동속도 감소",
+      value: "이동속도 감소",
     },
   ];
   const [selectedOption7, setSelectedOption7] = useState<any>("");
@@ -807,16 +828,157 @@ export default function Recycle() {
   const [selectedValue, setSelectedValue] = useState("option1");
   const changeSelectedValue = (event: any) => {
     setSelectedValue(event.target.value);
-    console.log(event.target.value);
+    // console.log(event.target.value);
   };
 
   const newArray = ["치명", "신속", "특화", "숙련", "인내", "제압"];
+
+  const [files, setFiles] = useState([]);
+  const extract = async (img) => {
+    const { createWorker } = require("tesseract.js");
+
+    const worker = await createWorker("kor");
+
+    (async () => {
+      const {
+        data: { text },
+      } = await worker.recognize(img);
+
+      let arrgrade: any = [];
+      for (let e of gradelist) {
+        if (text.indexOf(e.value) >= 0) {
+          arrgrade.push(e);
+        }
+      }
+      handleChange(arrgrade[0]);
+
+      let arrcategory: any = [];
+      for (let e of categorylist) {
+        if (text.indexOf(e.value) >= 0) {
+          arrcategory.push(e);
+        }
+      }
+      handleChange2(arrcategory[0]);
+
+      let arrstatnum: any = [];
+      let arrstat: any = [];
+      for (let e of statlist) {
+        if (text.indexOf(e.value) >= 0) {
+          const index = text.indexOf(e.value);
+          const index2 = index + e.value.length;
+          const char = text.substring(index2, index2 + 6);
+          function extractNumbers(text) {
+            var numbers = text.match(/\d+/g);
+            return numbers;
+          }
+          var extractedNumbers = extractNumbers(char);
+          function extractLastThreeCharacters(text) {
+            var lastThreeCharacters = text.slice(-3);
+            return lastThreeCharacters;
+          }
+          var lastThreeCharacters =
+            extractLastThreeCharacters(extractedNumbers);
+          arrstatnum.push(lastThreeCharacters);
+          arrstat.push(e);
+        }
+      }
+      handleChange3(arrstat[0]);
+      handleQuantityChange3(arrstatnum[0]);
+      handleChange4(arrstat[1]);
+      handleQuantityChange4(arrstatnum[1]);
+
+      let arrskillnum: any = [];
+      let arrskill: any = [];
+      for (let e of skilllist) {
+        if (text.indexOf(e.value) >= 0) {
+          const index = text.indexOf(e.value);
+          const index2 = index + e.value.length;
+          const char = text.substring(index2, index2 + 9); // 인덱스 4에 있는 문자 'o'를 반환
+          function extractNumbers(text) {
+            var numbers = text.match(/\d+/g);
+            return numbers;
+          }
+          var extractedNumbers = extractNumbers(char);
+          function extractLastThreeCharacters(text) {
+            var lastThreeCharacters = text.slice(-1);
+            return lastThreeCharacters;
+          }
+          var lastThreeCharacters =
+            extractLastThreeCharacters(extractedNumbers);
+          arrskillnum.push(lastThreeCharacters);
+          arrskill.push(e);
+        }
+      }
+      handleChange5(arrskill[0]);
+      handleChange6(arrskill[1]);
+      handleQuantityChange5(arrskillnum[0]);
+      handleQuantityChange6(arrskillnum[1]);
+
+      let arrpanaltynum: any = [];
+      let arrpanalty: any = [];
+      for (let e of panaltylist) {
+        if (text.indexOf(e.value) >= 0) {
+          const index = text.indexOf(e.value);
+          const index2 = index + e.value.length;
+          const char = text.substring(index2, index2 + 9); // 인덱스 4에 있는 문자 'o'를 반환
+          function extractNumbers(text) {
+            var numbers = text.match(/\d+/g);
+            return numbers;
+          }
+          var extractedNumbers = extractNumbers(char);
+          function extractLastThreeCharacters(text) {
+            var lastThreeCharacters = text.slice(-1);
+            return lastThreeCharacters;
+          }
+          var lastThreeCharacters =
+            extractLastThreeCharacters(extractedNumbers);
+          arrpanaltynum.push(lastThreeCharacters);
+          arrpanalty.push(e);
+        }
+      }
+      handleChange7(arrpanalty[0]);
+      handleQuantityChange7(arrpanaltynum[0]);
+
+      await worker.terminate();
+    })();
+  };
+
+  const handleFileUpload = () => {
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const imageData = event.target.result;
+        extract(imageData);
+      };
+      reader.readAsDataURL(file.file);
+    });
+  };
 
   return (
     <div>
       <div className="flex flex-col md:flex-row  ">
         <div className="grid grid-cols-6 gap-1 p-1 m-1 ">
           <div className="col-span-6 text-2xl  ">악세추가</div>
+          <div className="col-span-6">
+            <FilePond
+              files={files}
+              onupdatefiles={setFiles}
+              allowMultiple={true}
+              maxFiles={1}
+              // server="/api"
+              name="files" /* sets the file input name, it's filepond by default */
+              labelIdle="사진 첨부 파일업로드 드래그앤드롭 ctrl+v"
+            />
+          </div>
+          <div className="col-span-6">
+            <button
+              className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+              onClick={handleFileUpload}
+            >
+              입력
+            </button>
+          </div>
+
           <Select
             className="col-span-2 p-1"
             options={Array.isArray(forwholist) ? forwholist : []}
