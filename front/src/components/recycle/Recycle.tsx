@@ -8,8 +8,7 @@ import jobskilllist2 from "@/asset/data/jobskilllist.json";
 import PopupModal from "@/components/common/PopupModal";
 import Select2 from "@/components/common/Select2";
 // import cv from "@/hooks/opencv.js";
-
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 
 // Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
@@ -948,10 +947,14 @@ export default function Recycle() {
         const imageData = event.target?.result;
         extract(imageData); // 이제 이미지 데이터를 전달합니다.
       };
-      reader.readAsDataURL(file.file);
+      reader.readAsDataURL(file);
     });
   };
-
+  const handleFileUpdate = (fileItems: any) => {
+    // 파일 업데이트를 처리합니다.
+    // 예를 들어, 파일을 상태에 업데이트하거나 처리할 수 있습니다.
+    setFiles(fileItems.map((fileItem: any) => fileItem.file));
+  };
   return (
     <div>
       <div className="flex flex-col md:flex-row  ">
@@ -960,14 +963,16 @@ export default function Recycle() {
           <div className="col-span-6">
             <FilePond
               files={files}
-              onupdatefiles={setFiles}
+              // onupdatefiles={setFiles}
+              onupdatefiles={handleFileUpdate}
               allowMultiple={true}
               maxFiles={1}
               // server="/api"
-              name="files" /* sets the file input name, it's filepond by default */
+              name="files"
               labelIdle="사진 첨부 파일업로드 드래그앤드롭 ctrl+v"
             />
           </div>
+
           <div className="col-span-6">
             <button
               className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
