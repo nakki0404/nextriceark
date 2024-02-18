@@ -132,9 +132,7 @@ export default function Header2() {
           </button>
         </>
       ) : pathname.includes("Recycle") ? (
-        <>
-          <>모바일 UI 지원 예정</>
-        </>
+        <></>
       ) : (
         <div className=""></div>
       )}

@@ -10,6 +10,7 @@ export const queryClient = new QueryClient({
       retry: NETWORK.RETRY_COUNT,
       // suspense: true,
       // useErrorBoundary: true,
+      refetchOnWindowFocus: false,
     },
     mutations: {
       retry: NETWORK.RETRY_COUNT,

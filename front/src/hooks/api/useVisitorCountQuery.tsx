@@ -5,6 +5,7 @@ export const useVisitorCountQuery = () => {
     queryKey: ["visitorCount"],
     queryFn: getVisitorCountCookie,
     gcTime: 24 * 60 * 60 * 1000,
+    // refetchOnWindowFocus: false,
   });
 
   return { visitData: data };
