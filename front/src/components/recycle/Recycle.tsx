@@ -834,7 +834,17 @@ export default function Recycle() {
   const newArray = ["치명", "신속", "특화", "숙련", "인내", "제압"];
 
   const [files, setFiles] = useState([]);
-  const extract = async (img) => {
+
+  function extractNumbers(text: any) {
+    var numbers = text.match(/\d+/g);
+    return numbers;
+  }
+
+  function extractLastThreeCharacters(text: any, num: any) {
+    var lastThreeCharacters = text.slice(num);
+    return lastThreeCharacters;
+  }
+  const extract = async (img: any) => {
     const { createWorker } = require("tesseract.js");
 
     const worker = await createWorker("kor");
@@ -867,17 +877,13 @@ export default function Recycle() {
           const index = text.indexOf(e.value);
           const index2 = index + e.value.length;
           const char = text.substring(index2, index2 + 6);
-          function extractNumbers(text) {
-            var numbers = text.match(/\d+/g);
-            return numbers;
-          }
+
           var extractedNumbers = extractNumbers(char);
-          function extractLastThreeCharacters(text) {
-            var lastThreeCharacters = text.slice(-3);
-            return lastThreeCharacters;
-          }
-          var lastThreeCharacters =
-            extractLastThreeCharacters(extractedNumbers);
+
+          var lastThreeCharacters = extractLastThreeCharacters(
+            extractedNumbers,
+            -3
+          );
           arrstatnum.push(lastThreeCharacters);
           arrstat.push(e);
         }
@@ -894,17 +900,13 @@ export default function Recycle() {
           const index = text.indexOf(e.value);
           const index2 = index + e.value.length;
           const char = text.substring(index2, index2 + 9); // 인덱스 4에 있는 문자 'o'를 반환
-          function extractNumbers(text) {
-            var numbers = text.match(/\d+/g);
-            return numbers;
-          }
+
           var extractedNumbers = extractNumbers(char);
-          function extractLastThreeCharacters(text) {
-            var lastThreeCharacters = text.slice(-1);
-            return lastThreeCharacters;
-          }
-          var lastThreeCharacters =
-            extractLastThreeCharacters(extractedNumbers);
+
+          var lastThreeCharacters = extractLastThreeCharacters(
+            extractedNumbers,
+            -1
+          );
           arrskillnum.push(lastThreeCharacters);
           arrskill.push(e);
         }
@@ -921,17 +923,13 @@ export default function Recycle() {
           const index = text.indexOf(e.value);
           const index2 = index + e.value.length;
           const char = text.substring(index2, index2 + 9); // 인덱스 4에 있는 문자 'o'를 반환
-          function extractNumbers(text) {
-            var numbers = text.match(/\d+/g);
-            return numbers;
-          }
+
           var extractedNumbers = extractNumbers(char);
-          function extractLastThreeCharacters(text) {
-            var lastThreeCharacters = text.slice(-1);
-            return lastThreeCharacters;
-          }
-          var lastThreeCharacters =
-            extractLastThreeCharacters(extractedNumbers);
+
+          var lastThreeCharacters = extractLastThreeCharacters(
+            extractedNumbers,
+            -1
+          );
           arrpanaltynum.push(lastThreeCharacters);
           arrpanalty.push(e);
         }
@@ -944,11 +942,11 @@ export default function Recycle() {
   };
 
   const handleFileUpload = () => {
-    files.forEach((file) => {
+    files.forEach((file: any) => {
       const reader = new FileReader();
       reader.onload = (event) => {
-        const imageData = event.target.result;
-        extract(imageData);
+        const imageData = event.target?.result;
+        extract(imageData); // 이제 이미지 데이터를 전달합니다.
       };
       reader.readAsDataURL(file.file);
     });
