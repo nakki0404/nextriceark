@@ -955,6 +955,7 @@ export default function Recycle() {
     // 예를 들어, 파일을 상태에 업데이트하거나 처리할 수 있습니다.
     setFiles(fileItems.map((fileItem: any) => fileItem.file));
   };
+  //이진화 흑백 유역?
   return (
     <div>
       <div className="flex flex-col md:flex-row  ">
