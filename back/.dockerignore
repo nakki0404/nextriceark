@@ -1,4 +1,5 @@
 nodemon.json
+node.json
 server.log
 .env
 Dockerfile

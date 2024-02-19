@@ -677,10 +677,11 @@ export default function Recycle() {
       currentCombination.pop();
     }
   }
-
+  let conbinarray: any = [];
   function maker() {
     setResult([]);
     setConbinlist([]);
+    conbinarray = [];
     // if (conforwho != "") {
     //   setItemlist([...itemlist.filter((e) => e.forwho[0] === conforwho)]);
     // }
@@ -717,17 +718,11 @@ export default function Recycle() {
         }
       }
     }
-    // setResult(conbinlist);
-    // console.log(result);
-    // console.log(conbinlist);
-
     openModal();
   }
-
   useEffect(() => {
     setResult(conbinlist);
   }, [conbinlist]);
-
   function checkcon(data: any) {
     //data 조합이 갖춰진 상태
     let conbin: any = {
@@ -787,19 +782,48 @@ export default function Recycle() {
           count += 1;
         }
         if (count >= ojbcount) {
-          //목표각인, 포함각인, 예외각인, 스탯123설정,딜러 서폿, 유물만 고대만 혼합,
-          // setResult([conbin]);
-          // console.log(conbin);
-          // setConbinlist([conbin]);
-          setConbinlist((prevList: any) => [...prevList, conbin]);
-
-          // setResult([...result], [conbin]);
+          if (conbinarray.length > 0) {
+            for (let a of conbinarray) {
+              let con = 0;
+              for (let b of conbin["_id"]) {
+                if (a["_id"].includes(b)) {
+                  con++;
+                }
+              }
+              if (con != 8) {
+                setConbinlist((prevList: any) => [...prevList, conbin]);
+              }
+            }
+          } else {
+            conbinarray.push(conbin);
+          }
         }
       }
     }
-
-    // }
   }
+
+  //   function compareObjects(obj1, obj2) {
+  //     // 두 객체의 키 배열 가져오기
+  //     const keys1 = Object.keys(obj1);
+  //     const keys2 = Object.keys(obj2);
+
+  //     // 두 객체의 키 개수가 다르면 false 반환
+  //     if (keys1.length !== keys2.length) {
+  //         return false;
+  //     }
+
+  //     // 모든 키에 대해 값 비교
+  //     for (let key of keys1) {
+  //         // 키가 obj2에 없거나 값이 다르면 false 반환
+  //         if (!obj2.hasOwnProperty(key) || obj1[key] !== obj2[key]) {
+  //             return false;
+  //         }
+  //     }
+
+  //     // 모든 키-값 쌍이 동일하면 true 반환
+  //     return true;
+
+  // }
 
   const [viewcobin, setViewcobin] = useState<any>([]);
   function viewconbin(index: any) {
@@ -981,6 +1005,25 @@ export default function Recycle() {
             >
               입력
             </button>
+            {/* <button
+              type="button"
+              className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+              disabled
+            >
+              <svg
+                className="animate-spin h-5 w-5 mr-5 ..."
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="40"
+                  stroke="white"
+                  stroke-width="3"
+                  fill="blue-500"
+                />
+              </svg>
+            </button> */}
           </div>
 
           <Select
@@ -1396,7 +1439,11 @@ export default function Recycle() {
           <div className="col-span-4 flex flex row">
             <button
               className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
-              onClick={() => maker()}
+              onClick={() => {
+                if (selectedOption30) {
+                  maker();
+                }
+              }}
             >
               검색
             </button>
@@ -1447,7 +1494,7 @@ export default function Recycle() {
                   {Math.floor(e.panalty[key] / 5)}
                 </div>
               ))} */}
-              <div className="col-end-11 col-span-1">
+              <div className="col-end-12 col-span-1">
                 <button
                   className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
                   onClick={() => viewconbin(index)}

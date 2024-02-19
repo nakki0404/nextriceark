@@ -58,7 +58,6 @@ mongoose
     console.log("OH NO MONGO CONNECTION ERROR!!!!");
     console.log(err);
   });
-//책에선 싱글톤 패턴이랬는데 그냥 그런갑다 싶음
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -138,11 +137,11 @@ app.get("/api/touch", async (req, res) => {
   // 난수를 4자리 문자열로 변환
   res.send(insertResult[0].Num);
 });
-console.log(124);
 
 app.get("/", (req, res) => {
-  console.log(123);
-  res.send("hi");
+  const currentTime = new Date().toLocaleTimeString();
+  res.send(`현재 시간: ${currentTime}`);
+  // res.send("hi");
 });
 
 app.get("/api/VisitorCount", async (req, res) => {
