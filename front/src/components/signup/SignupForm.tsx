@@ -52,6 +52,7 @@ export default function SignupForm() {
 
   const closeTModal = () => {
     setTModalOpen(false);
+    router.push("/");
   };
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -89,11 +90,8 @@ export default function SignupForm() {
           } else {
             openIDTModal();
           }
-          console.log(data);
         })
-        .catch((error) => {
-          console.error("Error updating data:", error.message);
-        });
+        .catch((error) => {});
     }
   };
 
@@ -130,10 +128,8 @@ export default function SignupForm() {
           return response.json();
         })
         .then((data) => {
-          console.log("Data updated successfully:", data);
           setID("");
           setPassword("");
-          router.push("/Login");
           openTModal();
         })
         .catch((error) => {

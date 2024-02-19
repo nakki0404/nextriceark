@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
@@ -7,6 +7,8 @@ import skilllist2 from "@/asset/data/skilllistorigin.json";
 import jobskilllist2 from "@/asset/data/jobskilllist.json";
 import PopupModal from "@/components/common/PopupModal";
 import Select2 from "@/components/common/Select2";
+import { CSVLink } from "react-csv";
+import { useDropzone } from "react-dropzone";
 // import cv from "@/hooks/opencv.js";
 // import ReactDOM from "react-dom";
 
@@ -26,6 +28,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function Recycle() {
+  const [originalData, setOriginalData] = useState(null);
+
   useEffect(() => {
     const savedata: any = localStorage.getItem("itemlist");
     setItemlist(JSON.parse(savedata));
@@ -620,6 +624,36 @@ export default function Recycle() {
     setConstatlist(newarray);
   }
 
+  // function deletelist31(index: number) {
+  //   let newarray = [...neededSkill];
+  //   newarray.splice(index, 1);
+  //   setNeededSkill(newarray);
+  // }
+
+  // function deletelist32(index: number) {
+  //   let newarray = [...notneededStat];
+  //   newarray.splice(index, 1);
+  //   setNotneededStat(newarray);
+  // }
+
+  // function deletelist33(index: number) {
+  //   let newarray = [...notneededGrade];
+  //   newarray.splice(index, 1);
+  //   setNotneededGrade(newarray);
+  // }
+
+  // function deletelist34(index: number) {
+  //   let newarray = [...notneededForwho];
+  //   newarray.splice(index, 1);
+  //   setNotneededForwho(newarray);
+  // }
+
+  // function deletelist35(index: number) {
+  //   let newarray = [...okPanalty];
+  //   newarray.splice(index, 1);
+  //   setOkPanalty(newarray);
+  // }
+
   const wantskilllist = [
     {
       label: "3333+",
@@ -678,11 +712,12 @@ export default function Recycle() {
     }
   }
   let conbinarray: any = [];
+  let conitemlist: any = [];
   function maker() {
     setResult([]);
     setConbinlist([]);
     conbinarray = [];
-    // if (conforwho != "") {
+    conitemlist = []; // if (conforwho != "") {
     //   setItemlist([...itemlist.filter((e) => e.forwho[0] === conforwho)]);
     // }
     // if (congrade != "") {
@@ -697,6 +732,27 @@ export default function Recycle() {
     //     ),
     //   ]);
     // }
+
+    // grade: [],
+    // forwho: [],
+    // category: [],
+    // stat: {},
+    // skill: {},
+    // panalty: {},
+    // notneededStat, notneededForwho, notneededGrade
+
+    // let newlist = itemlist.filter(
+    //   (e: any) => !e.forwho.every((c) => notneededForwho.includes(c))
+    //   // !notneededForwho.includes(e.forwho[0]) &&
+    //   // !notneededGrade.includes(e.grade[0]) &&
+    //   // notneededStat.forEach(a=>e.stat.hasownproperty(a))
+    //   // !Object.keys(e.stat).every((a) => notneededStat.includes(a))
+
+    //   // (for(let a of notneededStat){
+    //   //   (e.stat.keys)
+
+    //   // })
+    // );
     let itemAlist = itemlist.filter((e: any) => e.category[0] === "목걸이");
     let itemElist2 = itemlist.filter((e: any) => e.category[0] === "귀걸이");
     let itemRlist2 = itemlist.filter((e: any) => e.category[0] === "반지");
@@ -979,7 +1035,90 @@ export default function Recycle() {
     // 예를 들어, 파일을 상태에 업데이트하거나 처리할 수 있습니다.
     setFiles(fileItems.map((fileItem: any) => fileItem.file));
   };
+
   //이진화 흑백 유역?
+
+  // const [selectedOption31, setSelectedOption31] = useState<any>("");
+  // const handleChange31 = (selected: any = {}) => {
+  //   setSelectedOption31(selected);
+  // };
+  // const [neededSkill, setNeededSkill] = useState([]);
+  // useEffect(() => {
+  //   if (selectedOption31) {
+  //     setNeededSkill((prevList) => [...prevList, selectedOption31.value]);
+  //   }
+  // }, [selectedOption31]);
+
+  // const [selectedOption32, setSelectedOption32] = useState<any>("");
+  // const handleChange32 = (selected: any = {}) => {
+  //   setSelectedOption32(selected);
+  // };
+  // const [notneededStat, setNotneededStat] = useState([]);
+  // useEffect(() => {
+  //   if (selectedOption32) {
+  //     setNotneededStat((prevList) => [...prevList, selectedOption32.value]);
+  //   }
+  // }, [selectedOption32]);
+
+  // const [selectedOption33, setSelectedOption33] = useState<any>("");
+  // const handleChange33 = (selected: any = {}) => {
+  //   setSelectedOption33(selected);
+  // };
+  // const [notneededGrade, setNotneededGrade] = useState([]);
+  // useEffect(() => {
+  //   if (selectedOption33) {
+  //     setNotneededGrade((prevList) => [...prevList, selectedOption33.value]);
+  //   }
+  // }, [selectedOption33]);
+
+  // const [selectedOption34, setSelectedOption34] = useState<any>("");
+  // const handleChange34 = (selected: any = {}) => {
+  //   setSelectedOption34(selected);
+  // };
+  // const [notneededForwho, setNotneededForwho] = useState([]);
+  // useEffect(() => {
+  //   if (selectedOption34) {
+  //     setNotneededForwho((prevList) => [...prevList, selectedOption34.value]);
+  //   }
+  // }, [selectedOption34]);
+
+  // const [selectedOption35, setSelectedOption35] = useState<any>("");
+  // const handleChange35 = (selected: any = {}) => {
+  //   setSelectedOption35(selected);
+  // };
+  // const [okPanalty, setOkPanalty] = useState([]);
+  // useEffect(() => {
+  //   if (selectedOption35) {
+  //     setOkPanalty((prevList) => [...prevList, selectedOption35.value]);
+  //   }
+  // }, [selectedOption35]);
+
+  const headers = [
+    { label: "ID", key: "_id" },
+    { label: "Grade", key: "grade" },
+    { label: "For Who", key: "forwho" },
+    { label: "Category", key: "category" },
+    { label: "Stat", key: "stat" },
+    { label: "Skill", key: "skill" },
+    { label: "Panalty", key: "panalty" },
+    { label: "Location", key: "location" },
+  ];
+
+  const onDrop = useCallback((acceptedFiles: any) => {
+    acceptedFiles.forEach((file: any) => {
+      const reader = new FileReader();
+      reader.onabort = () => console.log("file reading was aborted");
+      reader.onerror = () => console.log("file reading has failed");
+      reader.onload = () => {
+        const textData = reader.result;
+        let newStr: any = textData?.slice(128);
+        const jsonObject = JSON.parse(newStr);
+        setItemlist(jsonObject);
+      };
+      reader.readAsText(file);
+    });
+  }, []);
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
   return (
     <div>
       <div className="flex flex-col md:flex-row  ">
@@ -988,11 +1127,9 @@ export default function Recycle() {
           <div className="col-span-6">
             <FilePond
               files={files}
-              // onupdatefiles={setFiles}
               onupdatefiles={handleFileUpdate}
               allowMultiple={true}
               maxFiles={1}
-              // server="/api"
               name="files"
               labelIdle="사진 첨부 파일업로드 드래그앤드롭 ctrl+v"
             />
@@ -1031,7 +1168,7 @@ export default function Recycle() {
             options={Array.isArray(forwholist) ? forwholist : []}
             value={selectedOption8}
             onChange={handleChange8}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
+            isSearchable={true}
             placeholder="분류"
           />
           <Select
@@ -1039,7 +1176,7 @@ export default function Recycle() {
             options={Array.isArray(gradelist) ? gradelist : []}
             value={selectedOption}
             onChange={handleChange}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
+            isSearchable={true}
             placeholder="등급"
           />
           <Select
@@ -1047,7 +1184,7 @@ export default function Recycle() {
             options={Array.isArray(categorylist) ? categorylist : []}
             value={selectedOption2}
             onChange={handleChange2}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
+            isSearchable={true}
             placeholder="부위"
           />
           <div className="col-span-6 flex flex-row  ">
@@ -1057,7 +1194,7 @@ export default function Recycle() {
                 options={Array.isArray(statlist) ? statlist : []}
                 value={selectedOption3}
                 onChange={handleChange3}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="스텟1"
               />
               <input
@@ -1077,7 +1214,7 @@ export default function Recycle() {
                 options={Array.isArray(statlist) ? statlist : []}
                 value={selectedOption4}
                 onChange={handleChange4}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="스텟2"
               />
               <input
@@ -1095,7 +1232,7 @@ export default function Recycle() {
                 options={Array.isArray(newskilllist) ? newskilllist : []}
                 value={selectedOption5}
                 onChange={handleChange5}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="각인1"
               />
               <input
@@ -1113,7 +1250,7 @@ export default function Recycle() {
                 options={Array.isArray(newskilllist) ? newskilllist : []}
                 value={selectedOption6}
                 onChange={handleChange6}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="각인2"
               />
               <input
@@ -1131,7 +1268,7 @@ export default function Recycle() {
                 options={Array.isArray(panaltylist) ? panaltylist : []}
                 value={selectedOption7}
                 onChange={handleChange7}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="패널티"
               />
               <input
@@ -1147,7 +1284,7 @@ export default function Recycle() {
               className="w-full h-full  rounded-lg text-right col-span-2 "
               type="string"
               value={location}
-              placeholder="보유 캐릭터 이름"
+              placeholder="캐릭터 이름 입력란"
               onChange={(e) => handleQuantityChange(e.target.value)}
             ></input>
           </div>
@@ -1160,6 +1297,19 @@ export default function Recycle() {
               >
                 목록추가
               </button>
+
+              <CSVLink data={JSON.stringify(itemlist)} headers={headers}>
+                <button className="h-8 w-16 bg-red-500 rounded-lg text-white m-1">
+                  다운로드
+                </button>
+              </CSVLink>
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <button className="h-8 w-16 bg-yellow-500 rounded-lg text-white m-1">
+                  목록첨부
+                </button>
+              </div>
+              {/* <input type="file" accept=".csv" onChange={handleFileUpload2} /> */}
               {loginstate && loginstate.isLogin ? (
                 <>
                   <button
@@ -1176,13 +1326,16 @@ export default function Recycle() {
                   </button>
                 </>
               ) : (
-                <>
-                  <div>
-                    <div>임시파일정리 시 목록이 제거됩니다</div>
-                    <div>로그인하시면 DB에 저장 가능합니다.</div>
-                  </div>
-                </>
+                <></>
               )}
+            </div>
+            <div>
+              <div className="text-red-500">
+                다운로드 클릭시 목록백업파일이 다운됩니다.
+              </div>
+              <div>백업파일 첨부시 목록에 반영됩니다.</div>
+              <div>임시파일정리 시 목록이 제거됩니다</div>
+              <div>로그인하시면 DB에 저장 가능합니다.</div>
             </div>
           </div>
           <div className="col-span-6 text-2xl   ">보유 악세 목록</div>
@@ -1191,26 +1344,16 @@ export default function Recycle() {
             className="col-span-6 grid grid-cols-12 md:grid-cols-12 "
             style={{ maxHeight: "200px", overflowY: "auto" }}
           >
-            {/* <div className="col-span-1 hidden md:table-cell">분류</div>
-            <div className="col-span-1 hidden md:table-cell">등급</div>
-            <div className="col-span-1 hidden md:table-cell">부위</div>
-            <div className="col-span-1">스텟1</div>
-            <div className="col-span-1">스텟2</div>
-            <div className="col-span-1">각인1</div>
-            <div className="col-span-1">각인2</div>
-            <div className="col-span-1 hidden md:table-cell ">패널티</div>
-            <div className="col-span-1">위치</div>
-            <div className="col-span-1"></div> */}
-
             {itemlist.map((e: any, index: any) => (
               <div
                 className="col-span-12 md:col-span-12 grid grid-cols-10 md:grid-cols-10 m-1"
                 key={index}
               >
                 <div className="text-xs self-center self-center md:text-base ">
-                  {e.forwho}
+                  {index + 1}
                 </div>
                 <div className="text-xs self-center self-center md:text-base">
+                  {e.forwho}
                   {e.grade}
                 </div>
                 <div className="text-xs self-center self-center md:text-base">
@@ -1255,54 +1398,20 @@ export default function Recycle() {
                     X
                   </button>
                 </div>
-                {/* <div className="col-span-2 ">{e.forwho}</div>
-                <div className="col-span-2 ">{e.grade}</div>
-                <div className="col-span-2 ">{e.category}</div>
-
-                <div className="col-span-3">{e.location}</div>
-                <div className="col-span-3">
-                  <button
-                    className=" text-red-500 "
-                    onClick={() => deletelist(index)}
-                  >
-                    X
-                  </button>
-                </div>
-
-                {Object.keys(e.stat).map((key) => (
-                  <div className="col-span-3" key={key}>
-                    {key}: {e.stat[key]}
-                  </div>
-                ))}
-                {Object.keys(e.stat).length === 1 && (
-                  <div className="col-span-3"></div>
-                )}
-                {Object.keys(e.skill).map((key) => (
-                  <div className="col-span-2" key={key}>
-                    {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
-                    {e.skill[key]}
-                  </div>
-                ))}
-                {Object.keys(e.panalty).map((key) => (
-                  <div key={key} className="col-span-2 text-xs self-center ">
-                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
-                    {e.panalty[key]}
-                  </div>
-                ))} */}
               </div>
             ))}
           </div>
         </div>
         <div className="p-1 ">
           <div className="grid grid-cols-4 gap-1">
-            <div className="col-span-4 text-2xl p-1">보유 각인 설정</div>
+            <div className="col-span-4 text-2xl p-1">각인 설정</div>
             <div className="flex flex row col-span-2 grid grid-cols-4">
               <Select
                 className="col-span-3"
                 options={Array.isArray(newskilllist) ? newskilllist : []}
                 value={selectedOption10}
                 onChange={handleChange10}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="보유 각인"
               />
               <input
@@ -1343,7 +1452,7 @@ export default function Recycle() {
                 options={Array.isArray(skilllist) ? skilllist : []}
                 value={selectedOption12}
                 onChange={handleChange12}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="각인1"
               />
               <input
@@ -1359,7 +1468,7 @@ export default function Recycle() {
                 options={Array.isArray(skilllist) ? skilllist : []}
                 value={selectedOption13}
                 onChange={handleChange13}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="각인2"
               />
               <input
@@ -1375,7 +1484,7 @@ export default function Recycle() {
                 options={Array.isArray(panaltylist) ? panaltylist : []}
                 value={selectedOption14}
                 onChange={handleChange14}
-                isSearchable={true} // 검색 가능한 드롭다운으로 설정
+                isSearchable={true}
                 placeholder="패널티"
               />
               <input
@@ -1422,6 +1531,126 @@ export default function Recycle() {
                 </button>
               </div>
             ))}
+            {/* <div className="col-span-4 text-2xl p-1">추가 설정</div>
+            <div className="col-span-2 grid grid-cols-10 p-1">
+              <Select
+                className="col-span-10 p-1"
+                options={Array.isArray(newskilllist) ? newskilllist : []}
+                value={selectedOption31}
+                onChange={handleChange31}
+                isSearchable={true} 
+                placeholder="필수 포함 각인"
+              />
+              {neededSkill.map((e: any, index: any) => (
+                <div className="col-span-10 grid grid-cols-10 p-1">
+                  <div className="col-span-9 md:col-span-9  m-1 " key={index}>
+                    {e}
+                  </div>
+                  <button
+                    className="col-span-1 text-red-500 "
+                    onClick={() => deletelist31(index)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="col-span-2 grid grid-cols-10 p-1">
+              <Select
+                // className="col-span-2 p-1"
+                className="col-span-10 p-1"
+                options={Array.isArray(statlist) ? statlist : []}
+                value={selectedOption32}
+                onChange={handleChange32}
+                isSearchable={true} 
+                placeholder="제외 스텟"
+              />
+              {notneededStat.map((e: any, index: any) => (
+                <div className="col-span-10 grid grid-cols-10 p-1">
+                  <div className="col-span-9 md:col-span-9  m-1 " key={index}>
+                    {e}
+                  </div>
+                  <button
+                    className="col-span-1 text-red-500 "
+                    onClick={() => deletelist32(index)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="col-span-2 grid grid-cols-10 p-1">
+              <Select
+                // className="col-span-2 p-1"
+                className="col-span-10 p-1"
+                options={Array.isArray(gradelist) ? gradelist : []}
+                value={selectedOption33}
+                onChange={handleChange33}
+                isSearchable={true} 
+                placeholder="제외 등급"
+              />
+              {notneededGrade.map((e: any, index: any) => (
+                <div className="col-span-10 grid grid-cols-10 p-1">
+                  <div className="col-span-9 md:col-span-9  m-1 " key={index}>
+                    {e}
+                  </div>
+                  <button
+                    className="col-span-1 text-red-500 "
+                    onClick={() => deletelist33(index)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="col-span-2 grid grid-cols-10 p-1">
+              <Select
+                // className="col-span-2 p-1"
+                className="col-span-10 p-1"
+                options={Array.isArray(panaltylist) ? panaltylist : []}
+                value={selectedOption35}
+                onChange={handleChange35}
+                isSearchable={true} 
+                placeholder="허용 패널티"
+              />
+              {okPanalty.map((e: any, index: any) => (
+                <div className="col-span-10 grid grid-cols-10 p-1">
+                  <div className="col-span-9 md:col-span-9  m-1 " key={index}>
+                    {e}
+                  </div>
+                  <button
+                    className="col-span-1 text-red-500 "
+                    onClick={() => deletelist35(index)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="col-span-4 grid grid-cols-10 p-1">
+              <Select
+                // className="col-span-2 p-1"
+                className="col-span-10 p-1"
+                options={Array.isArray(forwholist) ? forwholist : []}
+                value={selectedOption34}
+                onChange={handleChange34}
+                isSearchable={true} 
+                placeholder="제외 분류"
+              />
+              {notneededForwho.map((e: any, index: any) => (
+                <div className="col-span-10 grid grid-cols-10 p-1">
+                  <div className="col-span-9 md:col-span-9  m-1 " key={index}>
+                    {e}
+                  </div>
+                  <button
+                    className="col-span-1 text-red-500 "
+                    onClick={() => deletelist34(index)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div> */}
           </div>
         </div>
       </div>
@@ -1433,7 +1662,7 @@ export default function Recycle() {
             options={Array.isArray(wantskilllist) ? wantskilllist : []}
             value={selectedOption30}
             onChange={handleChange30}
-            isSearchable={true} // 검색 가능한 드롭다운으로 설정
+            isSearchable={true}
             placeholder="목표각인"
           />
           <div className="col-span-4 flex flex row">
@@ -1449,9 +1678,6 @@ export default function Recycle() {
             </button>
           </div>
           <div className="text-2xl p-1 col-span-12">검색 결과</div>
-          {/* <div className="col-span-1">스탯</div>
-          <div className="col-span-3">각인</div>
-          <div className="col-span-8">패널티</div> */}
           {result.map((e: any, index: any) => (
             <div className="col-span-12 grid grid-cols-12" key={index}>
               {Object.keys(e.stat).map((key) => (
@@ -1507,6 +1733,22 @@ export default function Recycle() {
           <div className="text-2xl p-1 col-span-12 ">조합 확인</div>
           {viewcobin.map((e: any, index: any) => (
             <div className="col-span-12 grid grid-cols-12" key={index}>
+              {e.forwho
+                ? Object.keys(e.forwho).map((key) => (
+                    <div className="text-xs self-center md:text-base" key={key}>
+                      {e.forwho[key]}
+                    </div>
+                  ))
+                : ""}
+
+              {e.grade
+                ? Object.keys(e.grade).map((key) => (
+                    <div className="text-xs self-center md:text-base" key={key}>
+                      {e.grade[key]}
+                    </div>
+                  ))
+                : ""}
+
               {e.category
                 ? Object.keys(e.category).map((key) => (
                     <div className="text-xs self-center md:text-base" key={key}>
