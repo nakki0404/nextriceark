@@ -56,12 +56,6 @@ export default function Recycle() {
     };
   });
   let newskilllist = [...skilllist, ...jobskilllist];
-  //데이터 풀
-  // 서폿 딜러 *2
-  // 유물 고대 *2
-  // 목 귀 반 *3
-  // itemlist // hasskilllist // abilltylist
-  //모든 경우의 수 출력 함수
 
   const [location, setLocation] = useState("");
 
@@ -624,56 +618,60 @@ export default function Recycle() {
     setConstatlist(newarray);
   }
 
-  // function deletelist31(index: number) {
-  //   let newarray = [...neededSkill];
-  //   newarray.splice(index, 1);
-  //   setNeededSkill(newarray);
-  // }
+  function deletelist31(index: number) {
+    let newarray = [...neededSkill];
+    newarray.splice(index, 1);
+    setNeededSkill(newarray);
+  }
 
-  // function deletelist32(index: number) {
-  //   let newarray = [...notneededStat];
-  //   newarray.splice(index, 1);
-  //   setNotneededStat(newarray);
-  // }
+  function deletelist32(index: number) {
+    let newarray = [...notneededStat];
+    newarray.splice(index, 1);
+    setNotneededStat(newarray);
+  }
 
-  // function deletelist33(index: number) {
-  //   let newarray = [...notneededGrade];
-  //   newarray.splice(index, 1);
-  //   setNotneededGrade(newarray);
-  // }
+  function deletelist33(index: number) {
+    let newarray = [...notneededGrade];
+    newarray.splice(index, 1);
+    setNotneededGrade(newarray);
+  }
 
-  // function deletelist34(index: number) {
-  //   let newarray = [...notneededForwho];
-  //   newarray.splice(index, 1);
-  //   setNotneededForwho(newarray);
-  // }
+  function deletelist34(index: number) {
+    let newarray = [...notneededForwho];
+    newarray.splice(index, 1);
+    setNotneededForwho(newarray);
+  }
 
-  // function deletelist35(index: number) {
-  //   let newarray = [...okPanalty];
-  //   newarray.splice(index, 1);
-  //   setOkPanalty(newarray);
-  // }
+  function deletelist35(index: number) {
+    let newarray = [...okPanalty];
+    newarray.splice(index, 1);
+    setOkPanalty(newarray);
+  }
 
   const wantskilllist = [
     {
       label: "3333+",
-      value: 20,
+      value: 400,
     },
     {
       label: "33331+",
-      value: 21,
+      value: 401,
     },
     {
       label: "333321+",
-      value: 24,
+      value: 411,
     },
     {
       label: "33333+",
-      value: 25,
+      value: 500,
     },
     {
       label: "333331+",
-      value: 26,
+      value: 501,
+    },
+    {
+      label: "333332+",
+      value: 510,
     },
   ];
   const [selectedOption30, setSelectedOption30] = useState<any>("");
@@ -717,45 +715,24 @@ export default function Recycle() {
     setResult([]);
     setConbinlist([]);
     conbinarray = [];
-    conitemlist = []; // if (conforwho != "") {
-    //   setItemlist([...itemlist.filter((e) => e.forwho[0] === conforwho)]);
-    // }
-    // if (congrade != "") {
-    //   setItemlist([...itemlist.filter((e) => e.grade[0] === congrade)]);
-    // }
-    // if (constatlist.length >= 1) {
-    //   setItemlist([
-    //     ...itemlist.filter((e) =>
-    //       Object.keys(e.stat).every((i) =>
-    //         constatlist.map((j) => Object.keys(j)[0]).includes(i)
-    //       )
-    //     ),
-    //   ]);
-    // }
+    conitemlist = [];
 
-    // grade: [],
-    // forwho: [],
-    // category: [],
-    // stat: {},
-    // skill: {},
-    // panalty: {},
-    // notneededStat, notneededForwho, notneededGrade
+    let newlist = itemlist.filter(
+      (e: any) => !e.forwho.every((c: any) => notneededForwho.includes(c))
+    );
+    let new2list = newlist.filter(
+      (e: any) => !e.grade.every((c: any) => notneededGrade.includes(c))
+    );
+    let new3list = [];
+    for (let a of new2list) {
+      if (notneededStat.every((e: any) => !a.stat.hasOwnProperty(e))) {
+        new3list.push(a);
+      }
+    }
 
-    // let newlist = itemlist.filter(
-    //   (e: any) => !e.forwho.every((c) => notneededForwho.includes(c))
-    //   // !notneededForwho.includes(e.forwho[0]) &&
-    //   // !notneededGrade.includes(e.grade[0]) &&
-    //   // notneededStat.forEach(a=>e.stat.hasownproperty(a))
-    //   // !Object.keys(e.stat).every((a) => notneededStat.includes(a))
-
-    //   // (for(let a of notneededStat){
-    //   //   (e.stat.keys)
-
-    //   // })
-    // );
-    let itemAlist = itemlist.filter((e: any) => e.category[0] === "목걸이");
-    let itemElist2 = itemlist.filter((e: any) => e.category[0] === "귀걸이");
-    let itemRlist2 = itemlist.filter((e: any) => e.category[0] === "반지");
+    let itemAlist = new3list.filter((e: any) => e.category[0] === "목걸이");
+    let itemElist2 = new3list.filter((e: any) => e.category[0] === "귀걸이");
+    let itemRlist2 = new3list.filter((e: any) => e.category[0] === "반지");
     let itemElist: any = [];
     let itemRlist: any = [];
     let conbinskill: any = [];
@@ -780,7 +757,6 @@ export default function Recycle() {
     setResult(conbinlist);
   }, [conbinlist]);
   function checkcon(data: any) {
-    //data 조합이 갖춰진 상태
     let conbin: any = {
       _id: [],
       category: [],
@@ -815,71 +791,61 @@ export default function Recycle() {
         }
       }
     }
-    // conaskill.every(e=>Object.keys(conbin.skill).includes(e))
-    // const newarray4 = data.some((e) =>
-    //   Object.keys(e.skill).some((i) => conaskill.includes(i))
-    // );}
 
-    // const newarray5 = data.some((e) =>
-    //   Object.keys(e.panalty).some((i) => conpanaltylist.includes(i))
-    // );
-
-    //각인 조건 검색
-
-    // if (Object.keys(conbin["skill"]).length <= 10) {
     let count = 0;
-    if (Object.keys(conbin["skill"]).length <= 6) {
+    if (Object.keys(conbin["skill"]).length <= 10) {
       for (let key in conbin["skill"]) {
         if (conbin["skill"][key] >= 15) {
-          count += 5;
+          count += 100;
         } else if (conbin["skill"][key] >= 10) {
-          count += 3;
+          count += 10;
         } else if (conbin["skill"][key] >= 5) {
           count += 1;
         }
+
         if (count >= ojbcount) {
-          if (conbinarray.length > 0) {
-            for (let a of conbinarray) {
-              let con = 0;
-              for (let b of conbin["_id"]) {
-                if (a["_id"].includes(b)) {
-                  con++;
-                }
-              }
-              if (con != 8) {
-                setConbinlist((prevList: any) => [...prevList, conbin]);
-              }
+          if (neededSkill.length > 0 && okPanalty.length > 0) {
+            if (
+              neededSkill.every(
+                (e: any) =>
+                  Object.keys(conbin["skill"]).includes(e) &&
+                  conbin["skill"][e] >= 15
+              ) &&
+              okPanalty.every(
+                (e: any) =>
+                  Object.keys(conbin["panalty"]).includes(e) &&
+                  conbin["panalty"][e] >= 5
+              )
+            ) {
+              setConbinlist((prevList: any) => [...prevList, conbin]);
+            }
+          } else if (okPanalty.length > 0) {
+            if (
+              okPanalty.every(
+                (e: any) =>
+                  Object.keys(conbin["panalty"]).includes(e) &&
+                  conbin["panalty"][e] >= 5
+              )
+            ) {
+              setConbinlist((prevList: any) => [...prevList, conbin]);
+            }
+          } else if (neededSkill.length > 0) {
+            if (
+              neededSkill.every(
+                (e: any) =>
+                  Object.keys(conbin["skill"]).includes(e) &&
+                  conbin["skill"][e] >= 15
+              )
+            ) {
+              setConbinlist((prevList: any) => [...prevList, conbin]);
             }
           } else {
-            conbinarray.push(conbin);
+            setConbinlist((prevList: any) => [...prevList, conbin]);
           }
         }
       }
     }
   }
-
-  //   function compareObjects(obj1, obj2) {
-  //     // 두 객체의 키 배열 가져오기
-  //     const keys1 = Object.keys(obj1);
-  //     const keys2 = Object.keys(obj2);
-
-  //     // 두 객체의 키 개수가 다르면 false 반환
-  //     if (keys1.length !== keys2.length) {
-  //         return false;
-  //     }
-
-  //     // 모든 키에 대해 값 비교
-  //     for (let key of keys1) {
-  //         // 키가 obj2에 없거나 값이 다르면 false 반환
-  //         if (!obj2.hasOwnProperty(key) || obj1[key] !== obj2[key]) {
-  //             return false;
-  //         }
-  //     }
-
-  //     // 모든 키-값 쌍이 동일하면 true 반환
-  //     return true;
-
-  // }
 
   const [viewcobin, setViewcobin] = useState<any>([]);
   function viewconbin(index: any) {
@@ -1038,60 +1004,69 @@ export default function Recycle() {
 
   //이진화 흑백 유역?
 
-  // const [selectedOption31, setSelectedOption31] = useState<any>("");
-  // const handleChange31 = (selected: any = {}) => {
-  //   setSelectedOption31(selected);
-  // };
-  // const [neededSkill, setNeededSkill] = useState([]);
-  // useEffect(() => {
-  //   if (selectedOption31) {
-  //     setNeededSkill((prevList) => [...prevList, selectedOption31.value]);
-  //   }
-  // }, [selectedOption31]);
+  const [selectedOption31, setSelectedOption31] = useState<any>("");
+  const handleChange31 = (selected: any = {}) => {
+    setSelectedOption31(selected);
+  };
+  const [neededSkill, setNeededSkill] = useState<any>([]);
+  useEffect(() => {
+    if (selectedOption31) {
+      setNeededSkill((prevList: any) => [...prevList, selectedOption31.value]);
+    }
+  }, [selectedOption31]);
 
-  // const [selectedOption32, setSelectedOption32] = useState<any>("");
-  // const handleChange32 = (selected: any = {}) => {
-  //   setSelectedOption32(selected);
-  // };
-  // const [notneededStat, setNotneededStat] = useState([]);
-  // useEffect(() => {
-  //   if (selectedOption32) {
-  //     setNotneededStat((prevList) => [...prevList, selectedOption32.value]);
-  //   }
-  // }, [selectedOption32]);
+  const [selectedOption32, setSelectedOption32] = useState<any>("");
+  const handleChange32 = (selected: any = {}) => {
+    setSelectedOption32(selected);
+  };
+  const [notneededStat, setNotneededStat] = useState<any>([]);
+  useEffect(() => {
+    if (selectedOption32) {
+      setNotneededStat((prevList: any) => [
+        ...prevList,
+        selectedOption32.value,
+      ]);
+    }
+  }, [selectedOption32]);
 
-  // const [selectedOption33, setSelectedOption33] = useState<any>("");
-  // const handleChange33 = (selected: any = {}) => {
-  //   setSelectedOption33(selected);
-  // };
-  // const [notneededGrade, setNotneededGrade] = useState([]);
-  // useEffect(() => {
-  //   if (selectedOption33) {
-  //     setNotneededGrade((prevList) => [...prevList, selectedOption33.value]);
-  //   }
-  // }, [selectedOption33]);
+  const [selectedOption33, setSelectedOption33] = useState<any>("");
+  const handleChange33 = (selected: any = {}) => {
+    setSelectedOption33(selected);
+  };
+  const [notneededGrade, setNotneededGrade] = useState<any>([]);
+  useEffect(() => {
+    if (selectedOption33) {
+      setNotneededGrade((prevList: any) => [
+        ...prevList,
+        selectedOption33.value,
+      ]);
+    }
+  }, [selectedOption33]);
 
-  // const [selectedOption34, setSelectedOption34] = useState<any>("");
-  // const handleChange34 = (selected: any = {}) => {
-  //   setSelectedOption34(selected);
-  // };
-  // const [notneededForwho, setNotneededForwho] = useState([]);
-  // useEffect(() => {
-  //   if (selectedOption34) {
-  //     setNotneededForwho((prevList) => [...prevList, selectedOption34.value]);
-  //   }
-  // }, [selectedOption34]);
+  const [selectedOption34, setSelectedOption34] = useState<any>("");
+  const handleChange34 = (selected: any = {}) => {
+    setSelectedOption34(selected);
+  };
+  const [notneededForwho, setNotneededForwho] = useState<any>([]);
+  useEffect(() => {
+    if (selectedOption34) {
+      setNotneededForwho((prevList: any) => [
+        ...prevList,
+        selectedOption34.value,
+      ]);
+    }
+  }, [selectedOption34]);
 
-  // const [selectedOption35, setSelectedOption35] = useState<any>("");
-  // const handleChange35 = (selected: any = {}) => {
-  //   setSelectedOption35(selected);
-  // };
-  // const [okPanalty, setOkPanalty] = useState([]);
-  // useEffect(() => {
-  //   if (selectedOption35) {
-  //     setOkPanalty((prevList) => [...prevList, selectedOption35.value]);
-  //   }
-  // }, [selectedOption35]);
+  const [selectedOption35, setSelectedOption35] = useState<any>("");
+  const handleChange35 = (selected: any = {}) => {
+    setSelectedOption35(selected);
+  };
+  const [okPanalty, setOkPanalty] = useState<any>([]);
+  useEffect(() => {
+    if (selectedOption35) {
+      setOkPanalty((prevList: any) => [...prevList, selectedOption35.value]);
+    }
+  }, [selectedOption35]);
 
   const headers = [
     { label: "ID", key: "_id" },
@@ -1309,7 +1284,6 @@ export default function Recycle() {
                   목록첨부
                 </button>
               </div>
-              {/* <input type="file" accept=".csv" onChange={handleFileUpload2} /> */}
               {loginstate && loginstate.isLogin ? (
                 <>
                   <button
@@ -1338,7 +1312,15 @@ export default function Recycle() {
               <div>로그인하시면 DB에 저장 가능합니다.</div>
             </div>
           </div>
-          <div className="col-span-6 text-2xl   ">보유 악세 목록</div>
+          <div className="col-span-4 text-2xl   ">보유 악세 목록</div>
+          <div className="col-span-2 text-2xl   ">
+            <button
+              className="h-8 w-24 bg-red-500 rounded-lg text-white m-1"
+              onClick={(e) => setItemlist([])}
+            >
+              목록제거
+            </button>
+          </div>
 
           <div
             className="col-span-6 grid grid-cols-12 md:grid-cols-12 "
@@ -1531,18 +1513,20 @@ export default function Recycle() {
                 </button>
               </div>
             ))}
-            {/* <div className="col-span-4 text-2xl p-1">추가 설정</div>
+            <div className="col-span-4 text-2xl p-1">추가 설정</div>
             <div className="col-span-2 grid grid-cols-10 p-1">
+              <div className="col-span-10 text-base p-1">필수 포함 각인</div>
+
               <Select
                 className="col-span-10 p-1"
                 options={Array.isArray(newskilllist) ? newskilllist : []}
                 value={selectedOption31}
                 onChange={handleChange31}
-                isSearchable={true} 
-                placeholder="필수 포함 각인"
+                isSearchable={true}
+                placeholder="3단계만 적용"
               />
               {neededSkill.map((e: any, index: any) => (
-                <div className="col-span-10 grid grid-cols-10 p-1">
+                <div className="col-span-10 grid grid-cols-10 p-1" key={index}>
                   <div className="col-span-9 md:col-span-9  m-1 " key={index}>
                     {e}
                   </div>
@@ -1556,65 +1540,17 @@ export default function Recycle() {
               ))}
             </div>
             <div className="col-span-2 grid grid-cols-10 p-1">
+              <div className="col-span-10 text-base p-1">허용 패널티 </div>
               <Select
-                // className="col-span-2 p-1"
-                className="col-span-10 p-1"
-                options={Array.isArray(statlist) ? statlist : []}
-                value={selectedOption32}
-                onChange={handleChange32}
-                isSearchable={true} 
-                placeholder="제외 스텟"
-              />
-              {notneededStat.map((e: any, index: any) => (
-                <div className="col-span-10 grid grid-cols-10 p-1">
-                  <div className="col-span-9 md:col-span-9  m-1 " key={index}>
-                    {e}
-                  </div>
-                  <button
-                    className="col-span-1 text-red-500 "
-                    onClick={() => deletelist32(index)}
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="col-span-2 grid grid-cols-10 p-1">
-              <Select
-                // className="col-span-2 p-1"
-                className="col-span-10 p-1"
-                options={Array.isArray(gradelist) ? gradelist : []}
-                value={selectedOption33}
-                onChange={handleChange33}
-                isSearchable={true} 
-                placeholder="제외 등급"
-              />
-              {notneededGrade.map((e: any, index: any) => (
-                <div className="col-span-10 grid grid-cols-10 p-1">
-                  <div className="col-span-9 md:col-span-9  m-1 " key={index}>
-                    {e}
-                  </div>
-                  <button
-                    className="col-span-1 text-red-500 "
-                    onClick={() => deletelist33(index)}
-                  >
-                    X
-                  </button>
-                </div>
-              ))}
-            </div>
-            <div className="col-span-2 grid grid-cols-10 p-1">
-              <Select
-                // className="col-span-2 p-1"
                 className="col-span-10 p-1"
                 options={Array.isArray(panaltylist) ? panaltylist : []}
                 value={selectedOption35}
                 onChange={handleChange35}
-                isSearchable={true} 
-                placeholder="허용 패널티"
+                isSearchable={true}
+                placeholder="미선택 모두 허용"
               />
               {okPanalty.map((e: any, index: any) => (
-                <div className="col-span-10 grid grid-cols-10 p-1">
+                <div className="col-span-10 grid grid-cols-10 p-1" key={index}>
                   <div className="col-span-9 md:col-span-9  m-1 " key={index}>
                     {e}
                   </div>
@@ -1627,30 +1563,95 @@ export default function Recycle() {
                 </div>
               ))}
             </div>
-            <div className="col-span-4 grid grid-cols-10 p-1">
-              <Select
-                // className="col-span-2 p-1"
-                className="col-span-10 p-1"
-                options={Array.isArray(forwholist) ? forwholist : []}
-                value={selectedOption34}
-                onChange={handleChange34}
-                isSearchable={true} 
-                placeholder="제외 분류"
-              />
-              {notneededForwho.map((e: any, index: any) => (
-                <div className="col-span-10 grid grid-cols-10 p-1">
-                  <div className="col-span-9 md:col-span-9  m-1 " key={index}>
-                    {e}
-                  </div>
-                  <button
-                    className="col-span-1 text-red-500 "
-                    onClick={() => deletelist34(index)}
+            <div className="col-span-4 grid grid-cols-6 p-1">
+              <div className="col-span-2 grid grid-cols-10 p-1">
+                <div className="col-span-10 text-base p-1">제외 스텟</div>
+                <Select
+                  className="col-span-10 p-1"
+                  options={Array.isArray(statlist) ? statlist : []}
+                  value={selectedOption32}
+                  onChange={handleChange32}
+                  isSearchable={true}
+                  placeholder="제외 스텟"
+                />
+                {notneededStat.map((e: any, index: any) => (
+                  <div
+                    className="col-span-10 grid grid-cols-10 p-1"
+                    key={index}
                   >
-                    X
-                  </button>
-                </div>
-              ))}
-            </div> */}
+                    <div className="col-span-9 md:col-span-9  m-1 " key={index}>
+                      {e}
+                    </div>
+                    <button
+                      className="col-span-1 text-red-500 "
+                      onClick={() => deletelist32(index)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="col-span-2 grid grid-cols-10 p-1">
+                <div className="col-span-10 text-base p-1">제외 등급</div>
+
+                <Select
+                  className="col-span-10 p-1"
+                  options={Array.isArray(gradelist) ? gradelist : []}
+                  value={selectedOption33}
+                  onChange={handleChange33}
+                  isSearchable={true}
+                  placeholder="제외 등급"
+                />
+                {notneededGrade.map((e: any, index: any) => (
+                  <div
+                    className="col-span-10 grid grid-cols-10 p-1"
+                    key={index}
+                  >
+                    <div className="col-span-9 md:col-span-9  m-1 " key={index}>
+                      {e}
+                    </div>
+                    <button
+                      className="col-span-1 text-red-500 "
+                      onClick={() => deletelist33(index)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <div className="col-span-2 grid grid-cols-10 p-1">
+                <div className="col-span-10 text-base p-1">제외 분류</div>
+
+                <Select
+                  className="col-span-10 p-1"
+                  options={Array.isArray(forwholist) ? forwholist : []}
+                  value={selectedOption34}
+                  onChange={handleChange34}
+                  isSearchable={true}
+                  placeholder="제외 분류"
+                />
+                {notneededForwho.map((e: any, index: any) => (
+                  <div
+                    className="col-span-10 grid grid-cols-10 p-1"
+                    key={index}
+                  >
+                    <div className="col-span-9 md:col-span-9  m-1 " key={index}>
+                      {e}
+                    </div>
+                    <button
+                      className="col-span-1 text-red-500 "
+                      onClick={() => deletelist34(index)}
+                    >
+                      X
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <div className="col-span-6  p-1">
+                제외 설정시 연산이 빨라집니다
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1685,13 +1686,6 @@ export default function Recycle() {
                   {key}: {e.stat[key]}
                 </div>
               ))}
-              {/* {Object.keys(e.skill).map((key) => (
-                
-                <div className="" key={key}>
-                  {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
-                  {Math.floor(e.skill[key] / 5)}
-                </div>
-              ))} */}
 
               {Object.keys(e.skill).map((key) =>
                 Math.floor(e.skill[key] / 5) > 0 ? (
@@ -1714,12 +1708,7 @@ export default function Recycle() {
                   <></>
                 )
               )}
-              {/* {Object.keys(e.panalty).map((key) => (
-                <div className="text-xs self-center" key={key}>
-                  {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
-                  {Math.floor(e.panalty[key] / 5)}
-                </div>
-              ))} */}
+
               <div className="col-end-12 col-span-1">
                 <button
                   className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
