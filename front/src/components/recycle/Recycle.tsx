@@ -820,9 +820,6 @@ export default function Recycle() {
               setConbinlist((prevList: any) => [...prevList, conbin]);
             }
           } else if (okPanalty.length > 0) {
-            // console.log(Object.keys(conbin["panalty"]));
-            // console.log(okPanalty);
-
             if (
               okPanalty.every(
                 (e: any) =>
@@ -844,7 +841,6 @@ export default function Recycle() {
             }
           } else {
             setConbinlist((prevList: any) => [...prevList, conbin]);
-            console.log(conbinlist);
           }
         }
       }
@@ -1675,11 +1671,7 @@ export default function Recycle() {
           </div>
           <div className="text-2xl p-1 col-span-12">검색 결과</div>
           {result.map((e: any, index: any) => (
-            <div
-              className="col-span-12 grid grid-cols-12"
-              key={index}
-              title={e._id}
-            >
+            <div className="col-span-12 grid grid-cols-12" key={index}>
               {Object.keys(e.stat).map((key) => (
                 <div className="text-xs self-center md:text-base" key={key}>
                   {key}: {e.stat[key]}
@@ -1720,11 +1712,7 @@ export default function Recycle() {
           ))}
           <div className="text-2xl p-1 col-span-12 ">조합 확인</div>
           {viewcobin.map((e: any, index: any) => (
-            <div
-              className="col-span-12 grid grid-cols-12"
-              key={index}
-              title={e._id}
-            >
+            <div className="col-span-12 grid grid-cols-12" key={index}>
               {e.forwho
                 ? Object.keys(e.forwho).map((key) => (
                     <div className="text-xs self-center md:text-base" key={key}>
