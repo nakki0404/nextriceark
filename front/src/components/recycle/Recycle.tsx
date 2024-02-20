@@ -1526,7 +1526,7 @@ export default function Recycle() {
                 placeholder="3단계만 적용"
               />
               {neededSkill.map((e: any, index: any) => (
-                <div className="col-span-10 grid grid-cols-10 p-1">
+                <div className="col-span-10 grid grid-cols-10 p-1" key={index}>
                   <div className="col-span-9 md:col-span-9  m-1 " key={index}>
                     {e}
                   </div>
@@ -1550,7 +1550,7 @@ export default function Recycle() {
                 placeholder="미선택 모두 허용"
               />
               {okPanalty.map((e: any, index: any) => (
-                <div className="col-span-10 grid grid-cols-10 p-1">
+                <div className="col-span-10 grid grid-cols-10 p-1" key={index}>
                   <div className="col-span-9 md:col-span-9  m-1 " key={index}>
                     {e}
                   </div>
@@ -1575,7 +1575,10 @@ export default function Recycle() {
                   placeholder="제외 스텟"
                 />
                 {notneededStat.map((e: any, index: any) => (
-                  <div className="col-span-10 grid grid-cols-10 p-1">
+                  <div
+                    className="col-span-10 grid grid-cols-10 p-1"
+                    key={index}
+                  >
                     <div className="col-span-9 md:col-span-9  m-1 " key={index}>
                       {e}
                     </div>
@@ -1600,7 +1603,10 @@ export default function Recycle() {
                   placeholder="제외 등급"
                 />
                 {notneededGrade.map((e: any, index: any) => (
-                  <div className="col-span-10 grid grid-cols-10 p-1">
+                  <div
+                    className="col-span-10 grid grid-cols-10 p-1"
+                    key={index}
+                  >
                     <div className="col-span-9 md:col-span-9  m-1 " key={index}>
                       {e}
                     </div>
@@ -1626,7 +1632,10 @@ export default function Recycle() {
                   placeholder="제외 분류"
                 />
                 {notneededForwho.map((e: any, index: any) => (
-                  <div className="col-span-10 grid grid-cols-10 p-1">
+                  <div
+                    className="col-span-10 grid grid-cols-10 p-1"
+                    key={index}
+                  >
                     <div className="col-span-9 md:col-span-9  m-1 " key={index}>
                       {e}
                     </div>
