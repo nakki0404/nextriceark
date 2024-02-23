@@ -27,23 +27,24 @@ export default function Recycle() {
   const [imageSrc, setImageSrc] = useState<any>(null);
 
   useEffect(() => {
-    // Check if OpenCV.js has already been loaded
     if (!window.cv) {
-      // Dynamically create a script element
       const script = document.createElement("script");
       script.src = "https://docs.opencv.org/4.5.3/opencv.js";
       script.async = true;
       script.onload = () => {
-        // Set the flag indicating that OpenCV.js has been loaded
         setOpencvLoaded(true);
       };
 
-      // Append the script to the document body
       document.body.appendChild(script);
     } else {
-      // Set the flag indicating that OpenCV.js has been loaded
       setOpencvLoaded(true);
     }
+
+    document.addEventListener("paste", async (event) => {
+      const clipboardData = event.clipboardData;
+      var blob: any = clipboardData ? clipboardData.items[0].getAsFile() : null;
+      setImageSrc(URL.createObjectURL(blob));
+    });
   }, []);
 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -1050,14 +1051,15 @@ export default function Recycle() {
     setImageSrc(null);
   };
 
-  document.addEventListener("paste", async (event) => {
-    const clipboardData = event.clipboardData;
-    var blob: any = clipboardData ? clipboardData.items[0].getAsFile() : null;
-    setImageSrc(URL.createObjectURL(blob));
-  });
+  // document.addEventListener("paste", async (event) => {
+  //   const clipboardData = event.clipboardData;
+  //   var blob: any = clipboardData ? clipboardData.items[0].getAsFile() : null;
+  //   setImageSrc(URL.createObjectURL(blob));
+  // });
 
   const handleImageChange = (e: any) => {
-    e != null && setImageSrc(URL.createObjectURL(e.target.files[0]));
+    e.target.files[0] != null &&
+      setImageSrc(URL.createObjectURL(e.target.files[0]));
   };
   const handleImageLoad = () => {
     let src = cv.imread("imageSrc");
@@ -1075,26 +1077,12 @@ export default function Recycle() {
       const dataURL = canvas.toDataURL("image/png");
       extract(dataURL);
     }
-
-    // const canvas = document.getElementById("canvasOutput");
-    // const dataURL = canvas.toDataURL("canvasOutput");
     src.delete();
     dst.delete();
   };
 
   const doit = () => {
     handleImageLoad();
-  };
-
-  var Module = {
-    // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
-    onRuntimeInitialized() {
-      const statusElement: HTMLElement | null =
-        document.getElementById("status");
-      if (statusElement) {
-        statusElement.innerHTML = "OpenCV.js is ready.";
-      }
-    },
   };
 
   const [selectedOption31, setSelectedOption31] = useState<any>("");
