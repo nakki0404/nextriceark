@@ -9,7 +9,8 @@ import PopupModal from "@/components/common/PopupModal";
 import Select2 from "@/components/common/Select2";
 import { CSVLink } from "react-csv";
 import { useDropzone } from "react-dropzone";
-// import cv from "@/hooks/opencv.js";
+// import * as cv from "@techstark/opencv-js";
+
 // import ReactDOM from "react-dom";
 
 // Import React FilePond
@@ -28,7 +29,29 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 export default function Recycle() {
-  const [originalData, setOriginalData] = useState(null);
+  // const [opencvLoaded, setOpencvLoaded] = useState(false);
+  // const [imageSrc, setImageSrc] = useState(null);
+  // const [imageSrc2, setImageSrc2] = useState(null);
+
+  // useEffect(() => {
+  //   // Check if OpenCV.js has already been loaded
+  //   if (!window.cv) {
+  //     // Dynamically create a script element
+  //     const script = document.createElement("script");
+  //     script.src = "https://docs.opencv.org/4.5.3/opencv.js";
+  //     script.async = true;
+  //     script.onload = () => {
+  //       // Set the flag indicating that OpenCV.js has been loaded
+  //       setOpencvLoaded(true);
+  //     };
+
+  //     // Append the script to the document body
+  //     document.body.appendChild(script);
+  //   } else {
+  //     // Set the flag indicating that OpenCV.js has been loaded
+  //     setOpencvLoaded(true);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const savedata: any = localStorage.getItem("itemlist");
@@ -96,7 +119,6 @@ export default function Recycle() {
   ];
   const [selectedOption8, setSelectedOption8] = useState<any>("");
   const handleChange8 = (selected: any = {}) => {
-    // console.log(selected);
     setSelectedOption8(selected);
   };
   const [forwho, setForwho] = useState("");
@@ -699,7 +721,7 @@ export default function Recycle() {
     if (selectCount === 0) {
       //각인 어빌 조합 반복으로 생성
       newarr.push(currentCombination.slice());
-      // console.log(currentCombination);
+
       return;
     }
 
@@ -873,7 +895,6 @@ export default function Recycle() {
   const [selectedValue, setSelectedValue] = useState("option1");
   const changeSelectedValue = (event: any) => {
     setSelectedValue(event.target.value);
-    // console.log(event.target.value);
   };
 
   const newArray = ["치명", "신속", "특화", "숙련", "인내", "제압"];
@@ -889,6 +910,7 @@ export default function Recycle() {
     var lastThreeCharacters = text.slice(num);
     return lastThreeCharacters;
   }
+
   const extract = async (img: any) => {
     const { createWorker } = require("tesseract.js");
 
@@ -905,7 +927,10 @@ export default function Recycle() {
           arrgrade.push(e);
         }
       }
-      handleChange(arrgrade[0]);
+
+      if (arrgrade[0] != undefined) {
+        handleChange(arrgrade[0]);
+      }
 
       let arrcategory: any = [];
       for (let e of categorylist) {
@@ -913,7 +938,10 @@ export default function Recycle() {
           arrcategory.push(e);
         }
       }
-      handleChange2(arrcategory[0]);
+
+      if (arrcategory[0] != undefined) {
+        handleChange2(arrcategory[0]);
+      }
 
       let arrstatnum: any = [];
       let arrstat: any = [];
@@ -933,10 +961,19 @@ export default function Recycle() {
           arrstat.push(e);
         }
       }
-      handleChange3(arrstat[0]);
-      handleQuantityChange3(arrstatnum[0]);
-      handleChange4(arrstat[1]);
-      handleQuantityChange4(arrstatnum[1]);
+
+      if (arrstat[0] != undefined) {
+        handleChange3(arrstat[0]);
+      }
+      if (arrstatnum[0] != undefined) {
+        handleQuantityChange3(arrstatnum[0]);
+      }
+      if (arrstat[1] != undefined) {
+        handleChange4(arrstat[1]);
+      }
+      if (arrstatnum[1] != undefined) {
+        handleQuantityChange4(arrstatnum[1]);
+      }
 
       let arrskillnum: any = [];
       let arrskill: any = [];
@@ -956,10 +993,19 @@ export default function Recycle() {
           arrskill.push(e);
         }
       }
-      handleChange5(arrskill[0]);
-      handleChange6(arrskill[1]);
-      handleQuantityChange5(arrskillnum[0]);
-      handleQuantityChange6(arrskillnum[1]);
+
+      if (arrskill[0] != undefined) {
+        handleChange5(arrskill[0]);
+      }
+      if (arrskillnum[0] != undefined) {
+        handleQuantityChange5(arrskillnum[0]);
+      }
+      if (arrskill[1] != undefined) {
+        handleChange6(arrskill[1]);
+      }
+      if (arrskillnum[1] != undefined) {
+        handleQuantityChange6(arrskillnum[1]);
+      }
 
       let arrpanaltynum: any = [];
       let arrpanalty: any = [];
@@ -979,8 +1025,13 @@ export default function Recycle() {
           arrpanalty.push(e);
         }
       }
-      handleChange7(arrpanalty[0]);
-      handleQuantityChange7(arrpanaltynum[0]);
+
+      if (arrpanalty[0] != undefined) {
+        handleChange7(arrpanalty[0]);
+      }
+      if (arrpanaltynum[0] != undefined) {
+        handleQuantityChange7(arrpanaltynum[0]);
+      }
 
       await worker.terminate();
     })();
@@ -997,10 +1048,75 @@ export default function Recycle() {
     });
   };
   const handleFileUpdate = (fileItems: any) => {
-    // 파일 업데이트를 처리합니다.
-    // 예를 들어, 파일을 상태에 업데이트하거나 처리할 수 있습니다.
     setFiles(fileItems.map((fileItem: any) => fileItem.file));
   };
+
+  // const handleImageChange = (e) => {
+  //   setImageSrc(URL.createObjectURL(e.target.files[0]));
+  //   setImageSrc2(e.target.files[0]);
+  //   console.log(typeof e.target.files[0]);
+  //   console.log(e.target.files[0]);
+  // };
+  // const check = () => {
+  //   console.log(typeof files);
+  //   console.log(files);
+  //   console.log(typeof imageSrc);
+  //   console.log(imageSrc);
+  //   console.log(typeof imageSrc2);
+  //   console.log(imageSrc2);
+  // };
+  // const handleImageLoad = () => {
+  //   let src2;
+  //   var reader = new FileReader();
+  //   reader.onload = function (event) {
+  //     src2 = event.target.result;
+  //     // console.log(src2);
+  //     let src = cv.imread("imageSrc");
+  //     let img2 = document.getElementById("imageSrc");
+  //     console.log(img2);
+  //     let dst = new cv.Mat();
+  //     let low = new cv.Mat(src.rows, src.cols, src.type(), [0, 0, 0, 0]);
+  //     let high = new cv.Mat(
+  //       src.rows,
+  //       src.cols,
+  //       src.type(),
+  //       [150, 150, 150, 255]
+  //     );
+  //     cv.inRange(src, low, high, dst);
+  //     cv.imshow("canvasOutput", dst);
+
+  //     src.delete();
+  //     dst.delete();
+  //     low.delete();
+  //     high.delete();
+  //   };
+  //   reader.readAsDataURL(imageSrc2); // 이미지 파일을 읽기 시작
+  // };
+
+  // const doit = () => {
+  //   handleImageLoad();
+  // };
+
+  // let imgElement = document.getElementById("imageSrc");
+  // let inputElement = document.getElementById("fileInput");
+  // inputElement.addEventListener(
+  //   "change",
+  //   (e) => {
+  //     imgElement.src = URL.createObjectURL(e.target.files[0]);
+  //   },
+  //   false
+  // );
+  // imgElement.onload = function () {
+  //   let mat = cv.imread(imgElement);
+  //   cv.imshow("canvasOutput", mat);
+  //   mat.delete();
+  // };
+  // var Module = {
+  //   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
+  //   onRuntimeInitialized() {
+  //     document.getElementById("status").innerHTML = "OpenCV.js is ready.";
+  //   },
+  // };
 
   //이진화 흑백 유역?
 
@@ -1099,44 +1215,61 @@ export default function Recycle() {
       <div className="flex flex-col md:flex-row  ">
         <div className="grid grid-cols-6 gap-1 p-1 m-1 ">
           <div className="col-span-6 text-2xl  ">악세추가</div>
-          <div className="col-span-6">
-            <FilePond
-              files={files}
-              onupdatefiles={handleFileUpdate}
-              allowMultiple={true}
-              maxFiles={1}
-              name="files"
-              labelIdle="사진 첨부 파일업로드 드래그앤드롭 ctrl+v"
-            />
+          <div className="col-span-6 ">
+            <div className="col-span-6">
+              <FilePond
+                files={files}
+                onupdatefiles={handleFileUpdate}
+                allowMultiple={true}
+                maxFiles={1}
+                name="files"
+                labelIdle="사진 첨부 파일업로드 드래그앤드롭 ctrl+v"
+              />
+            </div>
+
+            <div className="col-span-6">
+              <button
+                className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+                onClick={handleFileUpload}
+              >
+                입력
+              </button>
+            </div>
           </div>
 
-          <div className="col-span-6">
-            <button
-              className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
-              onClick={handleFileUpload}
-            >
-              입력
-            </button>
-            {/* <button
-              type="button"
-              className="h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
-              disabled
-            >
-              <svg
-                className="animate-spin h-5 w-5 mr-5 ..."
-                viewBox="0 0 24 24"
+          {/* <div className="col-span-6 ">
+            <div className="col-span-6">
+              <div>
+                {opencvLoaded ? (
+                  <div>
+                    <p>OpenCV.js is loaded and ready to use!</p>
+                  </div>
+                ) : (
+                  <p>Loading OpenCV.js...</p>
+                )}
+              </div>
+            </div>
+            <div className="col-span-6">
+              <input
+                type="file"
+                id="fileInput"
+                name="file"
+                onChange={handleImageChange}
+              />
+              <img id="imageSrc" alt="No Image" src={imageSrc} />
+              <canvas id="canvasOutput"></canvas>
+            </div>
+
+            <div className="col-span-6">
+              <button
+                className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+                onClick={() => doit()}
               >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="40"
-                  stroke="white"
-                  stroke-width="3"
-                  fill="blue-500"
-                />
-              </svg>
-            </button> */}
-          </div>
+                처리
+              </button>
+            </div>
+            <canvas id="canvasOutput"></canvas>
+          </div> */}
 
           <Select
             className="col-span-2 p-1"
