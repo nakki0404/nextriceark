@@ -1,5 +1,11 @@
 "use client";
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  ChangeEvent,
+} from "react";
 import { useAppSelector } from "@/store/store";
 import Select from "react-select";
 import { v4 as uuidv4 } from "uuid";
@@ -9,48 +15,52 @@ import PopupModal from "@/components/common/PopupModal";
 import Select2 from "@/components/common/Select2";
 import { CSVLink } from "react-csv";
 import { useDropzone } from "react-dropzone";
-// import * as cv from "@techstark/opencv-js";
-
-// import ReactDOM from "react-dom";
-
-// Import React FilePond
 import { FilePond, registerPlugin } from "react-filepond";
-
-// Import FilePond styles
-import "filepond/dist/filepond.min.css";
-
-// Import the Image EXIF Orientation and Image Preview plugins
-// Note: These need to be installed separately
-// `npm i filepond-plugin-image-preview filepond-plugin-image-exif-orientation --save`
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
-
-registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+declare global {
+  interface Window {
+    cv: typeof import("mirada/dist/src/types/opencv/_types");
+  }
+}
 
 export default function Recycle() {
-  // const [opencvLoaded, setOpencvLoaded] = useState(false);
-  // const [imageSrc, setImageSrc] = useState(null);
+  const [opencvLoaded, setOpencvLoaded] = useState(false);
+  const [imageSrc, setImageSrc] = useState<any>(null);
 
-  // useEffect(() => {
-  //   // Check if OpenCV.js has already been loaded
-  //   if (!window.cv) {
-  //     // Dynamically create a script element
-  //     const script = document.createElement("script");
-  //     script.src = "https://docs.opencv.org/4.5.3/opencv.js";
-  //     script.async = true;
-  //     script.onload = () => {
-  //       // Set the flag indicating that OpenCV.js has been loaded
-  //       setOpencvLoaded(true);
-  //     };
+  useEffect(() => {
+    if (!window.cv) {
+      const script = document.createElement("script");
+      script.src = "https://docs.opencv.org/4.5.3/opencv.js";
+      script.async = true;
+      script.onload = () => {
+        setOpencvLoaded(true);
+      };
 
-  //     // Append the script to the document body
-  //     document.body.appendChild(script);
-  //   } else {
-  //     // Set the flag indicating that OpenCV.js has been loaded
-  //     setOpencvLoaded(true);
-  //   }
-  // }, []);
+      document.body.appendChild(script);
+    } else {
+      setOpencvLoaded(true);
+    }
+
+    document.addEventListener("paste", async (event) => {
+      const clipboardData = event.clipboardData;
+      var blob: any = clipboardData ? clipboardData.items[0].getAsFile() : null;
+      setImageSrc(URL.createObjectURL(blob));
+    });
+  }, []);
+
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    function handleResize() {
+      setIsSmallScreen(window.innerWidth < 768);
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    // 컴포넌트가 unmount될 때 cleanup 함수 실행
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const savedata: any = localStorage.getItem("itemlist");
@@ -898,7 +908,7 @@ export default function Recycle() {
 
   const newArray = ["치명", "신속", "특화", "숙련", "인내", "제압"];
 
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<any>([]);
 
   function extractNumbers(text: any) {
     var numbers = text.match(/\d+/g);
@@ -980,7 +990,7 @@ export default function Recycle() {
         if (text.indexOf(e.value) >= 0) {
           const index = text.indexOf(e.value);
           const index2 = index + e.value.length;
-          const char = text.substring(index2, index2 + 9); // 인덱스 4에 있는 문자 'o'를 반환
+          const char = text.substring(index2, index2 + 9);
 
           var extractedNumbers = extractNumbers(char);
 
@@ -1036,66 +1046,44 @@ export default function Recycle() {
     })();
   };
 
-  const handleFileUpload = () => {
-    files.forEach((file: any) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const imageData = event.target?.result;
-        extract(imageData); // 이제 이미지 데이터를 전달합니다.
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-  const handleFileUpdate = (fileItems: any) => {
-    setFiles(fileItems.map((fileItem: any) => fileItem.file));
+  const handleFileDelete = (fileItems: any) => {
+    setFiles(null);
+    setImageSrc(null);
   };
 
-  // const handleImageChange = (e) => {
-  //   // setImageSrc(URL.createObjectURL(e.target.files[0]));
-  //   setImageSrc(URL.createObjectURL(e.target.files[0]));
-  // };
-  // const handleImageLoad = () => {
-  //   let src = cv.imread("imageSrc");
-  //   let dst = new cv.Mat();
-  //   let low = new cv.Mat(src.rows, src.cols, src.type(), [0, 0, 0, 0]);
-  //   let high = new cv.Mat(src.rows, src.cols, src.type(), [150, 150, 150, 255]);
-  //   cv.inRange(src, low, high, dst);
-  //   cv.imshow("canvasOutput", dst);
-  //   const canvas = document.getElementById("canvasOutput");
-  //   const dataURL = canvas.toDataURL("canvasOutput");
-  //   extract(dataURL);
-  //   src.delete();
-  //   dst.delete();
-  //   low.delete();
-  //   high.delete();
-  // };
+  // document.addEventListener("paste", async (event) => {
+  //   const clipboardData = event.clipboardData;
+  //   var blob: any = clipboardData ? clipboardData.items[0].getAsFile() : null;
+  //   setImageSrc(URL.createObjectURL(blob));
+  // });
 
-  // const doit = () => {
-  //   handleImageLoad();
-  // };
+  const handleImageChange = (e: any) => {
+    e.target.files[0] != null &&
+      setImageSrc(URL.createObjectURL(e.target.files[0]));
+  };
+  const handleImageLoad = () => {
+    let src = cv.imread("imageSrc");
 
-  // let imgElement = document.getElementById("imageSrc");
-  // let inputElement = document.getElementById("fileInput");
-  // inputElement.addEventListener(
-  //   "change",
-  //   (e) => {
-  //     imgElement.src = URL.createObjectURL(e.target.files[0]);
-  //   },
-  //   false
-  // );
-  // imgElement.onload = function () {
-  //   let mat = cv.imread(imgElement);
-  //   cv.imshow("canvasOutput", mat);
-  //   mat.delete();
-  // };
-  // var Module = {
-  //   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
-  //   onRuntimeInitialized() {
-  //     document.getElementById("status").innerHTML = "OpenCV.js is ready.";
-  //   },
-  // };
+    let dst = new cv.Mat();
+    cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);
 
-  //이진화 흑백 유역?
+    cv.imshow("canvasOutput", dst);
+
+    const canvas = document.getElementById(
+      "canvasOutput"
+    ) as HTMLCanvasElement | null;
+
+    if (canvas) {
+      const dataURL = canvas.toDataURL("image/png");
+      extract(dataURL);
+    }
+    src.delete();
+    dst.delete();
+  };
+
+  const doit = () => {
+    handleImageLoad();
+  };
 
   const [selectedOption31, setSelectedOption31] = useState<any>("");
   const handleChange31 = (selected: any = {}) => {
@@ -1187,68 +1175,51 @@ export default function Recycle() {
     });
   }, []);
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
   return (
     <div>
       <div className="flex flex-col md:flex-row  ">
         <div className="grid grid-cols-6 gap-1 p-1 m-1 ">
           <div className="col-span-6 text-2xl  ">악세추가</div>
-          <div className="col-span-6 ">
-            <div className="col-span-6">
-              <FilePond
-                files={files}
-                onupdatefiles={handleFileUpdate}
-                allowMultiple={true}
-                maxFiles={1}
-                name="files"
-                labelIdle="사진 첨부 파일업로드 드래그앤드롭 ctrl+v"
-              />
-            </div>
-
-            <div className="col-span-6">
-              <button
-                className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
-                onClick={handleFileUpload}
-              >
-                입력
-              </button>
-            </div>
+          <div className="col-span-6">
+            {opencvLoaded ? (
+              <div className="grid grid-cols-6">
+                <input
+                  className="col-span-6"
+                  type="file"
+                  id="fileInput"
+                  name="file"
+                  onChange={handleImageChange}
+                />
+                <p className="col-span-6 text-xs">
+                  파일첨부 또는 복붙해주세요.
+                </p>
+                <img className="col-span-6" id="imageSrc" src={imageSrc} />
+                <canvas
+                  className="col-span-6 hidden"
+                  id="canvasOutput"
+                ></canvas>
+                <div className="col-start-2">
+                  <button
+                    className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
+                    onClick={() => doit()}
+                  >
+                    입력
+                  </button>
+                </div>
+                <div className="col-start-5">
+                  <button
+                    className=" h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+                    onClick={handleFileDelete}
+                  >
+                    제거
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p>Loading OpenCV.js...</p>
+            )}
           </div>
-          {/* 
-          <div className="col-span-6 ">
-            <div className="col-span-6">
-              <div>
-                {opencvLoaded ? (
-                  <div>
-                    <p>OpenCV.js is loaded and ready to use!</p>
-                  </div>
-                ) : (
-                  <p>Loading OpenCV.js...</p>
-                )}
-              </div>
-            </div>
-            <div className="col-span-6">
-              <input
-                type="file"
-                id="fileInput"
-                name="file"
-                onChange={handleImageChange}
-              />
-              <img id="imageSrc" alt="No Image" src={imageSrc} />
-              <div className="hidden">
-                <canvas id="canvasOutput" className="hidden"></canvas>
-              </div>
-            </div>
-
-            <div className="col-span-6">
-              <button
-                className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
-                onClick={() => doit()}
-              >
-                입력2
-              </button>
-            </div>
-            <canvas id="canvasOutput"></canvas>
-          </div> */}
 
           <Select
             className="col-span-2 p-1"
