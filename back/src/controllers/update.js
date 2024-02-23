@@ -20,17 +20,17 @@ mongoose
 
 async function fetchDataAndUpdate() {
   try {
-    // const importedList = await getMakeList();
-    // const jemData = await jem(); // jem 함수 호출
-    // const conbined = [...importedList, ...jemData];
-    // await marketList.deleteMany({}); // 기존 데이터 모두 삭제
-    // const insertedData2 = await marketList.insertMany(conbined);
-    // console.log(`Inserted ${insertedData2.length} lists into MongoDB `);
-    // console.log("tradedata loading waiting");
-    // function executeWithDelay(fn, delay) {
-    //   setTimeout(fn, delay);
-    // }
-    // executeWithDelay(() => loadtrade(), 65 * 1000);
+    const importedList = await getMakeList();
+    const jemData = await jem(); // jem 함수 호출
+    const conbined = [...importedList, ...jemData];
+    await marketList.deleteMany({}); // 기존 데이터 모두 삭제
+    const insertedData2 = await marketList.insertMany(conbined);
+    console.log(`Inserted ${insertedData2.length} lists into MongoDB `);
+    console.log("tradedata loading waiting");
+    function executeWithDelay(fn, delay) {
+      setTimeout(fn, delay);
+    }
+    executeWithDelay(() => loadtrade(), 65 * 1000);
   } catch (error) {
     console.log(error);
   }
