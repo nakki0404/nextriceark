@@ -31,7 +31,6 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 export default function Recycle() {
   // const [opencvLoaded, setOpencvLoaded] = useState(false);
   // const [imageSrc, setImageSrc] = useState(null);
-  // const [imageSrc2, setImageSrc2] = useState(null);
 
   // useEffect(() => {
   //   // Check if OpenCV.js has already been loaded
@@ -312,7 +311,7 @@ export default function Recycle() {
       newdata["skill"] = { [skill]: skillnum };
     }
     newdata["panalty"] = { [panalty]: panaltynum };
-
+    console.log(newdata);
     setItemlist([newdata, ...itemlist]);
   };
 
@@ -1052,45 +1051,23 @@ export default function Recycle() {
   };
 
   // const handleImageChange = (e) => {
+  //   // setImageSrc(URL.createObjectURL(e.target.files[0]));
   //   setImageSrc(URL.createObjectURL(e.target.files[0]));
-  //   setImageSrc2(e.target.files[0]);
-  //   console.log(typeof e.target.files[0]);
-  //   console.log(e.target.files[0]);
-  // };
-  // const check = () => {
-  //   console.log(typeof files);
-  //   console.log(files);
-  //   console.log(typeof imageSrc);
-  //   console.log(imageSrc);
-  //   console.log(typeof imageSrc2);
-  //   console.log(imageSrc2);
   // };
   // const handleImageLoad = () => {
-  //   let src2;
-  //   var reader = new FileReader();
-  //   reader.onload = function (event) {
-  //     src2 = event.target.result;
-  //     // console.log(src2);
-  //     let src = cv.imread("imageSrc");
-  //     let img2 = document.getElementById("imageSrc");
-  //     console.log(img2);
-  //     let dst = new cv.Mat();
-  //     let low = new cv.Mat(src.rows, src.cols, src.type(), [0, 0, 0, 0]);
-  //     let high = new cv.Mat(
-  //       src.rows,
-  //       src.cols,
-  //       src.type(),
-  //       [150, 150, 150, 255]
-  //     );
-  //     cv.inRange(src, low, high, dst);
-  //     cv.imshow("canvasOutput", dst);
-
-  //     src.delete();
-  //     dst.delete();
-  //     low.delete();
-  //     high.delete();
-  //   };
-  //   reader.readAsDataURL(imageSrc2); // 이미지 파일을 읽기 시작
+  //   let src = cv.imread("imageSrc");
+  //   let dst = new cv.Mat();
+  //   let low = new cv.Mat(src.rows, src.cols, src.type(), [0, 0, 0, 0]);
+  //   let high = new cv.Mat(src.rows, src.cols, src.type(), [150, 150, 150, 255]);
+  //   cv.inRange(src, low, high, dst);
+  //   cv.imshow("canvasOutput", dst);
+  //   const canvas = document.getElementById("canvasOutput");
+  //   const dataURL = canvas.toDataURL("canvasOutput");
+  //   extract(dataURL);
+  //   src.delete();
+  //   dst.delete();
+  //   low.delete();
+  //   high.delete();
   // };
 
   // const doit = () => {
@@ -1236,8 +1213,8 @@ export default function Recycle() {
               </button>
             </div>
           </div>
-
-          {/* <div className="col-span-6 ">
+          {/* 
+          <div className="col-span-6 ">
             <div className="col-span-6">
               <div>
                 {opencvLoaded ? (
@@ -1257,7 +1234,9 @@ export default function Recycle() {
                 onChange={handleImageChange}
               />
               <img id="imageSrc" alt="No Image" src={imageSrc} />
-              <canvas id="canvasOutput"></canvas>
+              <div className="hidden">
+                <canvas id="canvasOutput" className="hidden"></canvas>
+              </div>
             </div>
 
             <div className="col-span-6">
@@ -1265,7 +1244,7 @@ export default function Recycle() {
                 className=" h-8 w-16 bg-blue-500 rounded-lg text-white m-1"
                 onClick={() => doit()}
               >
-                처리
+                입력2
               </button>
             </div>
             <canvas id="canvasOutput"></canvas>
@@ -1480,17 +1459,25 @@ export default function Recycle() {
                     className="text-xs self-center self-center md:text-base"
                     key={key}
                   >
-                    {key}: {e.stat[key]}
+                    {key !== "undefined" && key !== "" && (
+                      <span>
+                        {key}: {e.stat[key]}
+                      </span>
+                    )}
                   </div>
                 ))}
-                {Object.keys(e.stat).length === 1 && <div className=""></div>}
+
                 {Object.keys(e.skill).map((key) => (
                   <div
                     className="text-xs self-center self-center md:text-base"
                     key={key}
                   >
-                    {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
-                    {e.skill[key]}
+                    {key !== "undefined" && key !== "" && (
+                      <span>
+                        {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
+                        {e.skill[key]}
+                      </span>
+                    )}
                   </div>
                 ))}
                 {Object.keys(e.panalty).map((key) => (
@@ -1498,8 +1485,12 @@ export default function Recycle() {
                     key={key}
                     className=" text-xs self-center self-center md:text-base"
                   >
-                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
-                    {e.panalty[key]}
+                    {key !== "undefined" && key !== "" && (
+                      <span>
+                        {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                        {e.panalty[key]}
+                      </span>
+                    )}
                   </div>
                 ))}
                 <div className="text-xs self-center self-center md:text-base">
@@ -1816,15 +1807,23 @@ export default function Recycle() {
             <div className="col-span-12 grid grid-cols-12" key={index}>
               {Object.keys(e.stat).map((key) => (
                 <div className="text-xs self-center md:text-base" key={key}>
-                  {key}: {e.stat[key]}
+                  {key !== "undefined" && key !== "" && (
+                    <span>
+                      {key}: {e.stat[key]}
+                    </span>
+                  )}
                 </div>
               ))}
 
               {Object.keys(e.skill).map((key) =>
                 Math.floor(e.skill[key] / 5) > 0 ? (
                   <div className="text-xs self-center md:text-base" key={key}>
-                    {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
-                    {Math.floor(e.skill[key] / 5)}
+                    {key !== "undefined" && key !== "" && (
+                      <span>
+                        {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
+                        {Math.floor(e.skill[key] / 5)}
+                      </span>
+                    )}
                   </div>
                 ) : (
                   <></>
@@ -1834,8 +1833,12 @@ export default function Recycle() {
               {Object.keys(e.panalty).map((key) =>
                 Math.floor(e.panalty[key] / 5) > 0 ? (
                   <div className="text-xs self-center md:text-base" key={key}>
-                    {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
-                    {Math.floor(e.panalty[key] / 5)}
+                    {key !== "undefined" && key !== "" && (
+                      <span>
+                        {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                        {Math.floor(e.panalty[key] / 5)}
+                      </span>
+                    )}
                   </div>
                 ) : (
                   <></>
@@ -1881,21 +1884,34 @@ export default function Recycle() {
 
               {Object.keys(e.skill).map((key) => (
                 <div className="text-xs self-center md:text-base" key={key}>
-                  {key.length >= 4 ? key.substring(0, 2) : key}: {e.skill[key]}
+                  {key !== "undefined" && key !== "" && (
+                    <span>
+                      {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
+                      {e.skill[key]}
+                    </span>
+                  )}
                 </div>
               ))}
               {e.panalty
                 ? Object.keys(e.panalty).map((key) => (
                     <div className="text-xs self-center md:text-base" key={key}>
-                      {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
-                      {e.panalty[key]}
+                      {key !== "undefined" && key !== "" && (
+                        <span>
+                          {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                          {e.panalty[key]}
+                        </span>
+                      )}
                     </div>
                   ))
                 : ""}
               {e.stat
                 ? Object.keys(e.stat).map((key) => (
                     <div className="text-xs self-center md:text-base" key={key}>
-                      {key}: {e.stat[key]}
+                      {key !== "undefined" && key !== "" && (
+                        <span>
+                          {key}: {e.stat[key]}
+                        </span>
+                      )}
                     </div>
                   ))
                 : ""}
