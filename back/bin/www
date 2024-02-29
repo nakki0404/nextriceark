@@ -84,3 +84,31 @@ function onListening() {
   var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
   debug("Listening on " + bind);
 }
+
+// const io = new Server(server);
+// const connectedClients = {};
+
+// io.on("connection", (socket) => {
+//   console.log("A client connected: " + socket.id);
+
+//   // 연결된 클라이언트를 저장
+//   connectedClients[socket.id] = socket;
+
+//   // 클라이언트가 메시지를 보냈을 때 처리
+//   socket.on("message", (message) => {
+//     console.log(`Message from ${socket.id}: ${message}`);
+
+//     // 받은 메시지를 모든 클라이언트에게 브로드캐스트
+//     Object.keys(connectedClients).forEach((clientId) => {
+//       connectedClients[clientId].emit("message", `${socket.id}: ${message}`);
+//     });
+//   });
+
+//   // 클라이언트가 연결을 종료했을 때 처리
+//   socket.on("disconnect", () => {
+//     console.log("Client disconnected: " + socket.id);
+
+//     // 연결된 클라이언트 객체에서 삭제
+//     delete connectedClients[socket.id];
+//   });
+// });

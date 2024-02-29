@@ -5,9 +5,12 @@ import { Inter } from "next/font/google";
 import Header from "../components/nav/Header";
 import Footer from "../components/nav/Footer";
 
+import { SocketProvider } from "@/components/socket-provider";
+
 import UpStore from "../hooks/UpStore";
 import ReduxProvider from "@/store/reduxprovider";
 import Header2 from "@/components/nav/Header2";
+import ChatBot from "@/components/ChatBot";
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -39,6 +42,10 @@ export default function RootLayout({
                 <Header2 />
               </div>
               <div className="my-8">{children}</div>
+              <SocketProvider>
+                <ChatBot />
+              </SocketProvider>
+
               <div className="fixed bottom-0 left-0 right-0 z-10">
                 <Footer />
               </div>
