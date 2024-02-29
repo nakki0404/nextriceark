@@ -27,7 +27,7 @@ export default function ChatBot() {
     !active && setActive(!active);
 
     if (!isConnected) {
-      const socketInstance = io("http://localhost:3001", {
+      const socketInstance = io("http://www.nextriceark.store", {
         withCredentials: true,
       });
       socketInstance.on("connect", async () => {});
