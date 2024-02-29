@@ -1,8 +1,53 @@
-지금바로 접속 https://www.nextriceark.site/
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/c95a974e-f97a-41c3-9143-f7a2010102f0)
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/436cac3e-4267-4145-be34-5f998265b0a6)
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/9b1d9f4a-3f8e-4419-bb87-1bd37be749c9)
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/8a7aef47-19ee-464a-ad06-5ae3d9290103)
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/eb8ed219-e15b-46f4-9918-a72460c2e323)
+주소. https://www.nextriceark.site/
 
+로스트아크 게임 내 재화 골드, 속된말로 쌀을 절약하기 위해서 만든 웹입니다.
 
+23.9월부터 서비스 시작하여 있으면 좋겠다 싶은 기능이 생각날때마다 추가하고 있습니다.
+
+주요 기능 목록.
+재화 계산기 : 재화들의 가격을 당일 평균가에 맞춰서 합산해줍니다.
+거래소 통계 : 거래소 특정 카테고리의 거래 통계를 보여줍니다.
+악세 조합기 : 계정 내 악세서리들의 이용가능한 조합이 있는지 확인합니다.
+
+자세한 설명.
+
+재화 계산기
+
+필요 배경 지식
+레이드 진행 후 골드를 지불하고 추가적으로 보상을 얻을 수 있는 "더보기"가 있다.
+
+제작 배경.
+게임 커뮤니티를 보면 더보기를 하는게 득인지 실인지 묻는 글이 자주 보였습니다.
+
+실제 화면.
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/1ac69564-4ea4-44d1-ac6f-e07123bb4aa0)
+
+거래소 통계.
+
+제작 배경.
+로스트아크 게임사 제공 api는 2주간의 정보만 제공하여 긴 기간동안 재화들의 가격 추이를 보여주고 싶었습니다.
+
+실제화면
+요약페이지
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/268ffd26-4789-4b18-899f-f868f41ce35e)
+개별검색 페이지
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/8a46ed8b-27fb-484d-8023-50fb31634665)
+전일비교 페이지
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/9d0f80cb-09a5-4cc4-a589-ca011c3e3fc4)
+
+악세 조합기
+
+필요 배경 지식
+악세서리, 장착 각인, 어빌리티스톤으로 장비 셋팅을 합니다.
+모든 장착 장비의 각 스킬이름과 레벨을 합산하여 일정 레벨마다 스킬이 활성화되고 강화됩니다.
+악세서리 거래시 고정 수수료가 발생합니다.
+게임을 오래한 유저 중 저포함 일부는 이 거래 수수료가 아까워서
+다음에 쓸 생각하고 각 캐릭터 창고에 모아둡니다.
+
+실제화면
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/1df006ff-a843-40e6-9ea5-26676cc79449)
+
+그외 기능
+주화 효율 : 골드외 각종 주화로 구매 가능한 목록을 골드로 환산 해둔 목록입니다.
+연습 : 이번 레이드 기믹 중 일부인 좌우 반전의 캐릭터를 찾는 연습을 도와줍니다.
+게시판 : 버그 제보를 받습니다.
