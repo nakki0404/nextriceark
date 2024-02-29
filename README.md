@@ -20,7 +20,7 @@
 게임 커뮤니티를 보면 더보기를 하는게 득인지 실인지 묻는 글이 자주 보였습니다.
 
 실제 화면.
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/1ac69564-4ea4-44d1-ac6f-e07123bb4aa0)
+<p>![image](https://github.com/nakki0404/nextriceark/assets/141347738/1ac69564-4ea4-44d1-ac6f-e07123bb4aa0)</p>
 
 거래소 통계.
 
