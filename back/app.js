@@ -2,8 +2,25 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+
+const { createServer } = require("http");
+const { Server } = require("socket.io");
+
+var port = normalizePort(process.env.PORT || "3001");
+app.set("port", port);
+
+var debug = require("debug")("myapp:server");
+// var http = require("http");
+// var server = http.createServer(app);
+var httpServer = createServer(app);
+
+httpServer.on("error", onError);
+httpServer.on("listening", onListening);
+
 const mongoose = require("mongoose");
 const marketList = require("./src/model/market");
+const chatLog = require("./src/model/chatLog");
+
 const MarketItem = require("./src/model/item");
 const Text = require("./src/model/text");
 const User = require("./src/model/user");
@@ -26,6 +43,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const fetchDataAndUpdate = require("./src/controllers/update");
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
@@ -58,6 +76,50 @@ mongoose
     console.log("OH NO MONGO CONNECTION ERROR!!!!");
     console.log(err);
   });
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+}
+
+function onError(error) {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
+
+  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case "EACCES":
+      console.error(bind + " requires elevated privileges");
+      process.exit(1);
+      break;
+    case "EADDRINUSE":
+      console.error(bind + " is already in use");
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+function onListening() {
+  var addr = httpServer.address();
+  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+  debug("Listening on " + bind);
+}
 
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -142,6 +204,150 @@ app.get("/", (req, res) => {
   const currentTime = new Date().toLocaleTimeString();
   res.send(`현재 시간: ${currentTime}`);
   // res.send("hi");
+});
+
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+const connectedClients = {};
+app.get("/api/SocketID", async (req, res) => {
+  // 0부터 9999까지의 난수 생성
+  const data = Object.keys(connectedClients);
+  res.send(data);
+});
+app.post("/api/RoomList", async (req, res) => {
+  // 0부터 9999까지의 난수 생성
+  let roomList = [];
+  let { id } = req.body;
+
+  for (let key of io.sockets.adapter.rooms.keys()) {
+    roomList.push(key);
+  }
+  const data = roomList.filter((element) => {
+    return element.split("___").includes(id) && element.split("___").length > 1;
+  });
+  res.send(data);
+});
+io.on("connection", (socket) => {
+  console.log(`Client connected ${socket.id}`);
+  // console.log(io.sockets.adapter.rooms.keys());
+
+  connectedClients[socket.id] = socket;
+
+  app.post("/api/SocketMakeRoom", async (req, res) => {
+    // 0부터 9999까지의 난수 생성
+    const { data } = req.body;
+    let roomName = data;
+    // console.log(roomName);
+
+    // socket.join(roomName);
+    res.send("hi");
+  });
+
+  socket.on("join", (roomName) => {
+    if (io.sockets.adapter.rooms.get(roomName) != undefined) {
+      !io.sockets.adapter.rooms.get(roomName).has(socket.id) &&
+        socket.join(roomName);
+    }
+  });
+
+  socket.on("chat", (chatdata) => {
+    !io.sockets.adapter.rooms.has(chatdata.roomName) &&
+      socket.join(chatdata.roomName);
+    //최초 메세지 쏜사람이 조인 뚫어둠. 두번째 돌릴떄는 무시됨.
+    ////////
+    //확인된 오류 이미 조인된 상태에서 같은 생대를 클릭해서 대화 생성시 받는건되는데 주는건 안됨.- 오락가락함
+    //////
+    chatLog.insertMany(chatdata);
+    console.log(
+      `Message from ${chatdata.roomName} ${socket.id}: ${chatdata.currentMessage}`
+    );
+    let data = {
+      userId: socket.id === chatdata.id ? chatdata.id : null,
+      content: chatdata.message,
+      roomName: chatdata.roomName,
+    };
+    socket.emit("chat2", data);
+    let idSet = new Set(chatdata.roomName.split("___"));
+    // idSet.delete(socket.id) 나도 봐야되니까 없앨필요없을듯.
+    idSet.forEach((element) => {
+      socket.to(element).emit("chat2", data);
+    });
+
+    // socket.to(chatdata.roomName).emit("chat2", data);
+  });
+
+  socket.on("leaveRoom", (currentRoomName) => {
+    // socket.leave(currentRoomName);
+
+    let data = {
+      userId: `system`,
+      content: `${socket.id}가 나갔습니다. 잠시후 방이 사라집니다.`,
+      roomName: currentRoomName,
+    };
+    let idSet = new Set(
+      currentRoomName.split("___").filter((e) => {
+        return socket.id != e;
+      })
+    );
+    idSet.forEach((element) => {
+      socket.to(element).emit("chat2", data);
+    });
+
+    if (io.sockets.adapter.rooms.has(currentRoomName)) {
+      const clients = io.sockets.adapter.rooms.get(currentRoomName);
+      if (clients) {
+        clients.forEach((clientId) => {
+          io.sockets.sockets.get(clientId).leave(currentRoomName); // 클라이언트를 룸에서 제거
+        });
+      }
+    }
+
+    // 2. 룸 삭제
+    io.sockets.adapter.del(currentRoomName);
+  });
+
+  // 클라이언트가 연결을 종료했을 때 처리
+  socket.on("disconnect", (roomName) => {
+    console.log("Client disconnected: " + socket.id);
+
+    let roomList = Array.from(io.sockets.adapter.rooms).map((room) => {
+      return room[0]; // 각 room의 첫번째 요소가 room의 이름 (Socket ID)
+    });
+
+    for (let currentRoomName of roomList) {
+      let data = {
+        userId: `system`,
+        content: `${socket.id}가 나갔습니다. 잠시후 방이 사라집니다.`,
+        roomName: currentRoomName,
+      };
+      let idSet = new Set(
+        currentRoomName.split("___").filter((e) => {
+          return socket.id != e;
+        })
+      );
+      idSet.forEach((element) => {
+        socket.to(element).emit("chat2", data);
+      });
+      if (io.sockets.adapter.rooms.has(currentRoomName)) {
+        const clients = io.sockets.adapter.rooms.get(currentRoomName);
+        if (clients) {
+          clients.forEach((clientId) => {
+            io.sockets.sockets.get(clientId).leave(currentRoomName); // 클라이언트를 룸에서 제거
+          });
+        }
+      }
+
+      // 2. 룸 삭제
+      io.sockets.adapter.del(currentRoomName);
+    }
+
+    delete connectedClients[socket.id];
+  });
 });
 
 app.get("/api/VisitorCount", async (req, res) => {
@@ -641,9 +847,6 @@ setInterval(function () {
   myFunction();
 }, interval);
 
-// const PORT = 3001;
-// app.listen(PORT, () => {
-//   console.log(`Express server is running on port ${PORT}`);
-// });
-
-module.exports = app;
+httpServer.listen(port, () => {
+  console.log(`server running at http://localhost:${port}`);
+});

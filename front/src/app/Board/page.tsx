@@ -1,5 +1,6 @@
 //./Calculator/page.tsx
 import Board from "@/components/board/Board";
+
 export default function BoardPage() {
   return (
     <main className="flex flex-row justify-center ">

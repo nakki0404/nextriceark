@@ -908,8 +908,6 @@ export default function Recycle() {
 
   const newArray = ["치명", "신속", "특화", "숙련", "인내", "제압"];
 
-  const [files, setFiles] = useState<any>([]);
-
   function extractNumbers(text: any) {
     var numbers = text.match(/\d+/g);
     return numbers;
@@ -1047,15 +1045,8 @@ export default function Recycle() {
   };
 
   const handleFileDelete = (fileItems: any) => {
-    setFiles(null);
     setImageSrc(null);
   };
-
-  // document.addEventListener("paste", async (event) => {
-  //   const clipboardData = event.clipboardData;
-  //   var blob: any = clipboardData ? clipboardData.items[0].getAsFile() : null;
-  //   setImageSrc(URL.createObjectURL(blob));
-  // });
 
   const handleImageChange = (e: any) => {
     e.target.files[0] != null &&
