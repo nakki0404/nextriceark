@@ -208,7 +208,7 @@ app.get("/", (req, res) => {
 
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://www.nextriceark.site",
     credentials: true,
   },
 });
@@ -232,6 +232,7 @@ app.post("/api/RoomList", async (req, res) => {
   });
   res.send(data);
 });
+
 io.on("connection", (socket) => {
   console.log(`Client connected ${socket.id}`);
   // console.log(io.sockets.adapter.rooms.keys());
