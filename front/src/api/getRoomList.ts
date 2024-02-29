@@ -1,5 +1,5 @@
 import axios from "axios";
-export const getRoomList = async (socketid) => {
+export const getRoomList = async (socketid: string) => {
   let idData = { id: socketid };
   try {
     const { data } = await axios.post(
