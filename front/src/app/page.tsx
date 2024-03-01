@@ -25,9 +25,7 @@ export default function Home() {
       let scrollIndicator2: HTMLElement | null = document.getElementById(
         "statistics_manual-indicator"
       );
-      let scrollIndicator3: HTMLElement | null = document.getElementById(
-        "coin_manual-indicator"
-      );
+
       let scrollIndicator4: HTMLElement | null = document.getElementById(
         "recycle_manual-indicator"
       );
@@ -40,11 +38,9 @@ export default function Home() {
       scrollIndicator2
         ? (scrollIndicator2.style.opacity = scrollPosition > 400 ? "1" : "0")
         : null;
-      scrollIndicator3
-        ? (scrollIndicator3.style.opacity = scrollPosition > 700 ? "1" : "0")
-        : null;
+
       scrollIndicator4
-        ? (scrollIndicator4.style.opacity = scrollPosition > 1100 ? "1" : "0")
+        ? (scrollIndicator4.style.opacity = scrollPosition > 700 ? "1" : "0")
         : null;
     });
   }
@@ -64,11 +60,7 @@ export default function Home() {
           icon={statisticimage}
           buttonText="거래소통계"
         />
-        <HomePageButton
-          url="/Coin/Blood"
-          icon={coinimage}
-          buttonText="주화효율"
-        />
+
         <HomePageButton
           url="/Recycle"
           icon={recycleimage}
@@ -125,30 +117,6 @@ export default function Home() {
             src={statistics_manual}
             alt="statistics_manual"
             title="statistics_manual"
-            width={500}
-            height={500}
-          />
-        </div>
-        <div
-          id="coin_manual-indicator"
-          className="  h-96 w-100%  flex items-center justify-center  opacity-0 transition-opacity duration-500 p-8 m-8"
-        >
-          <div>
-            <div>
-              <p>주화로 뭐부터 사지?</p>
-              <p>혈석 용기 해적 주화 효율</p>
-            </div>
-
-            <HomePageButton
-              url="/Coin/Blood"
-              icon={coinimage}
-              buttonText="주화효율"
-            />
-          </div>
-          <Image
-            src={coin_manual}
-            alt="coin_manual"
-            title="coin_manual"
             width={500}
             height={500}
           />
