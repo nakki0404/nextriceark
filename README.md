@@ -34,7 +34,7 @@
     <th>3/7</th>
   </tr>
 </table>
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/1e20e810-a25e-48a2-adec-a830179007db)
+![image](https://github.com/nakki0404/nextriceark/assets/recycle-manual)
 
 
 
@@ -42,7 +42,7 @@
 
 <p>더보기 또는 캐시아이템 구매가 이득인지 손해인지 물음에 해결해주기 위해서 제작했습니다.</p>
 
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/af63e687-7f5c-45f4-b38c-dd4a5052f3b4)
+![image](https://github.com/nakki0404/nextriceark/assets/caculator-manual)
 
 
 <p>거래소 통계.</p>
@@ -51,7 +51,7 @@
 
 <p>서버에 24시간마다 게임사 api에 거래 데이터를 받아서 db에 입력하도록 합니다.</p>
 
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/268ffd26-4789-4b18-899f-f868f41ce35e)
+![image](https://github.com/nakki0404/nextriceark/assets/statistics-manual.png)
 
 <p>그외 기능</p>
 <p>주화 효율 : 골드외 각종 주화로 구매 가능한 목록을 골드로 환산 해둔 목록입니다.</p>
