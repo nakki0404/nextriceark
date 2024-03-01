@@ -35,6 +35,7 @@
   </tr>
 </table>
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual.png)
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/40c60113-be27-4266-9973-5dc53a35a399)
 
 
 <h1>재화 계산기</h1>
