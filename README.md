@@ -34,8 +34,10 @@
     <th>3/7</th>
   </tr>
 </table>
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/ceeb906e-04fe-416e-a8df-5943fc08506e)
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/82ee2f29-35a0-4489-9fe8-3a529a0e534b)
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/f841d1a1-f993-4d0e-b7bf-847394777024)
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/70073ef5-b058-482c-bd81-0a32ba59755f)
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/0c4b4606-64fb-4989-8977-b40ad3f0145b)
+
 
 
 
