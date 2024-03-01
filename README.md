@@ -31,10 +31,12 @@
   <tr>
     <th>정확도</th>
     <th>1/7</th>
-    <th>2/7</th>
+    <th>3/7</th>
   </tr>
 </table>
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/7ffa961c-4472-4c68-ae5f-766f969b6b46)
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/ceeb906e-04fe-416e-a8df-5943fc08506e)
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/82ee2f29-35a0-4489-9fe8-3a529a0e534b)
+
 
 
 <h1>재화 계산기</h1>
