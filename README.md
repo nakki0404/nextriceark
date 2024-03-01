@@ -34,9 +34,9 @@
     <th>2/7</th>
   </tr>
 </table>
+<img>
 
-<p>![image](https://upload3.inven.co.kr/upload/2024/02/19/bbs/i15287777950.png?MW=800)</p>
-
+<img src="https://upload3.inven.co.kr/upload/2024/02/19/bbs/i15287777950.png?MW=800">
 <h1>재화 계산기</h1>
 
 <p>더보기 또는 캐시아이템 구매가 이득인지 손해인지 물음에 해결해주기 위해서 제작했습니다.</p>
