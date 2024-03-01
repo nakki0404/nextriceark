@@ -51,7 +51,8 @@
 
 <p>서버에 24시간마다 게임사 api에 거래 데이터를 받아서 db에 입력하도록 합니다.</p>
 
-![image](https://github.com/nakki0404/nextriceark/assets/statistics-manual.png)
+<img src"">
+![image](front/src/assets/statistics-manual.png)
 
 <p>그외 기능</p>
 <p>주화 효율 : 골드외 각종 주화로 구매 가능한 목록을 골드로 환산 해둔 목록입니다.</p>
