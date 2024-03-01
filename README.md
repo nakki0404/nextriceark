@@ -6,6 +6,12 @@
 
 <p>23.9월부터 서비스 시작하여 있으면 좋겠다 싶은 기능이 생각날때마다 추가하고 있습니다.</p>
 
+<h2>##사용된 기술</h2>
+<p>React Next React Query Redux Tailwind CSS</p>
+<p>Node Express </p>
+<p>MongoDB</p>
+<p>Ec2 Docker Nginx Tesseract OpenCV rechart</p>
+
 <h2>##주요 기능 목록</h2>
 <p>악세 조합기 : 계정 내 악세서리들의 이용가능한 조합이 있는지 확인합니다.</p>
 <p>재화 계산기 : 재화들의 가격을 당일 평균가에 맞춰서 합산해줍니다.</p>
@@ -35,6 +41,7 @@
   </tr>
 </table>
 
+
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual.png)
 
 <h3>#재화 계산기</h3>
@@ -48,6 +55,7 @@
 <p>로스트아크 게임사 제공 api는 2주간의 정보만 제공하여 긴 기간동안 재화들의 가격 추이를 보여주고 싶었습니다.</p>
 
 <p>서버에 24시간마다 게임사 api에 거래 데이터를 받아서 db에 입력하도록 합니다.</p>
+<p>차트 라이브러리를 이용했습니다.</p>
 
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/statistics-manual.png)
 
