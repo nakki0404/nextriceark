@@ -34,7 +34,8 @@
     <th>2/7</th>
   </tr>
 </table>
-![image](https://github.com/nakki0404/nextriceark/assets/141347738/d983b782-1568-4aef-8b1b-ddd31b5fdf87)
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/7ffa961c-4472-4c68-ae5f-766f969b6b46)
+
 
 <h1>재화 계산기</h1>
 
