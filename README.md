@@ -10,7 +10,7 @@
 <p>React Next React Query Redux Tailwind CSS</p>
 <p>Node Express </p>
 <p>MongoDB</p>
-<p>Ec2 Docker Nginx Tesseract OpenCV rechart</p>
+<p>Ec2 Docker Nginx Tesseract OpenCV rechart websocket</p>
 
 <h2>##주요 기능 목록</h2>
 <p>악세 조합기 : 계정 내 악세서리들의 이용가능한 조합이 있는지 확인합니다.</p>
