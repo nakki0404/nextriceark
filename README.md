@@ -34,9 +34,9 @@
     <th>3/7</th>
   </tr>
 </table>
-<div>![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual.png)</div>
-<div>![image](https://github.com/nakki0404/nextriceark/assets/141347738/40c60113-be27-4266-9973-5dc53a35a399)</div>
-<div>![image](https://github.com/nakki0404/nextriceark/assets/141347738/f34b810f-364d-443e-acaf-df60625a15da)</div>
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/dc682d70-8f6c-4f93-a96a-e1ca912b7782)
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/a8af31ed-024b-4199-86ef-a7d1ff4e1672)
+
 
 
 <h1>재화 계산기</h1>
