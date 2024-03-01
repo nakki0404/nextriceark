@@ -52,7 +52,7 @@
 <p>서버에 24시간마다 게임사 api에 거래 데이터를 받아서 db에 입력하도록 합니다.</p>
 
 <img src"nextriceark/front/src/asset/statistics-manual.png">
-![이미지 설명](https://github.com/{username}/nextriceark/blob/main/front/src/asset/statistics-manual.png)
+![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/statistics-manual.png)
 
 
 <p>그외 기능</p>
