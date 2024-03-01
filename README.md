@@ -34,7 +34,7 @@
     <th>3/7</th>
   </tr>
 </table>
-![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual)
+![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual.png)
 
 
 <h1>재화 계산기</h1>
