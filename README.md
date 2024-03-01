@@ -34,16 +34,14 @@
     <th>3/7</th>
   </tr>
 </table>
-![image](https://github.com/nakki0404/nextriceark/assets/recycle-manual)
-
+![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual)
 
 
 <h1>재화 계산기</h1>
 
 <p>더보기 또는 캐시아이템 구매가 이득인지 손해인지 물음에 해결해주기 위해서 제작했습니다.</p>
 
-![image](https://github.com/nakki0404/nextriceark/assets/caculator-manual)
-
+![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/caculator-manual.png)
 
 <p>거래소 통계.</p>
 
@@ -51,7 +49,6 @@
 
 <p>서버에 24시간마다 게임사 api에 거래 데이터를 받아서 db에 입력하도록 합니다.</p>
 
-<img src"nextriceark/front/src/asset/statistics-manual.png">
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/statistics-manual.png)
 
 
