@@ -35,11 +35,11 @@
   </tr>
 </table>
 
-<p>![image](https://github.com/nakki0404/nextriceark/assets/141347738/1df006ff-a843-40e6-9ea5-26676cc79449)</p>
+<p>![image](https://upload3.inven.co.kr/upload/2024/02/19/bbs/i15287777950.png?MW=800)</p>
 
 <h1>재화 계산기</h1>
 
-<p>더보기 또는 캐시아이템 구매가 이득인지 손해인지 물음에 해결해주기 위해서 제작.</p>
+<p>더보기 또는 캐시아이템 구매가 이득인지 손해인지 물음에 해결해주기 위해서 제작했습니다.</p>
 
 <p>![image](https://github.com/nakki0404/nextriceark/assets/141347738/1ac69564-4ea4-44d1-ac6f-e07123bb4aa0)</p>
 
