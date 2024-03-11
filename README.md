@@ -1,7 +1,7 @@
 <p>주소. https://www.nextriceark.site/</p>
 
 <h1>###쌀로아</h1>
----
+
 <p>로스트아크 게임 내 재화 쌀이라고도 불리는 골드를 절약하기 위해서 만든 웹입니다.</p>
 
 <h2>##사용된 기술</h2>
@@ -18,33 +18,18 @@
 <h3>#악세 조합기</h3>
 
 <p>모아둔 장비들로 가능한 조합을 찾아줍니다.</p>
+<p></p>
 <p>이미지 문자 추출을 통해 입력에 편의성을 더 했습니다.</p>
-
-<p>모바일 opencv 적용 전 후 차이</p>
-<table>
- <tr>
-   <th>opencv</th>
-     <th>적용 전</th>
-       <th>적용 후</th>
-      </tr>
-  <tr>
-    <th>처리 시간</th>
-      <th>1분 이상</th>
-        <th>5초</th>
-        </tr>
-  <tr>
-    <th>정확도</th>
-    <th>1/7</th>
-    <th>3/7</th>
-  </tr>
-</table>
-
 
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual.png)
 
 <h3>#재화 계산기</h3>
 
 <p>더보기 또는 캐시아이템 구매가 이득인지 손해인지 물음에 해결해주기 위해서 제작했습니다.</p>
+<p> 저장 기능에 제한이 없어서 DB에 데이터가 10만개가 등록되어서 웹에 출력이 안되는 문제가 있었습니다.</p>
+<p>무료로 제공 받은 도메인으로는 흔히 접하는 chapcha 서비스 이용이 불가능했습니다. </p>
+<p>유사한 기능을 직접 만들어서 매크로에 의한 DB 저장을 막을 수 있었습니다.</p>
+https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlMt76%2FbtssUat0Y7k%2FLfbr9wY3h368lYRS3w8Y41%2Fimg.png
 
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/caculator-manual.png)
 
