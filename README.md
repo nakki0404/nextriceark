@@ -18,20 +18,28 @@
 <h3>#악세 조합기</h3>
 
 <p>모아둔 장비들로 가능한 조합을 찾아줍니다.</p>
-<p></p>
-<p>이미지 문자 추출을 통해 입력에 편의성을 더 했습니다.</p>
 
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual.png)
+
+<p>입력을 요구하는 것이 5~7항목이다 보니 귀찮음 때문인지 예상보다 유저수가 나오지 않았습니다.</p>
+<p>tessract로 텍스트를 추출하고 조건에 따라 입력되도록 하였습니다.</p>
+<p>일평균 10명이상 이용해주는 것으로 파악됩니다.</p>
+
+
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/5fa7ae79-0a9f-4d68-8388-a078b05dc20d)
+
 
 <h3>#재화 계산기</h3>
 
 <p>더보기 또는 캐시아이템 구매가 이득인지 손해인지 물음에 해결해주기 위해서 제작했습니다.</p>
-<p> 저장 기능에 제한이 없어서 DB에 데이터가 10만개가 등록되어서 웹에 출력이 안되는 문제가 있었습니다.</p>
-<p>무료로 제공 받은 도메인으로는 흔히 접하는 chapcha 서비스 이용이 불가능했습니다. </p>
-<p>유사한 기능을 직접 만들어서 매크로에 의한 DB 저장을 막을 수 있었습니다.</p>
-https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlMt76%2FbtssUat0Y7k%2FLfbr9wY3h368lYRS3w8Y41%2Fimg.png
 
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/caculator-manual.png)
+
+<p> 저장 기능에 제한이 없어서 DB에 데이터가 4만개가 등록되어서 웹에 출력이 안되는 문제가 있었습니다.</p>
+<p>무료로 제공 받은 도메인으로는 흔히 접하는 chapcha 서비스 이용이 불가능했습니다. </p>
+<p>유사한 기능을 직접 만들어서 매크로에 의한 DB 저장을 막을 수 있었습니다.</p>
+
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/43168bc3-e248-420a-b459-a2f89b5bb8ca)
 
 <h3>#거래소 통계</h3>
 
