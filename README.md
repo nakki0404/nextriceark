@@ -50,9 +50,3 @@
 <p>차트 라이브러리를 이용했습니다.</p>
 
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/statistics-manual.png)
-
-
-<p>그외 기능</p>
-<p>주화 효율 : 골드외 각종 주화로 구매 가능한 목록을 골드로 환산 해둔 목록입니다.</p>
-<p>연습 : 이번 레이드 기믹 중 일부인 좌우 반전의 캐릭터를 찾는 연습을 도와줍니다.</p>
-<p>게시판 : 버그 제보를 받습니다.</p>
