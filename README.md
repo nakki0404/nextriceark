@@ -1,10 +1,8 @@
 <p>주소. https://www.nextriceark.site/</p>
 
 <h1>###쌀로아</h1>
-
+---
 <p>로스트아크 게임 내 재화 쌀이라고도 불리는 골드를 절약하기 위해서 만든 웹입니다.</p>
-
-<p>23.9월부터 서비스 시작하여 있으면 좋겠다 싶은 기능이 생각날때마다 추가하고 있습니다.</p>
 
 <h2>##사용된 기술</h2>
 <p>React Next React Query Redux Tailwind CSS</p>
