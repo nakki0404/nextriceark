@@ -1,15 +1,18 @@
+//useSocketIDQuery
+
 import { useQuery } from "@tanstack/react-query";
 import { getSocketID } from "@/api/getSocketID";
-// import { useSocket } from "@/components/socket-provider";
-// const { socket, isConnected } = useSocket();
+import useSocketStore from "@/store/socketStore";
 
 export const useSocketIDQuery = () => {
-  const { data } = useQuery({
+  const { socket, isConnected, onBot } = useSocketStore();
+
+  const { data } = useQuery<string[]>({
     queryKey: ["SocketID"],
     queryFn: getSocketID,
     refetchInterval: 5000,
-    // enabled: !!socket.id,
+    enabled: !!socket,
   });
 
-  return { socketIDList: data };
+  return data ? data : [];
 };

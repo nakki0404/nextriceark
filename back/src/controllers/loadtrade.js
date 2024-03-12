@@ -16,6 +16,7 @@ mongoose
     console.log(err);
   });
 const authorizationToken = process.env.API_KEY;
+
 const getPageData = async (Id) => {
   const config = {
     method: "get",
@@ -28,15 +29,13 @@ const getPageData = async (Id) => {
   };
   try {
     let response = await axios(config);
-    // const IdList = await marketList.find({ Id: { $gt: 1000 } }, { Id: 1 });
-    // response.data.Category = IdList.find((e) => e.Name === response.Name);
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
     return [];
   }
 };
+
 const loadtrade = async () => {
   try {
     const IdList = await marketList.find(
@@ -55,6 +54,7 @@ const loadtrade = async () => {
           console.log("pause");
         }
       }
+
       const resultArrays = await Promise.all(promises);
       const lists = resultArrays.flat();
 

@@ -205,10 +205,17 @@ app.get("/", (req, res) => {
   res.send(`현재 시간: ${currentTime}`);
   // res.send("hi");
 });
+app.get("/api/ServerState", (req, res) => {
+  res.send(`On`);
+  // res.send("hi");
+});
 
+const socketCorsOrigin = process.env.NODE_ENV
+  ? "https://www.nextriceark.site"
+  : `http://localhost:3000`;
 const io = new Server(httpServer, {
   cors: {
-    origin: "https://www.nextriceark.site",
+    origin: socketCorsOrigin,
     credentials: true,
   },
 });
@@ -232,22 +239,22 @@ app.post("/api/RoomList", async (req, res) => {
   });
   res.send(data);
 });
-
 io.on("connection", (socket) => {
   console.log(`Client connected ${socket.id}`);
+  // socket.disconnect(true);
   // console.log(io.sockets.adapter.rooms.keys());
 
   connectedClients[socket.id] = socket;
 
-  app.post("/api/SocketMakeRoom", async (req, res) => {
-    // 0부터 9999까지의 난수 생성
-    const { data } = req.body;
-    let roomName = data;
-    // console.log(roomName);
+  // app.post("/api/SocketMakeRoom", async (req, res) => {
+  //   // 0부터 9999까지의 난수 생성
+  //   const { data } = req.body;
+  //   let roomName = data;
+  //   // console.log(roomName);
 
-    // socket.join(roomName);
-    res.send("hi");
-  });
+  //   // socket.join(roomName);
+  //   res.send("hi");
+  // });
 
   socket.on("join", (roomName) => {
     if (io.sockets.adapter.rooms.get(roomName) != undefined) {
@@ -265,12 +272,13 @@ io.on("connection", (socket) => {
     //////
     chatLog.insertMany(chatdata);
     console.log(
-      `Message from ${chatdata.roomName} ${socket.id}: ${chatdata.currentMessage}`
+      `Message from ${chatdata.roomName} ${socket.id}: ${chatdata.message}`
     );
     let data = {
       userId: socket.id === chatdata.id ? chatdata.id : null,
       content: chatdata.message,
       roomName: chatdata.roomName,
+      date: new Date(),
     };
     socket.emit("chat2", data);
     let idSet = new Set(chatdata.roomName.split("___"));
@@ -287,7 +295,7 @@ io.on("connection", (socket) => {
 
     let data = {
       userId: `system`,
-      content: `${socket.id}가 나갔습니다. 잠시후 방이 사라집니다.`,
+      content: `${socket.id}가 나갔습니다.`,
       roomName: currentRoomName,
     };
     let idSet = new Set(
