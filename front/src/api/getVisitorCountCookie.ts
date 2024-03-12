@@ -1,12 +1,8 @@
 import axios from "axios";
-const {
-  PHASE_DEVELOPMENT_SERVER,
-  PHASE_PRODUCTION_BUILD,
-} = require("next/constants");
 
 export const getVisitorCountCookie = async () => {
   try {
-    if (!PHASE_DEVELOPMENT_SERVER) {
+    if (process.env.NEXT_PUBLIC_REACT_APP_ENV === "PRODUCTION") {
       const { data } = await axios.get(
         `${process.env.NEXT_PUBLIC_REACT_APP_BACKEND_URL}/VisitorCount`,
         { withCredentials: true }
