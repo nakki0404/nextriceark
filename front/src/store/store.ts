@@ -6,6 +6,7 @@ import contentlistsreducer from "@/store/slices/contentlists";
 import loginstatereducer from "@/store/slices/loginstate";
 import tradeDatareducer from "@/store/slices/tradeData";
 import textListreducer from "@/store/slices/textlist";
+import socketStatereducer from "@/store/slices/socketState";
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     loginstatereducer,
     tradeDatareducer,
     textListreducer,
+    socketStatereducer,
   },
 });
 

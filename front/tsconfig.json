@@ -11,6 +11,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "baseUrl": "./",
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
@@ -29,7 +30,8 @@
     ".next/types/**/*.ts",
     "src/redux/reduxprovider.js",
     "src/components/statistics/SelectGraph.js",
-    "src/components/statistics/ListTable.tsx"
+    "src/components/statistics/ListTable.tsx",
+    "test/page.test.tsx"
   ],
   "exclude": ["node_modules"]
 }

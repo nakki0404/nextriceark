@@ -16,6 +16,8 @@ import Select2 from "@/components/common/Select2";
 import { CSVLink } from "react-csv";
 import { useDropzone } from "react-dropzone";
 import { FilePond, registerPlugin } from "react-filepond";
+import fs from "fs"; // 파일 시스템 모듈 가져오기
+
 declare global {
   interface Window {
     cv: typeof import("mirada/dist/src/types/opencv/_types");
@@ -42,6 +44,7 @@ export default function Recycle() {
 
     document.addEventListener("paste", async (event) => {
       const clipboardData = event.clipboardData;
+
       var blob: any = clipboardData ? clipboardData.items[0].getAsFile() : null;
       setImageSrc(URL.createObjectURL(blob));
     });
@@ -927,7 +930,7 @@ export default function Recycle() {
       const {
         data: { text },
       } = await worker.recognize(img);
-
+      console.log(text);
       let arrgrade: any = [];
       for (let e of gradelist) {
         if (text.indexOf(e.value) >= 0) {
@@ -1049,6 +1052,11 @@ export default function Recycle() {
   };
 
   const handleImageChange = (e: any) => {
+    console.log(e);
+    console.log(e.target);
+    console.log(e.target.files);
+
+    console.log(e.target.files[0]);
     e.target.files[0] != null &&
       setImageSrc(URL.createObjectURL(e.target.files[0]));
   };
@@ -1160,12 +1168,53 @@ export default function Recycle() {
         const textData = reader.result;
         let newStr: any = textData?.slice(128);
         const jsonObject = JSON.parse(newStr);
+
         setItemlist(jsonObject);
       };
       reader.readAsText(file);
     });
   }, []);
+
+  // const onDrop = useCallback((acceptedFiles: any) => {
+  //   acceptedFiles.forEach((file: any) => {
+  //     const reader = new FileReader();
+  //     reader.onabort = () => console.log("file reading was aborted");
+  //     reader.onerror = () => console.log("file reading has failed");
+  //     reader.onload = () => {
+  //       const textData = reader.result;
+  //       // let newStr: any = textData?.slice(128);
+  //       // const jsonObject = JSON.parse(newStr);
+  //       const jsonObject = JSON.parse(textData);
+
+  //       setItemlist(jsonObject);
+  //     };
+  //     reader.readAsText(file);
+  //   });
+  // }, []);
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
+
+  // function downloadAndSaveJSON(filename: any): undefined {
+  //   const blob = new Blob([JSON.stringify(filename, null, 2)], {
+  //     type: "application/json",
+  //   });
+  //   const url = URL.createObjectURL(blob);
+
+  //   const a = document.createElement("a");
+  //   a.href = url;
+  //   a.download = filename || "download.json";
+
+  //   const clickEvent = new MouseEvent("click", {
+  //     view: window,
+  //     bubbles: true,
+  //     cancelable: false,
+  //   });
+
+  //   a.dispatchEvent(clickEvent);
+
+  //   // Cleanup
+  //   URL.revokeObjectURL(url);
+  // }
 
   return (
     <div>
@@ -1352,12 +1401,24 @@ export default function Recycle() {
                   다운로드
                 </button>
               </CSVLink>
+              {/* <button
+                onClick={() => downloadAndSaveJSON(itemlist)}
+                className="h-8 w-16 bg-red-500 rounded-lg text-white m-1"
+              >
+                다운로드2
+              </button> */}
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 <button className="h-8 w-16 bg-yellow-500 rounded-lg text-white m-1">
                   목록첨부
                 </button>
               </div>
+              {/* <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <button className="h-8 w-16 bg-yellow-500 rounded-lg text-white m-1">
+                  목록첨부2
+                </button>
+              </div> */}
               {loginstate && loginstate.isLogin ? (
                 <>
                   <button
