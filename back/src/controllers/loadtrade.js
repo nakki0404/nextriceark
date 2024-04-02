@@ -56,8 +56,7 @@ const loadtrade = async () => {
         const data = await getPageData(IdList[i].Id);
         if (data instanceof Error) {
           if (data.response.status === 429) {
-            console.log("요청제한 도달 2분후 진행");
-            await delay(120000);
+            await delay(60000);
             i--;
           } else {
             break;

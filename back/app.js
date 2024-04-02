@@ -820,7 +820,7 @@ app.get("/api/dbdel", async (req, res) => {
   }
 });
 
-async function myFunction() {
+async function getMarketData() {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
@@ -835,25 +835,19 @@ async function myFunction() {
     fetchDataAndUpdate();
   }
 }
-myFunction();
+getMarketData();
 // 함수를 매일 오전 00시에 실행하기 위한 시간 계산
 const now = new Date();
 const tomorrow = new Date(now);
 tomorrow.setDate(now.getDate() + 1);
 tomorrow.setHours(1, 0, 0, 0);
 
-// 다음 실행 시각까지 대기하기 위한 시간 계산
-const delay = tomorrow - now;
-
 // 함수를 주기적으로 실행하기 위한 Interval 설정
 const interval = 24 * 60 * 60 * 1000; // 24시간
 
-// 처음 실행
-setTimeout(myFunction, delay);
-
 // 매일 오전 00시마다 함수를 실행하는 Interval 설정
 setInterval(function () {
-  myFunction();
+  getMarketData();
 }, interval);
 
 httpServer.listen(port, () => {

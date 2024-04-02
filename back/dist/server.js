@@ -87,10 +87,23 @@ const getMakeList = async () => {
         }
       }
     };
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
     const fetchData = async () => {
       const promises = [];
       for (let pageNo = 1; pageNo <= e.PageNum; pageNo++) {
-        promises.push(getPageData(pageNo));
+        const data = await getPageData(pageNo);
+        if (data instanceof Error) {
+          if (data.response.status === 429) {
+            await delay(60000);
+            i--;
+          } else {
+            break;
+          }
+        } else {
+          promises.push(data);
+        }
+
+        // promises.push(getPageData(pageNo));
       }
       try {
         const resultArrays = await Promise.all(promises);
@@ -559,6 +572,13 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
   console.log(err);
 });
 const authorizationToken = process.env.API_KEY;
+
+// 문제점
+// 단순한 반복으로 인한 429에러
+
+//해결책
+//먼저 보낸 응답을 확인하고 응답에 따라 다음 id 로드하기.
+
 const getPageData = async Id => {
   const config = {
     method: "get",
@@ -573,8 +593,7 @@ const getPageData = async Id => {
     let response = await axios(config);
     return response.data;
   } catch (error) {
-    console.log(error);
-    return [];
+    return error;
   }
 };
 const loadtrade = async () => {
@@ -592,14 +611,27 @@ const loadtrade = async () => {
     async function processDataWithDelay(IdList) {
       let promises = [];
       for (let i = 0; i < IdList.length; i++) {
-        promises.push(getPageData(IdList[i].Id));
-        if ((i + 1) % 90 === 0) {
-          await delay(65000); // 65초 대기
-          console.log("pause");
+        const data = await getPageData(IdList[i].Id);
+        if (data instanceof Error) {
+          if (data.response.status === 429) {
+            await delay(60000);
+            i--;
+          } else {
+            break;
+          }
+        } else {
+          promises.push(data);
         }
+
+        // promises.push(getPageData(IdList[i].Id));
+        // if ((i + 1) % 90 === 0) {
+        //   await delay(65000); // 65초 대기
+        //   console.log("pause");
+        // }
       }
-      const resultArrays = await Promise.all(promises);
-      const lists = resultArrays.flat();
+      // const resultArrays = await Promise.all(promises);
+      const lists = promises.flat();
+      // console.log(promises);
       lists.map(a => a.Category = IdList.find(b => b.Name == a.Name).Category);
       for (const list of lists) {
         const filter = {
@@ -668,13 +700,8 @@ async function fetchDataAndUpdate() {
     const jemData = await jem(); // jem 함수 호출
     const conbined = [...importedList, ...jemData];
     await marketList.deleteMany({}); // 기존 데이터 모두 삭제
-    const insertedData2 = await marketList.insertMany(conbined);
-    console.log(`Inserted ${insertedData2.length} lists into MongoDB `);
-    console.log("tradedata loading waiting");
-    function executeWithDelay(fn, delay) {
-      setTimeout(fn, delay);
-    }
-    executeWithDelay(() => loadtrade(), 65 * 1000);
+    await marketList.insertMany(conbined);
+    setTimeout(() => loadtrade(), 65000);
   } catch (error) {
     console.log(error);
   }
@@ -2110,7 +2137,7 @@ app.get("/api/dbdel", async (req, res) => {
     });
   }
 });
-async function myFunction() {
+async function getMarketData() {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
@@ -2130,25 +2157,19 @@ async function myFunction() {
     fetchDataAndUpdate();
   }
 }
-myFunction();
+getMarketData();
 // 함수를 매일 오전 00시에 실행하기 위한 시간 계산
 const now = new Date();
 const tomorrow = new Date(now);
 tomorrow.setDate(now.getDate() + 1);
 tomorrow.setHours(1, 0, 0, 0);
 
-// 다음 실행 시각까지 대기하기 위한 시간 계산
-const delay = tomorrow - now;
-
 // 함수를 주기적으로 실행하기 위한 Interval 설정
 const interval = 24 * 60 * 60 * 1000; // 24시간
 
-// 처음 실행
-setTimeout(myFunction, delay);
-
 // 매일 오전 00시마다 함수를 실행하는 Interval 설정
 setInterval(function () {
-  myFunction();
+  getMarketData();
 }, interval);
 httpServer.listen(port, () => {
   console.log(`server running at http://localhost:${port}`);
