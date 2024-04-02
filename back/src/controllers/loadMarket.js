@@ -120,11 +120,24 @@ const getMakeList = async () => {
         }
       }
     };
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const fetchData = async () => {
       const promises = [];
       for (let pageNo = 1; pageNo <= e.PageNum; pageNo++) {
-        promises.push(getPageData(pageNo));
+        const data = await getPageData(pageNo);
+        if (data instanceof Error) {
+          if (data.response.status === 429) {
+            await delay(60000);
+            i--;
+          } else {
+            break;
+          }
+        } else {
+          promises.push(data);
+        }
+
+        // promises.push(getPageData(pageNo));
       }
       try {
         const resultArrays = await Promise.all(promises);
