@@ -1019,7 +1019,10 @@ module.exports = User;
 const mongoose = __webpack_require__(/*! mongoose */ "mongoose");
 const visitedSchema = new mongoose.Schema({
   Date: String,
-  todayTotal: Number
+  todayTotal: {
+    type: Number,
+    default: 0
+  }
 });
 const Visited = mongoose.model("visited", visitedSchema);
 module.exports = Visited;
@@ -1595,9 +1598,14 @@ app.get("/api/VisitorCount", async (req, res) => {
   const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
 
   const formattedDate = `${year}-${month}-${day}`;
-  const todatVisitor = await Visited.find({
+  const [todayVisitor] = await Visited.find({
     Date: formattedDate
   });
+  if (todayVisitor === undefined) {
+    await Visited.insertMany({
+      Date: formattedDate
+    });
+  }
   await Visited.updateOne({
     Date: formattedDate
   }, {
@@ -1607,7 +1615,7 @@ app.get("/api/VisitorCount", async (req, res) => {
   });
   const VisitorData = {
     Total: totalVistor,
-    Today: todatVisitor[0].todayTotal
+    Today: todayVisitor.todayTotal
   };
   res.json(VisitorData);
 });
