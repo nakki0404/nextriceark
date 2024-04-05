@@ -52,39 +52,23 @@ const getMakeList = async () => {
           PageNo: pageNo
         }
       };
-      const response = await axios(config);
-      if (e.CategoryCode === 50000) {
-        try {
+      try {
+        const response = await axios(config);
+        if (e.CategoryCode === 50000) {
           const itemsToExclude = ["수호석", "수호석 조각", "파괴석 조각", "생명의 돌파석", "별의 숨결", "조화의 파편 주머니(중)", "조화의 파편 주머니(소)", "조화의 돌파석", "달의 숨결", "아크투르스의 서 : 무기", "재봉술 : 매듭 기본", "재봉술 : 도안 기본", "야금술 : 접쇠 기본", "아크투르스의 의지 : 방어구", "크라테르의 지혜 : 무기", "아크투르스의 서 : 방어구", "크라테르의 지혜 : 방어구", "야금술 : 접쇠 심화", "야금술 : 주조 기본", "조화의 파편 주머니(대)", "재봉술 : 매듭 심화", "크라테르의 권능 : 방어구", "크라테르의 권능 : 무기", "아크투르스의 의지 : 무기", "크라테르의 서 : 무기", "크라테르의 서 : 방어구", "야금술 : 단조 복합"];
           const filteredItems = response.data.Items.filter(item => !itemsToExclude.includes(item.Name));
           return filteredItems;
-        } catch (error) {
-          console.log(error);
-          return [];
-        }
-      } else if (e.CategoryCode === 40000) {
-        try {
+        } else if (e.CategoryCode === 40000) {
           const filteredItems = response.data.Items.filter(item => item.Grade.includes("전설"));
           return filteredItems;
-        } catch (error) {
-          console.log(error);
-          return [];
-        }
-      } else if (e.CategoryCode === 70000) {
-        try {
+        } else if (e.CategoryCode === 70000) {
           const filteredItems = response.data.Items.filter(item => item.BundleCount == 10);
           return filteredItems;
-        } catch (error) {
-          console.log(error);
-          return [];
-        }
-      } else {
-        try {
+        } else {
           return response.data.Items;
-        } catch (error) {
-          console.log(error);
-          return [];
         }
+      } catch (error) {
+        return error;
       }
     };
     const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -95,15 +79,13 @@ const getMakeList = async () => {
         if (data instanceof Error) {
           if (data.response.status === 429) {
             await delay(60000);
-            i--;
+            pageNo--;
           } else {
             break;
           }
         } else {
           promises.push(data);
         }
-
-        // promises.push(getPageData(pageNo));
       }
       try {
         const resultArrays = await Promise.all(promises);
@@ -193,14 +175,24 @@ const getPageData = async pageNo => {
     const response = await axios(config);
     return response.data.Items;
   } catch (error) {
-    console.log(error);
-    return [];
+    return error;
   }
 };
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 const loadjem = async () => {
   const promises = [];
   for (let pageNo = 0; pageNo <= 10; pageNo++) {
-    promises.push(getPageData(pageNo));
+    const data = await getPageData(pageNo);
+    if (data instanceof Error) {
+      if (data.response.status === 429) {
+        await delay(60000);
+        pageNo--;
+      } else {
+        break;
+      }
+    } else {
+      promises.push(data);
+    }
   }
   try {
     const resultArrays = await Promise.all(promises);
@@ -544,6 +536,18 @@ async function jem() {
     CurrentMinPrice: 1,
     Grade: "일반",
     __v: 0
+  }, {
+    Id: 27,
+    Category: "기타",
+    Name: "베히모스의 비늘",
+    Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_67.png",
+    BundleCount: 1,
+    TradeRemainCount: null,
+    YDayAvgPrice: 0,
+    RecentPrice: 1,
+    CurrentMinPrice: 1,
+    Grade: "일반",
+    __v: 0
   }];
   return etc;
 }
@@ -572,13 +576,6 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
   console.log(err);
 });
 const authorizationToken = process.env.API_KEY;
-
-// 문제점
-// 단순한 반복으로 인한 429에러
-
-//해결책
-//먼저 보낸 응답을 확인하고 응답에 따라 다음 id 로드하기.
-
 const getPageData = async Id => {
   const config = {
     method: "get",
@@ -622,16 +619,8 @@ const loadtrade = async () => {
         } else {
           promises.push(data);
         }
-
-        // promises.push(getPageData(IdList[i].Id));
-        // if ((i + 1) % 90 === 0) {
-        //   await delay(65000); // 65초 대기
-        //   console.log("pause");
-        // }
       }
-      // const resultArrays = await Promise.all(promises);
       const lists = promises.flat();
-      // console.log(promises);
       lists.map(a => a.Category = IdList.find(b => b.Name == a.Name).Category);
       for (const list of lists) {
         const filter = {
@@ -662,7 +651,7 @@ const loadtrade = async () => {
       }
       console.log("done");
     }
-    processDataWithDelay(IdList);
+    await processDataWithDelay(IdList);
   } catch (error) {
     console.log(error);
     return [];
@@ -689,19 +678,18 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
   useUnifiedTopology: true
 }).then(() => {
   console.log("MONGO CONNECTION OPEN!!!");
-  fetchDataAndUpdate();
 }).catch(err => {
   console.log("OH NO MONGO CONNECTION ERROR!!!!");
   console.log(err);
 });
 async function fetchDataAndUpdate() {
   try {
-    // const importedList = await getMakeList();
-    // const jemData = await jem(); // jem 함수 호출
-    // const conbined = [...importedList, ...jemData];
-    // await marketList.deleteMany({}); // 기존 데이터 모두 삭제
-    // await marketList.insertMany(conbined);
-    // setTimeout(() => loadtrade(), 65000);
+    const importedList = await getMakeList();
+    const jemData = await jem();
+    const conbined = [...importedList, ...jemData];
+    await marketList.deleteMany({});
+    await marketList.insertMany(conbined);
+    await loadtrade();
   } catch (error) {
     console.log(error);
   }
@@ -1558,10 +1546,10 @@ app.get("/api/VisitorCount", async (req, res) => {
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
   const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
   const formattedDate = `${year}-${month}-${day}`;
-  const [todayVisitor] = await Visited.find({
+  const [checkVisitor] = await Visited.find({
     Date: formattedDate
   });
-  if (todayVisitor === undefined) {
+  if (checkVisitor === undefined) {
     await Visited.insertMany({
       Date: formattedDate
     });
@@ -1572,6 +1560,9 @@ app.get("/api/VisitorCount", async (req, res) => {
     $inc: {
       todayTotal: 1
     }
+  });
+  const [todayVisitor] = await Visited.find({
+    Date: formattedDate
   });
   const VisitorData = {
     Total: totalVistor,
@@ -2045,10 +2036,6 @@ async function getMarketData() {
   fetchDataAndUpdate();
 }
 getMarketData();
-const now = new Date();
-const tomorrow = new Date(now);
-tomorrow.setDate(now.getDate() + 1);
-tomorrow.setHours(1, 0, 0);
 const interval = 24 * 60 * 60 * 1000; // 24시간
 setInterval(getMarketData, interval);
 httpServer.listen(port, () => {

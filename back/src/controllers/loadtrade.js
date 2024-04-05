@@ -17,12 +17,6 @@ mongoose
   });
 const authorizationToken = process.env.API_KEY;
 
-// 문제점
-// 단순한 반복으로 인한 429에러
-
-//해결책
-//먼저 보낸 응답을 확인하고 응답에 따라 다음 id 로드하기.
-
 const getPageData = async (Id) => {
   const config = {
     method: "get",
@@ -64,16 +58,8 @@ const loadtrade = async () => {
         } else {
           promises.push(data);
         }
-
-        // promises.push(getPageData(IdList[i].Id));
-        // if ((i + 1) % 90 === 0) {
-        //   await delay(65000); // 65초 대기
-        //   console.log("pause");
-        // }
       }
-      // const resultArrays = await Promise.all(promises);
       const lists = promises.flat();
-      // console.log(promises);
       lists.map(
         (a) => (a.Category = IdList.find((b) => b.Name == a.Name).Category)
       );
@@ -110,7 +96,7 @@ const loadtrade = async () => {
       }
       console.log("done");
     }
-    processDataWithDelay(IdList);
+    await processDataWithDelay(IdList);
   } catch (error) {
     console.log(error);
     return [];

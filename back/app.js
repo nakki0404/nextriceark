@@ -314,11 +314,13 @@ app.get("/api/VisitorCount", async (req, res) => {
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
   const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
   const formattedDate = `${year}-${month}-${day}`;
-  const [todayVisitor] = await Visited.find({ Date: formattedDate });
-  if (todayVisitor === undefined) {
+  const [checkVisitor] = await Visited.find({ Date: formattedDate });
+  if (checkVisitor === undefined) {
     await Visited.insertMany({ Date: formattedDate });
   }
+
   await Visited.updateOne({ Date: formattedDate }, { $inc: { todayTotal: 1 } });
+  const [todayVisitor] = await Visited.find({ Date: formattedDate });
   const VisitorData = {
     Total: totalVistor,
     Today: todayVisitor.todayTotal,
@@ -696,10 +698,6 @@ async function getMarketData() {
   fetchDataAndUpdate();
 }
 getMarketData();
-const now = new Date();
-const tomorrow = new Date(now);
-tomorrow.setDate(now.getDate() + 1);
-tomorrow.setHours(1, 0, 0);
 const interval = 24 * 60 * 60 * 1000; // 24시간
 setInterval(getMarketData, interval);
 httpServer.listen(port, () => {
