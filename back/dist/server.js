@@ -696,12 +696,12 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD
 });
 async function fetchDataAndUpdate() {
   try {
-    const importedList = await getMakeList();
-    const jemData = await jem(); // jem 함수 호출
-    const conbined = [...importedList, ...jemData];
-    await marketList.deleteMany({}); // 기존 데이터 모두 삭제
-    await marketList.insertMany(conbined);
-    setTimeout(() => loadtrade(), 65000);
+    // const importedList = await getMakeList();
+    // const jemData = await jem(); // jem 함수 호출
+    // const conbined = [...importedList, ...jemData];
+    // await marketList.deleteMany({}); // 기존 데이터 모두 삭제
+    // await marketList.insertMany(conbined);
+    // setTimeout(() => loadtrade(), 65000);
   } catch (error) {
     console.log(error);
   }
@@ -1298,7 +1298,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(passport.initialize());
-app.use(logger("dev"));
+app.use(logger(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]'));
 app.use(express.urlencoded({
   extended: false
 }));
@@ -1330,7 +1330,6 @@ function onError(error) {
     throw error;
   }
   var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
-
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case "EACCES":
@@ -1372,7 +1371,6 @@ const strategy = new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
   }
 });
 passport.use(strategy);
-
 // 미들웨어: 쿠키 검증 및 사용자 인증
 const authenticateToken = (req, res, next) => {
   const token = req.cookies.token;
@@ -1427,23 +1425,16 @@ function checkAdminRole(req, res, next) {
   }
 }
 app.get("/api/touch", async (req, res) => {
-  // 0부터 9999까지의 난수 생성
   const randomNum = Math.floor(Math.random() * 10000);
   const formattedNum = String(randomNum).padStart(4, "0");
   const insertResult = await captchaCode.insertMany({
     Num: formattedNum
   });
-  // 난수를 4자리 문자열로 변환
   res.send(insertResult[0].Num);
 });
 app.get("/", (req, res) => {
   const currentTime = new Date().toLocaleTimeString();
   res.send(`현재 시간: ${currentTime}`);
-  // res.send("hi");
-});
-app.get("/api/ServerState", (req, res) => {
-  res.send(`On`);
-  // res.send("hi");
 });
 const socketCorsOrigin =  true ? "https://www.nextriceark.site" : 0;
 const io = new Server(httpServer, {
@@ -1454,12 +1445,10 @@ const io = new Server(httpServer, {
 });
 const connectedClients = {};
 app.get("/api/SocketID", async (req, res) => {
-  // 0부터 9999까지의 난수 생성
   const data = Object.keys(connectedClients);
   res.send(data);
 });
 app.post("/api/RoomList", async (req, res) => {
-  // 0부터 9999까지의 난수 생성
   let roomList = [];
   let {
     id
@@ -1474,21 +1463,7 @@ app.post("/api/RoomList", async (req, res) => {
 });
 io.on("connection", socket => {
   console.log(`Client connected ${socket.id}`);
-  // socket.disconnect(true);
-  // console.log(io.sockets.adapter.rooms.keys());
-
   connectedClients[socket.id] = socket;
-
-  // app.post("/api/SocketMakeRoom", async (req, res) => {
-  //   // 0부터 9999까지의 난수 생성
-  //   const { data } = req.body;
-  //   let roomName = data;
-  //   // console.log(roomName);
-
-  //   // socket.join(roomName);
-  //   res.send("hi");
-  // });
-
   socket.on("join", roomName => {
     if (io.sockets.adapter.rooms.get(roomName) != undefined) {
       !io.sockets.adapter.rooms.get(roomName).has(socket.id) && socket.join(roomName);
@@ -1496,10 +1471,7 @@ io.on("connection", socket => {
   });
   socket.on("chat", chatdata => {
     !io.sockets.adapter.rooms.has(chatdata.roomName) && socket.join(chatdata.roomName);
-    //최초 메세지 쏜사람이 조인 뚫어둠. 두번째 돌릴떄는 무시됨.
-    ////////
     //확인된 오류 이미 조인된 상태에서 같은 생대를 클릭해서 대화 생성시 받는건되는데 주는건 안됨.- 오락가락함
-    //////
     chatLog.insertMany(chatdata);
     console.log(`Message from ${chatdata.roomName} ${socket.id}: ${chatdata.message}`);
     let data = {
@@ -1510,16 +1482,11 @@ io.on("connection", socket => {
     };
     socket.emit("chat2", data);
     let idSet = new Set(chatdata.roomName.split("___"));
-    // idSet.delete(socket.id) 나도 봐야되니까 없앨필요없을듯.
     idSet.forEach(element => {
       socket.to(element).emit("chat2", data);
     });
-
-    // socket.to(chatdata.roomName).emit("chat2", data);
   });
   socket.on("leaveRoom", currentRoomName => {
-    // socket.leave(currentRoomName);
-
     let data = {
       userId: `system`,
       content: `${socket.id}가 나갔습니다.`,
@@ -1535,20 +1502,16 @@ io.on("connection", socket => {
       const clients = io.sockets.adapter.rooms.get(currentRoomName);
       if (clients) {
         clients.forEach(clientId => {
-          io.sockets.sockets.get(clientId).leave(currentRoomName); // 클라이언트를 룸에서 제거
+          io.sockets.sockets.get(clientId).leave(currentRoomName);
         });
       }
     }
-
-    // 2. 룸 삭제
     io.sockets.adapter.del(currentRoomName);
   });
-
-  // 클라이언트가 연결을 종료했을 때 처리
   socket.on("disconnect", roomName => {
     console.log("Client disconnected: " + socket.id);
     let roomList = Array.from(io.sockets.adapter.rooms).map(room => {
-      return room[0]; // 각 room의 첫번째 요소가 room의 이름 (Socket ID)
+      return room[0];
     });
     for (let currentRoomName of roomList) {
       let data = {
@@ -1566,12 +1529,10 @@ io.on("connection", socket => {
         const clients = io.sockets.adapter.rooms.get(currentRoomName);
         if (clients) {
           clients.forEach(clientId => {
-            io.sockets.sockets.get(clientId).leave(currentRoomName); // 클라이언트를 룸에서 제거
+            io.sockets.sockets.get(clientId).leave(currentRoomName);
           });
         }
       }
-
-      // 2. 룸 삭제
       io.sockets.adapter.del(currentRoomName);
     }
     delete connectedClients[socket.id];
@@ -1596,7 +1557,6 @@ app.get("/api/VisitorCount", async (req, res) => {
   const year = currentDate.getFullYear();
   const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
   const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
-
   const formattedDate = `${year}-${month}-${day}`;
   const [todayVisitor] = await Visited.find({
     Date: formattedDate
@@ -1634,8 +1594,6 @@ app.get("/api/captchaCode", async (req, res) => {
     });
   }
 });
-//임의의 수를 생성해서 DB에 저장하고 결과 값을 보냅니다.
-
 app.delete("/api/captchaCode", async (req, res) => {
   const data = req.query;
   try {
@@ -1652,8 +1610,6 @@ app.delete("/api/captchaCode", async (req, res) => {
     });
   }
 });
-//임의의 수를 생성해서 DB에 저장하고 결과 값을 보냅니다.
-
 app.get("/api/data", async (req, res) => {
   const marketLists = await marketList.find({});
   res.json(marketLists);
@@ -1684,8 +1640,7 @@ app.post("/api/Login", async (req, res) => {
       ID: user.ID,
       Role: user.Role,
       iat: Math.floor(Date.now() / 1000),
-      // 토큰 발행 시간 (Unix 타임스탬프)
-      exp: Math.floor(Date.now() / 1000) + 60 * 60 // 1시간 후 만료
+      exp: Math.floor(Date.now() / 1000) + 60 * 60
     };
     const token = jwt.sign(payload, jwtOptions.secretOrKey);
     const expirationDate = new Date(); // 수정된 부분
@@ -1706,7 +1661,7 @@ app.post("/api/Login", async (req, res) => {
   }
 });
 app.post("/api/check", async (req, res) => {
-  const user = req.body; // 클라이언트에서 보낸 사용자 데이터
+  const user = req.body;
   try {
     const existingUser = await User.findOne({
       ID: user.Item.ID
@@ -1724,9 +1679,7 @@ app.post("/api/check", async (req, res) => {
   }
 });
 app.post("/api/signup", async (req, res) => {
-  const user = req.body; // 클라이언트에서 보낸 사용자 데이터
-
-  // if (captchaCode.findOne({Num:user.Pass})) {
+  const user = req.body;
   const existingpass2 = await captchaCode.deleteMany({
     Num: user.Pass
   });
@@ -1736,19 +1689,17 @@ app.post("/api/signup", async (req, res) => {
         ID: user.Item.ID
       });
       if (!existingUser) {
-        // 동일한 아이디를 가진 사용자가 없는 경우
         if (user.Item.ID === "adminim") {
-          user.Item.Role = "admin"; // 특별한 아이디에게 "admin" 권한을 부여
+          user.Item.Role = "admin";
         } else {
-          user.Item.Role = "user"; // 일반적인 사용자에게는 "user" 권한을 부여
+          user.Item.Role = "user";
         }
-        const newUser = await User.insertMany(user.Item); // 새로운 데이터 추가
+        const newUser = await User.insertMany(user.Item);
         console.log(newUser);
         res.status(201).json({
           message: "Data updated successfully"
         });
       } else {
-        // 이미 동일한 아이디를 가진 사용자가 있는 경우
         res.status(409).json({
           error: "User with this ID already exists"
         });
@@ -1762,16 +1713,14 @@ app.post("/api/signup", async (req, res) => {
   }
 });
 app.post("/api/forget", async (req, res) => {
-  const user = req.body; // 클라이언트에서 보낸 사용자 데이터
+  const user = req.body;
   try {
     const existingUser = await User.findOne({
       ID: user.Item.ID
     });
     if (existingUser) {
-      // 동일한 아이디를 가진 사용자가 없는 경우
       res.json(existingUser.Question);
     } else {
-      // 이미 동일한 아이디를 가진 사용자가 있는 경우
       res.status(409).json({
         error: "User with this ID already exists"
       });
@@ -1784,7 +1733,7 @@ app.post("/api/forget", async (req, res) => {
   }
 });
 app.post("/api/forget2", async (req, res) => {
-  const user = req.body; // 클라이언트에서 보낸 사용자 데이터
+  const user = req.body;
   try {
     const existingUser = await User.findOne({
       ID: user.Item.ID,
@@ -1792,10 +1741,8 @@ app.post("/api/forget2", async (req, res) => {
       Answer: user.Item.Answer
     });
     if (existingUser) {
-      // 동일한 아이디를 가진 사용자가 없는 경우
       res.json(existingUser.Password);
     } else {
-      // 이미 동일한 아이디를 가진 사용자가 있는 경우
       res.status(409).json({
         error: "User with this ID already exists"
       });
@@ -1807,15 +1754,13 @@ app.post("/api/forget2", async (req, res) => {
     });
   }
 });
-// passport.authenticate('jwt', { session: false })
 app.post("/api/delete1", async (req, res) => {
-  const list = req.body; // 클라이언트에서 보낸 Title 데이터
+  const list = req.body;
   const token = req.headers.authorization;
   const realtoken = token.split(" ")[1];
   const decoded = jwt.verify(realtoken, process.env.JWT_KEY);
   if (decoded.ID === list.Item.ID) {
     try {
-      // MarketItem 컬렉션에서 해당하는 Title 값을 가진 문서 삭제
       const result = await MarketItem.deleteOne({
         _id: list.Item._id
       });
@@ -1837,7 +1782,7 @@ app.post("/api/delete1", async (req, res) => {
   }
 });
 app.post("/api/report", async (req, res) => {
-  const lists = req.body; // 클라이언트에서 보낸 lists 데이터
+  const lists = req.body;
   const existingpass = await captchaCode.find({
     Num: lists.Pass
   });
@@ -1845,14 +1790,9 @@ app.post("/api/report", async (req, res) => {
     await captchaCode.deleteMany({
       Num: lists.Pass
     });
-    // if (captchaCode.findOne({ Num: lists.Pass })) {
-    // if (passNum.includes(String(lists.Pass))) {
     try {
       console.log(lists.Item);
-      // 데이터베이스 업데이트 처리
-      // 예시: 데이터 삭제 후 새로운 데이터 추가
-      await Report.insertMany(lists.Item); // 새로운 데이터 추가
-      //state db구조 손을 봐야할듯...일단은 그냥 고고
+      await Report.insertMany(lists.Item);
       res.status(200).json({
         message: "Data updated successfully"
       });
@@ -1865,26 +1805,14 @@ app.post("/api/report", async (req, res) => {
     }
   }
 });
-// app.post('/api/resources', checkAdminRole, (req, res) => {
-//   // 'admin' 역할을 가진 사용자에게만 허용된 작업 수행
-//   // ...
-// });
-
 app.post("/api/reportdel", checkAdminRole, async (req, res) => {
-  const lists = req.body; // 클라이언트에서 보낸 lists 데이터
+  const lists = req.body;
   console.log(lists);
-
-  // const query = { Title:lists.Title , Body: lists.Body };
-
   try {
-    // 데이터베이스 업데이트 처리
-    // 예시: 데이터 삭제 후 새로운 데이터 추가
     await Report.deleteOne({
       Title: lists.Title,
       Body: lists.Body
     });
-
-    //state db구조 손을 봐야할듯...일단은 그냥 고고
     res.status(200).json("True");
   } catch (error) {
     console.error("Error updating data:", error);
@@ -1896,14 +1824,10 @@ app.post("/api/reportdel", checkAdminRole, async (req, res) => {
 app.post("/api/update", async (req, res) => {
   const {
     lists
-  } = req.body; // 클라이언트에서 보낸 lists 데이터
-
+  } = req.body;
   try {
-    // 데이터베이스 업데이트 처리
-    // 예시: 데이터 삭제 후 새로운 데이터 추가
-    await MarketItem.deleteMany(); // 모든 데이터 삭제
-    await MarketItem.insertMany(lists.lists.map(item => item)); // 새로운 데이터 추가
-    //state db구조 손을 봐야할듯...일단은 그냥 고고
+    await MarketItem.deleteMany();
+    await MarketItem.insertMany(lists.lists.map(item => item));
     res.status(200).json({
       message: "Data updated successfully"
     });
@@ -1921,8 +1845,6 @@ app.post("/api/list", async (req, res) => {
     Num: list.captchaCode
   });
   if (existingCaptchaCode.length > 0) {
-    //일치하는 captchaCode코드 값이 없으면 이후 DB입력과정이 진행되지 않습니다.
-
     await captchaCode.deleteMany({
       Num: list.captchaCode
     });
@@ -1954,15 +1876,7 @@ app.get("/api/Board/check", async (req, res) => {
   } else {
     res.json(false);
   }
-}
-// await Text.deleteMany(query);
-// try {
-//   res.json({ message: "Data deleted successfully" });
-// } catch (error) {
-//   console.error("Error updating data:", error);
-//   res.status(500).json({ error: "Internal server error" });
-// }
-);
+});
 app.get("/api/Board", async (req, res) => {
   try {
     const TextList = await Text.find({}, {
@@ -1981,8 +1895,6 @@ app.post("/api/Board", async (req, res) => {
     Num: req.body.CaptchaCode
   });
   if (existingCaptchaCode.length > 0) {
-    //일치하는 captchaCode코드 값이 없으면 이후 DB입력과정이 진행되지 않습니다.
-
     await captchaCode.deleteMany({
       Num: req.body.CaptchaCode
     });
@@ -2056,7 +1968,7 @@ app.patch("/api/Board", async (req, res) => {
   }
 });
 app.post("/api/update3", async (req, res) => {
-  const list = req.body; // 클라이언트에서 보낸 lists 데이터
+  const list = req.body;
   console.log(list);
   try {
     const deleteedResult = await hasitem.deleteMany({
@@ -2075,14 +1987,12 @@ app.post("/api/update3", async (req, res) => {
   }
 });
 app.post("/api/hasitemload", async (req, res) => {
-  const list = req.body; // 클라이언트에서 보낸 lists 데이터
+  const list = req.body;
   console.log(list);
   try {
     const insertResult = await hasitem.find({
       ID: list.ID
     });
-    console.log(insertResult);
-    // res.send(insertResult);
     res.json(insertResult);
   } catch (error) {
     console.error("Error updating data:", error);
@@ -2091,17 +2001,11 @@ app.post("/api/hasitemload", async (req, res) => {
     });
   }
 });
-// const token = req.headers.authorization;
-// const realtoken = token.split(" ")[1];
-// const decoded = jwt.verify(realtoken, process.env.JWT_KEY);
-// const token2 = jwt.sign(decoded, process.env.JWT_KEY);
-// 아이디 검증 과정
 app.post("/api/update2", async (req, res) => {
-  const list = req.body; // 클라이언트에서 보낸 lists 데이터
+  const list = req.body;
   const token = req.headers.authorization;
   const realtoken = token.split(" ")[1];
   const decoded = jwt.verify(realtoken, process.env.JWT_KEY);
-  // if (passNum.includes(String(list.Pass))) {
   if (decoded.ID === list.Item.ID) {
     try {
       const insertResult = await MarketItem.updateOne({
@@ -2113,8 +2017,6 @@ app.post("/api/update2", async (req, res) => {
           Category: list.Item.Category
         }
       });
-      console.log(insertResult);
-      //state db구조 손을 봐야할듯...일단은 그냥 고고
       res.status(200).json({
         message: "Data updated successfully"
       });
@@ -2126,59 +2028,29 @@ app.post("/api/update2", async (req, res) => {
     }
   }
 });
-app.get("/api/dbdel", async (req, res) => {
-  try {
-    // 'Body' 속성에 "흐음"을 포함하는 모든 문서 삭제
-    // const result = await Report.deleteMany({ Body: /으음/ });
-    // const result = await Report.deleteMany({ Body: /으음/ });
-    const result = await MarketItem.deleteMany({
-      Title: {
-        $not: /더보기/
-      }
-    });
-    res.json({
-      message: `${result.deletedCount} documents deleted`
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: "An error occurred"
-    });
-  }
-});
 async function getMarketData() {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
-  const month = String(currentDate.getMonth() + 1).padStart(2, "0"); // 월을 두 자리로 표시
-  const day = String(currentDate.getDate()).padStart(2, "0"); // 일을 두 자리로 표시
+  const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+  const day = String(currentDate.getDate()).padStart(2, "0");
   const formattedDate = `${year}-${month}-${day}`;
-
-  // console.log(currentDate);
-  // 실행하려는 작업을 이 함수 안에 구현합니다.
-  const existingVisited = await Visited.findOne({
+  const [todayVisitor] = await Visited.find({
     Date: formattedDate
   });
-  if (!existingVisited) {
+  if (todayVisitor === undefined) {
     await Visited.insertMany({
-      Date: formattedDate,
-      todayTotal: 0
+      Date: formattedDate
     });
-    fetchDataAndUpdate();
   }
+  fetchDataAndUpdate();
 }
 getMarketData();
-// 함수를 매일 오전 00시에 실행하기 위한 시간 계산
 const now = new Date();
 const tomorrow = new Date(now);
 tomorrow.setDate(now.getDate() + 1);
-tomorrow.setHours(1, 0, 0, 0);
-
-// 함수를 주기적으로 실행하기 위한 Interval 설정
+tomorrow.setHours(1, 0, 0);
 const interval = 24 * 60 * 60 * 1000; // 24시간
-
-// 매일 오전 00시마다 함수를 실행하는 Interval 설정
-setInterval(function () {
-  getMarketData();
-}, interval);
+setInterval(getMarketData, interval);
 httpServer.listen(port, () => {
   console.log(`server running at http://localhost:${port}`);
 });

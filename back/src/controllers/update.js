@@ -20,12 +20,12 @@ mongoose
 
 async function fetchDataAndUpdate() {
   try {
-    const importedList = await getMakeList();
-    const jemData = await jem(); // jem 함수 호출
-    const conbined = [...importedList, ...jemData];
-    await marketList.deleteMany({}); // 기존 데이터 모두 삭제
-    await marketList.insertMany(conbined);
-    setTimeout(() => loadtrade(), 65000);
+    // const importedList = await getMakeList();
+    // const jemData = await jem(); // jem 함수 호출
+    // const conbined = [...importedList, ...jemData];
+    // await marketList.deleteMany({}); // 기존 데이터 모두 삭제
+    // await marketList.insertMany(conbined);
+    // setTimeout(() => loadtrade(), 65000);
   } catch (error) {
     console.log(error);
   }
