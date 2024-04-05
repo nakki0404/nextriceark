@@ -50,10 +50,9 @@ const getMakeList = async () => {
           PageNo: pageNo,
         },
       };
-      const response = await axios(config);
-
-      if (e.CategoryCode === 50000) {
-        try {
+      try {
+        const response = await axios(config);
+        if (e.CategoryCode === 50000) {
           const itemsToExclude = [
             "수호석",
             "수호석 조각",
@@ -87,37 +86,21 @@ const getMakeList = async () => {
             (item) => !itemsToExclude.includes(item.Name)
           );
           return filteredItems;
-        } catch (error) {
-          console.log(error);
-          return [];
-        }
-      } else if (e.CategoryCode === 40000) {
-        try {
+        } else if (e.CategoryCode === 40000) {
           const filteredItems = response.data.Items.filter((item) =>
             item.Grade.includes("전설")
           );
           return filteredItems;
-        } catch (error) {
-          console.log(error);
-          return [];
-        }
-      } else if (e.CategoryCode === 70000) {
-        try {
+        } else if (e.CategoryCode === 70000) {
           const filteredItems = response.data.Items.filter(
             (item) => item.BundleCount == 10
           );
           return filteredItems;
-        } catch (error) {
-          console.log(error);
-          return [];
-        }
-      } else {
-        try {
+        } else {
           return response.data.Items;
-        } catch (error) {
-          console.log(error);
-          return [];
         }
+      } catch (error) {
+        return error;
       }
     };
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -129,15 +112,13 @@ const getMakeList = async () => {
         if (data instanceof Error) {
           if (data.response.status === 429) {
             await delay(60000);
-            i--;
+            pageNo--;
           } else {
             break;
           }
         } else {
           promises.push(data);
         }
-
-        // promises.push(getPageData(pageNo));
       }
       try {
         const resultArrays = await Promise.all(promises);

@@ -44,14 +44,25 @@ const getPageData = async (pageNo) => {
     const response = await axios(config);
     return response.data.Items;
   } catch (error) {
-    console.log(error);
-    return [];
+    return error;
   }
 };
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const loadjem = async () => {
   const promises = [];
   for (let pageNo = 0; pageNo <= 10; pageNo++) {
-    promises.push(getPageData(pageNo));
+    const data = await getPageData(pageNo);
+    if (data instanceof Error) {
+      if (data.response.status === 429) {
+        await delay(60000);
+        pageNo--;
+      } else {
+        break;
+      }
+    } else {
+      promises.push(data);
+    }
   }
   try {
     const resultArrays = await Promise.all(promises);
@@ -414,6 +425,19 @@ async function jem() {
       Category: "기타",
       Name: "융합 돌파석",
       Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_7_173.png",
+      BundleCount: 1,
+      TradeRemainCount: null,
+      YDayAvgPrice: 0,
+      RecentPrice: 1,
+      CurrentMinPrice: 1,
+      Grade: "일반",
+      __v: 0,
+    },
+    {
+      Id: 27,
+      Category: "기타",
+      Name: "베히모스의 비늘",
+      Icon: "https://cdn-lostark.game.onstove.com/efui_iconatlas/use/use_12_67.png",
       BundleCount: 1,
       TradeRemainCount: null,
       YDayAvgPrice: 0,

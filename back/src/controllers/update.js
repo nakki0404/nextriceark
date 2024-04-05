@@ -11,7 +11,6 @@ mongoose
   )
   .then(() => {
     console.log("MONGO CONNECTION OPEN!!!");
-    fetchDataAndUpdate();
   })
   .catch((err) => {
     console.log("OH NO MONGO CONNECTION ERROR!!!!");
@@ -20,12 +19,12 @@ mongoose
 
 async function fetchDataAndUpdate() {
   try {
-    // const importedList = await getMakeList();
-    // const jemData = await jem(); // jem 함수 호출
-    // const conbined = [...importedList, ...jemData];
-    // await marketList.deleteMany({}); // 기존 데이터 모두 삭제
-    // await marketList.insertMany(conbined);
-    // setTimeout(() => loadtrade(), 65000);
+    const importedList = await getMakeList();
+    const jemData = await jem();
+    const conbined = [...importedList, ...jemData];
+    await marketList.deleteMany({});
+    await marketList.insertMany(conbined);
+    await loadtrade();
   } catch (error) {
     console.log(error);
   }
