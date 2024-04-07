@@ -1,8 +1,5 @@
 nodemon.json
 node.json
-
 .env
-Dockerfile
 nextricearkkey.pem
 docker-compose.yml
-.dockerignore

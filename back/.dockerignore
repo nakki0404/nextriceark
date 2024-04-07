@@ -1,8 +1,0 @@
-nodemon.json
-node.json
-.env
-Dockerfile
-docker-compose.yml
-nextricearkkey.pem
-dist
-.dockerignore
