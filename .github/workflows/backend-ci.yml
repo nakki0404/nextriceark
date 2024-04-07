@@ -5,7 +5,9 @@ on:
     branches: [ "main" ]
     paths:
       - back/**
-
+defaults:
+  run:
+    working-directory: back
 jobs:
   build:
     runs-on: ubuntu-latest
