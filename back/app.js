@@ -41,9 +41,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(passport.initialize());
+
+app.use((req, res) => {
+  // 클라우드 플레어를 통해 전달된 클라이언트의 실제 IP 주소 확인
+  const clientIP =
+    req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+  req.clientIP = clientIP;
+});
+
 app.use(
   logger(
-    ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]'
+    ':clientIP [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]'
   )
 );
 app.use(express.urlencoded({ extended: false }));
