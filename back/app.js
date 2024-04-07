@@ -31,7 +31,7 @@ const ExtractJwt = passportJWT.ExtractJwt;
 const jwt = require("jsonwebtoken");
 const winston = require("winston");
 var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+var morgan = require("morgan");
 const nunjucks = require("nunjucks");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -42,16 +42,18 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(passport.initialize());
 
-app.use((req, res) => {
+morgan.token("clientIP", (req, res) => {
   // 클라우드 플레어를 통해 전달된 클라이언트의 실제 IP 주소 확인
-  const clientIP =
-    req.headers["x-forwarded-for"] || req.connection.remoteAddress;
-  req.clientIP = clientIP;
+  return (
+    req.headers["cf-connecting-ip"] ||
+    req.headers["x-forwarded-for"] ||
+    req.connection.remoteAddress
+  );
 });
 
 app.use(
-  logger(
-    ':clientIP [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length]'
+  morgan(
+    ":clientIP :date[web] :method :url HTTP/:http-version :status :res[content-length]"
   )
 );
 app.use(express.urlencoded({ extended: false }));
@@ -80,7 +82,6 @@ mongoose
     console.log("OH NO MONGO CONNECTION ERROR!!!!");
     console.log(err);
   });
-console.log("test");
 function normalizePort(val) {
   var port = parseInt(val, 10);
   if (isNaN(port)) {
