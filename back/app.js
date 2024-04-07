@@ -80,6 +80,7 @@ mongoose
     console.log("OH NO MONGO CONNECTION ERROR!!!!");
     console.log(err);
   });
+console.log("test");
 function normalizePort(val) {
   var port = parseInt(val, 10);
   if (isNaN(port)) {
