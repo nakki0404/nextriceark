@@ -1,14 +1,15 @@
 FROM node
 
-WORKDIR /usr/src/app
+ENV NODE_ENV=production
 
-COPY package.json /usr/src/app
+WORKDIR /app
+
+COPY package.json .
 
 RUN npm install
 
-COPY . /usr/src/app
+COPY . .
 
-RUN npm run build
+RUN npx webpack
 
-CMD ["node", "dist/server.js"]
 
