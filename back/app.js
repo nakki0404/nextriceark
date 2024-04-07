@@ -697,7 +697,6 @@ async function getMarketData() {
   }
   fetchDataAndUpdate();
 }
-console.log("test");
 getMarketData();
 const interval = 24 * 60 * 60 * 1000; // 24시간
 setInterval(getMarketData, interval);
