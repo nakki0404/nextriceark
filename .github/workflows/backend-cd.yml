@@ -18,10 +18,10 @@ jobs:
         Old_IMAGE_ID=$(sudo docker images --filter=reference=nakki0404/riceark:latest --format "{{.ID}}")
     - name: Pull Docker image
       run: sudo docker pull nakki0404/riceark:latest  
-    - name: Server Down
-      run : sudo docker-compose down
-    # - name: Delete Old Image ID
-    #   run: sudo docker rmi $Old_IMAGE_ID
+    # - name: Server Down
+    #   run : sudo docker-compose down
+    - name: Delete Old Image ID
+      run: sudo docker rmi $Old_IMAGE_ID
     # - name: Server On
     #   run : sudo docker-compose up -d
     
