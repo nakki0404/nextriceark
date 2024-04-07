@@ -19,13 +19,17 @@ jobs:
       working-directory: back
       run: |
         npm install
-        npx webpack
+        
         
     - name: Login Dockerhub
       env:
         DOCKER_USERNAME: ${{secrets.DOCKERHUB_USERNAME}}
         DOCKER_PASSWORD: ${{secrets.DOCKERHUB_PASSWORD}}
       run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+    - name: Debug
+      run: |
+        ls -al ${GITHUB_WORKSPACE}/app
 
     - name: Build the Docker image
       run: docker build . -t nakki0404/riceark:latest
