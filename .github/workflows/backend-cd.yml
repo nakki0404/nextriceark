@@ -1,0 +1,19 @@
+name: backend-cd
+
+on:
+  workflow_run:
+    workflows: ["backend-ci"]
+    types:
+        - completed
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: Pull Docker image
+      run: sudo docker pull nakki0404/riceark:latest
+    - name: Delete Old docker container
+      run: sudo docker rmi nakki0404/riceark
