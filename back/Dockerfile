@@ -2,7 +2,8 @@ FROM node
 
 ENV NODE_ENV=production
 
-WORKDIR /app
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
 COPY package.json .
 
@@ -10,6 +11,6 @@ RUN npm install
 
 COPY . .
 
-RUN npx webpack
+RUN npm run build
 
 
