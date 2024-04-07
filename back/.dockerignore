@@ -5,4 +5,3 @@ server.log
 Dockerfile
 docker-compose.yml
 nextricearkkey.pem
-dist
