@@ -35,7 +35,6 @@ var morgan = require("morgan");
 const nunjucks = require("nunjucks");
 const path = require("path");
 const bodyParser = require("body-parser");
-const axios = require("axios");
 const fetchDataAndUpdate = require("./src/controllers/update");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
