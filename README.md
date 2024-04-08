@@ -11,7 +11,8 @@
 <p>Ec2 Docker Nginx Git Action Tesseract OpenCV rechart websocket</p>
 
 <h2>##구조</h2>
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/a14f72fc-4292-4cb8-8c41-983adce04e50/a2f1ba0e-0d44-4b4e-9e7f-c8f9dffb78c2/Untitled.png)
+
+![image](https://github.com/nakki0404/nextriceark/assets/141347738/a3b2e0f0-c703-49a4-9702-32f21110d5c5)
 
 <h2>##주요 기능 목록</h2>
 <p>악세 조합기 : 계정 내 악세서리들의 이용가능한 조합이 있는지 확인합니다.</p>
@@ -23,6 +24,8 @@
 <p>모아둔 장비들로 가능한 조합을 찾아줍니다.</p>
 
 ![이미지 설명](https://github.com/nakki0404/nextriceark/blob/main/front/src/asset/png/recycle-manual.png)
+
+
 
 <p>입력을 요구하는 것이 5~7항목이다 보니 귀찮음 때문인지 예상보다 유저수가 나오지 않았습니다.</p>
 <p>tessract로 텍스트를 추출하고 조건에 따라 입력되도록 하였습니다.</p>
