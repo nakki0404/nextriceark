@@ -2,13 +2,13 @@
 
 <h1>###쌀로아</h1>
 
-<p>로스트아크 게임 내 재화 쌀이라고도 불리는 골드를 절약하기 위해서 만든 웹입니다.</p>
+<p>로스트아크 게임 이용에 도움을 주기 위한 웹입니다.</p>
 
 <h2>##사용된 기술</h2>
-<p>React Next React Query Redux Tailwind CSS</p>
+<p>React Next React Query Redux Tailwind CSS Zustand</p>
 <p>Node Express </p>
 <p>MongoDB</p>
-<p>Ec2 Docker Nginx Tesseract OpenCV rechart websocket</p>
+<p>Ec2 Docker Nginx Git Action Tesseract OpenCV rechart websocket</p>
 
 <h2>##주요 기능 목록</h2>
 <p>악세 조합기 : 계정 내 악세서리들의 이용가능한 조합이 있는지 확인합니다.</p>
