@@ -10,6 +10,9 @@
 <p>MongoDB</p>
 <p>Ec2 Docker Nginx Git Action Tesseract OpenCV rechart websocket</p>
 
+<h2>##구조</h2>
+![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/a14f72fc-4292-4cb8-8c41-983adce04e50/a2f1ba0e-0d44-4b4e-9e7f-c8f9dffb78c2/Untitled.png)
+
 <h2>##주요 기능 목록</h2>
 <p>악세 조합기 : 계정 내 악세서리들의 이용가능한 조합이 있는지 확인합니다.</p>
 <p>재화 계산기 : 재화들의 가격을 당일 평균가에 맞춰서 합산해줍니다.</p>
