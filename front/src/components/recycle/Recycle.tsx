@@ -745,6 +745,9 @@ export default function Recycle() {
   }
   let conbinarray: any = [];
   let conitemlist: any = [];
+  const [resultPlaceHolder, setResultPlaceHolder] =
+    useState<any>("검색 결과가 표시됩니다.");
+
   function maker() {
     setResult([]);
     setConbinlist([]);
@@ -786,6 +789,7 @@ export default function Recycle() {
       }
     }
     openModal();
+    setResultPlaceHolder("가능한 조합이 없습니다.");
   }
   useEffect(() => {
     setResult(conbinlist);
@@ -1826,58 +1830,62 @@ export default function Recycle() {
             </button>
           </div>
           <div className="text-2xl p-1 col-span-12">검색 결과</div>
-          {result.map((e: any, index: any) => (
-            <div className="col-span-12 grid grid-cols-12" key={index}>
-              {Object.keys(e.stat).map((key) => (
-                <div className="text-xs self-center md:text-base" key={key}>
-                  {key !== "undefined" && key !== "" && (
-                    <span>
-                      {key}: {e.stat[key]}
-                    </span>
-                  )}
+          {result.length == 0 ? (
+            <div className="col-span-12 ">{resultPlaceHolder}</div>
+          ) : (
+            result.map((e: any, index: any) => (
+              <div className="col-span-12 grid grid-cols-12" key={index}>
+                {Object.keys(e.stat).map((key) => (
+                  <div className="text-xs self-center md:text-base" key={key}>
+                    {key !== "undefined" && key !== "" && (
+                      <span>
+                        {key}: {e.stat[key]}
+                      </span>
+                    )}
+                  </div>
+                ))}
+
+                {Object.keys(e.skill).map((key) =>
+                  Math.floor(e.skill[key] / 5) > 0 ? (
+                    <div className="text-xs self-center md:text-base" key={key}>
+                      {key !== "undefined" && key !== "" && (
+                        <span>
+                          {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
+                          {Math.floor(e.skill[key] / 5)}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                )}
+
+                {Object.keys(e.panalty).map((key) =>
+                  Math.floor(e.panalty[key] / 5) > 0 ? (
+                    <div className="text-xs self-center md:text-base" key={key}>
+                      {key !== "undefined" && key !== "" && (
+                        <span>
+                          {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
+                          {Math.floor(e.panalty[key] / 5)}
+                        </span>
+                      )}
+                    </div>
+                  ) : (
+                    <></>
+                  )
+                )}
+
+                <div className="col-end-12 col-span-1">
+                  <button
+                    className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
+                    onClick={() => viewconbin(index)}
+                  >
+                    조합확인
+                  </button>
                 </div>
-              ))}
-
-              {Object.keys(e.skill).map((key) =>
-                Math.floor(e.skill[key] / 5) > 0 ? (
-                  <div className="text-xs self-center md:text-base" key={key}>
-                    {key !== "undefined" && key !== "" && (
-                      <span>
-                        {key.length >= 4 ? key.substring(0, 2) : key}:{" "}
-                        {Math.floor(e.skill[key] / 5)}
-                      </span>
-                    )}
-                  </div>
-                ) : (
-                  <></>
-                )
-              )}
-
-              {Object.keys(e.panalty).map((key) =>
-                Math.floor(e.panalty[key] / 5) > 0 ? (
-                  <div className="text-xs self-center md:text-base" key={key}>
-                    {key !== "undefined" && key !== "" && (
-                      <span>
-                        {key.length >= 4 ? key.substring(0, 3) : key}:{" "}
-                        {Math.floor(e.panalty[key] / 5)}
-                      </span>
-                    )}
-                  </div>
-                ) : (
-                  <></>
-                )
-              )}
-
-              <div className="col-end-12 col-span-1">
-                <button
-                  className="h-8 w-16 bg-green-500 rounded-lg text-white m-1"
-                  onClick={() => viewconbin(index)}
-                >
-                  조합확인
-                </button>
               </div>
-            </div>
-          ))}
+            ))
+          )}
           <div className="text-2xl p-1 col-span-12 ">조합 확인</div>
           {viewcobin.map((e: any, index: any) => (
             <div className="col-span-12 grid grid-cols-12" key={index}>
