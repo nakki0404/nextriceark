@@ -41,20 +41,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(passport.initialize());
 
-morgan.token("clientIP", (req, res) => {
-  // 클라우드 플레어를 통해 전달된 클라이언트의 실제 IP 주소 확인
-  return (
-    req.headers["cf-connecting-ip"] ||
-    req.headers["x-forwarded-for"] ||
-    req.connection.remoteAddress
-  );
-});
-
-app.use(
-  morgan(
-    ":clientIP :date[web] :method :url HTTP/:http-version :status :res[content-length]"
-  )
-);
+app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
